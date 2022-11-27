@@ -1,0 +1,315 @@
+@import url('https://fonts.googleapis.com/css?family=Lato:300,400');
+
+html, body {
+  font-family: 'Lato', serif;  
+}
+
+body { 
+  background-image: url("../images/logo/bg.png") no-repeat;
+  /*background: #faaaaa;*/
+   }
+
+.navbar-default {
+  font-size: 1.15em;
+  font-weight: 400;
+  background-color: #006b96;
+  padding: 10px;
+  border: 0px;
+  border-radius: 0px;
+}
+
+.navbar-default .navbar-nav>li>a {
+  color: white;
+}
+
+.navbar-default .navbar-nav>li>a:hover {
+  color: #cbf0ff;
+}
+
+.navbar-default .navbar-brand {
+  color: #002433;
+}
+
+.navbar-default .navbar-brand:hover {
+  color: #ffffff;
+  text-shadow: 1px -1px 8px #b3e9ff;
+}
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:hover, .navbar-default .navbar-nav>.open>a:focus {
+  background-color: #004059;
+  color: white;
+}
+
+.navbar-default .navbar-toggle {
+  border: none;
+}
+
+.navbar-default .navbar-collapse, .navbar-default .navbar-form {
+  border: none;
+}
+
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+  background-color: #002433;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: #ffffff;
+}
+
+.dropdown-menu {
+  background-color: #004059;
+  color: white;
+  border: 0px;
+  border-radius: 2px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.dropdown-menu>li>a {
+  background-color: #004059;
+  color: white;
+}
+
+.dropdown-menu>li>a:hover, .dropdown-menu>li>a:focus {
+  background-color: #004059;
+  color:white;
+}
+
+.dropdown-menu .divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #003246;
+}
+
+.navbar-default .navbar-nav .open .dropdown-menu>li>a {
+    color: #ffffff;
+}
+
+@media (max-width: 767px) { 
+  .dropdown-menu>li>a {
+    background-color: #006b96;
+    color: #ffffff;
+  }
+  .dropdown-menu>li>a:hover {
+    color: #ffffff;
+  }
+  
+  .navbar-default .navbar-nav .open .dropdown-menu>li>a:focus, .navbar-default .navbar-nav .open .dropdown-menu>li>a:hover {
+    color: #ffffff;
+    background-color: transparent;
+  }
+  
+  .dropdown-menu .divider {
+    height: 1px;
+    margin: 9px 0;
+    overflow: hidden;
+    background-color: #005577;
+  }
+} /* END Media Query */
+.body-wrap {
+    background: #fff;
+    padding: 5px 15px 15px;
+    border: 1px solid #ddd;
+    border-radius: 0 0 10px 10px;
+    border-top: none;
+}
+.newsticker {
+    border: 1px solid rgba(227,227,227,0.85);
+    height: 32px;
+    padding: 0;
+    margin: 10px 0;
+    line-height: 32px;
+    background: #eee;
+}
+.news-control {
+    float: right;
+    padding: 0 10px 0 0;
+    font-size: 18px;
+}
+.newsticker .carousel-inner {
+    float: left;
+    width: auto;
+}
+.news_indicator {
+    background: url("../images/logo/ticker-caption-bg.png") no-repeat;
+    height: 30px;
+    width: 135px;
+    line-height: 30px;
+    padding-left: 10px;
+    color: #fff;
+    font-weight: 600;
+    float: left;
+}
+.thumbnail {     
+  margin-bottom: 0px; 
+}
+
+.breadcrumb {
+background: none;
+margin: 5px;
+padding: 0;
+}
+.panel-heading h3{margin:0;}
+
+.social-media{margin:10px; text-align: center;}
+
+.social-media a {
+    padding: 15px;
+    width: 40px;
+    text-align: center;
+    text-decoration: none;
+}
+.social-media a:hover {
+    opacity: 0.7;
+}
+/* Set a specific color for each brand */
+
+/* Facebook */
+.social-media #facebook {
+    background: #3B5998;
+    color: white;
+}
+
+/* Twitter */
+.social-media #twitter {
+    background: #55ACEE;
+    color: white;
+}
+/* Google */
+.social-media #google {
+    background: #dd4b39;
+    color: white;
+}
+
+
+#right_side_content .panel-body{
+  padding-left:0;
+  padding-right:5;
+}
+
+.listItems li{
+    list-style: outside url(../images/logo/list1.png) disc;
+    border-bottom: 1px dashed rgba(221, 221, 221, 0.75);
+    margin-bottom: 7px;
+    padding-bottom: 7px;
+}
+
+.title-section {
+    background-color: rgba(0,0,0,0.01);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+    padding: 10px;
+    width: 100%;
+    position: relative;
+}
+
+.title-section h1 {
+    display: inline-block;
+    font-size: 20px;
+    letter-spacing: normal;
+    line-height: 1;
+    margin-top: 15px;
+}
+
+.breadcrumbs{
+    list-style:none;
+    margin: 15px 0;
+    overflow:hidden;
+    float: right;
+    display: inline-block;
+}
+ 
+.breadcrumbs li {
+    float:left;
+    margin-right:5px;
+}
+
+.title-section .breadcrumbs li {
+    font-size: 12px;
+}
+ 
+.breadcrumbs .separator{
+    font-weight:700;
+}
+.title-section {
+    background-image: url("http://opmcm.gov.np/en/wp-content/themes/credence/images/backgrounds/absurdidad.png");
+
+    color: #555555;
+}
+
+.title-section h1 {
+    color: #555555;
+}
+
+.title-section a, .title-section a:visited, .title-section a:active {
+    color: #555555;
+}
+.title-section a:hover {
+    color: rgba(231,76,60,1);
+}
+
+
+.panel-heading h4{ margin:0px; }
+
+@media (min-width: 769px) { 
+}
+@media (max-width: 768px) {
+    .mobile-text-center{
+        text-align: center;
+      }
+    }
+.img-caption{
+    margin-bottom: 0em!important;
+    /*background: rgb(178, 28, 66);*/
+    /*color: white;*/
+    text-align: center;
+    width: 100%;
+}
+.text-bold {font-weight: bold;}
+.home-right .panel {margin-bottom:10px;}
+.text-custom{color:rgb(178, 28, 66); font-size: 20px;}
+.text-center{text-align:center;}
+
+.staff-frame{padding:10px 8px 10px 8px; border-bottom: 2px solid rgb(178, 28, 66);}
+.shadow { box-shadow:0px 0px 12px -5px #000 }
+
+.textwidget hr {margin:0px;}
+.nav-tabs li a, .nav-pills li a{color:white;}
+.nav-tabs, .nav-pills{background:rgb(47, 167, 55);}
+
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
+    color: rgb(255, 255, 255);
+    background: #066611;
+}
+
+.nav-tabs>li>a:focus, .nav-tabs>li>a:hover {
+    color: rgb(255, 255, 255);
+    background: #066611;
+}
+.tab-pane thead th{line-height: 61px;}
+.tab-pane thead>tr{height:61px;}
+
+
+.well-heading{
+    background: rgb(178, 28, 66);
+    width: auto;
+    height: auto;
+    color: white;
+    line-height: 24px;
+    padding: 8px;
+}
+.well-title {
+    text-align: center;
+    color: Green;
+    font-size: 18px;
+    font-weight: bold;
+
+}
+.highlights .well
+{
+    border:5px blue;
+}
+.well-heading, .nav li, .news-bar a, .news-bar td, .news-bar th, .well a{
+    font-weight:bold;
+    font-size:15px;
+}

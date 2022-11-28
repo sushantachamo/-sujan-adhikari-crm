@@ -22,8 +22,9 @@
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             @foreach($bulk_action as $key => $value)
-
-                                <a class="dropdown-item bulk_list" id="{{ $key }}">{{ $value == "Inactive" ? "Lead Close" : $value }}</a>
+                                @if($value == "Delete")
+                                    <a class="dropdown-item bulk_list" id="{{ $key }}">{{ $value == "Delete" ? "Lead Close" : $value }}</a>
+                                @endif
                             @endforeach
                         </div>
                         {!! Form::open(['url' => route($base_route.'.bulk-action'), 'method' => 'POST', 'id' => 'bulk-action-form', 'class' =>"display:none"]) !!}
@@ -36,7 +37,7 @@
                 @can('create-'.Illuminate\Support\Str::lower($panel))
                     <a type="button" href="{{ route($base_route.'.create') }}"
                         class="btn btn-success btn-sm ">
-                        <i class="fi fi-plus"></i> नयाँ {{ config('custom.record_types.darta') }}
+                        <i class="fi fi-plus"></i> Create Lead
                     </a>
                 @endcan
 
@@ -87,8 +88,12 @@
                                     <td>
                                         @can('update-'.Illuminate\Support\Str::lower($panel))
                                         <a type="button" href="{{ route($base_route.'.edit', ['lead'=>$row->id, 'form-name'=>'lead_details']) }}"
-                                            class="btn btn-icon-only btn-info btn-sm row-edit">
-                                            <i class="fi fi-pencil"></i>
+                                            class="btn btn-icon-only btn-info btn-sm row-edit fs--13" style="padding:0.2rem 0.75rem">
+                                            Edit
+                                        </a>
+                                        <a type="button" href="{{ route($base_route.'.delete', ['id'=>$row->id, 'form-name'=>'lead_details']) }}"
+                                            class="btn btn-icon-only btn-info btn-sm row-edit fs--13 " style="padding:0.2rem 0.75rem">
+                                            Lead Close
                                         </a>
                                         @endcan
                                 </td>

@@ -118,7 +118,7 @@
         <fieldset class="scheduler-border">
             <legend class="scheduler-border">Customer Details</legend>
             <div class="form-row form-gorup">
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="suggestion_type"> Customer Name	</label>
                         {!! Form::text('customer-name', isset($data['row']->application->borrower_name) ? $data['row']->application->borrower_name : null, ('' == 'required') ?
@@ -126,7 +126,7 @@
                         ['class' => 'form-control form-control-sm ', 'id' => 'customerName', 'readonly']) !!}
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="suggestion_type"> Customer Name	English</label>
                         {!! Form::text('customer-name-en', isset($data['row']->application->borrower_name_en) ? $data['row']->application->borrower_name_en : null, ('' == 'required') ?
@@ -134,7 +134,7 @@
                         ['class' => 'form-control form-control-sm', 'id' => 'customerNameEn', 'readonly']) !!}
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="suggestion_type"> Address</label>
                         {!! Form::text('address', isset($data['row']->application->b_t_tole) ? $data['row']->application->b_t_tole : null, ('' == 'required') ?
@@ -142,7 +142,7 @@
                         ['class' => 'form-control form-control-sm', 'id' => 'customerAddress', 'readonly']) !!}
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="suggestion_type"> Phone Number</label>
                         {!! Form::text('phone-number', isset($data['row']->application->contact_number) ? $data['row']->application->contact_number : null, ('' == 'required') ?
@@ -154,9 +154,9 @@
         </fieldset>
         <!-- Account Details -->
         <fieldset class="scheduler-border">
-            <legend class="scheduler-border">Account Details</legend>
+            <legend class="scheduler-border">Loan Details</legend>
             <div class="form-row form-gorup">
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="suggestion_type"> Loan Account Number	</label> <span class="text-danger">*</span>
                         {!! Form::number('loan_account_number', isset($data['row']->loan_account_number) ? $data['row']->loan_account_number : null, ('' == 'required') ?
@@ -164,165 +164,7 @@
                         ['class' => 'form-control form-control-sm']) !!}
                     </div>
                 </div>
-            </div>
-        </fieldset>
-        <!-- Guaranteer Details 1 -->
-        <fieldset class="scheduler-border" id="guaranteerDetails1" style="display:none">
-            <legend class="scheduler-border">Guaranteer Details 1</legend>
-            <div class="form-row form-gorup">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="suggestion_type"> Guaranteer Name	</label>
-                        {!! Form::text('guaranteer-name', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerName1', 'readonly']) !!}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="suggestion_type"> Guaranteer Name	English</label>
-                        {!! Form::text('guaranteer-name-en', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn1', 'readonly']) !!}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="suggestion_type"> Address</label>
-                        {!! Form::text('address', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerAddress1', 'readonly']) !!}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="suggestion_type"> Phone Number</label>
-                        {!! Form::text('phone-number', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerPhoneNumber1', 'readonly']) !!}
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-        <!-- Guaranteer Details 2 -->
-        <fieldset class="scheduler-border" id="guaranteerDetails2" style="display:none">
-            <legend class="scheduler-border">Guaranteer Details 2</legend>
-            <div class="form-row form-gorup">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="suggestion_type"> Guaranteer Name	</label>
-                        {!! Form::text('guaranteer-name', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerName2', 'readonly']) !!}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="suggestion_type"> Guaranteer Name	English</label>
-                        {!! Form::text('guaranteer-name-en', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn2', 'readonly']) !!}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="suggestion_type"> Address</label>
-                        {!! Form::text('address', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerAddress2', 'readonly']) !!}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="suggestion_type"> Phone Number</label>
-                        {!! Form::text('phone-number', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerPhoneNumber2', 'readonly']) !!}
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-        <!-- Guaranteer Details 3 -->
-        <fieldset class="scheduler-border" id="guaranteerDetails3" style="display:none">
-            <legend class="scheduler-border">Guaranteer Details 3</legend>
-            <div class="form-row form-gorup">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="suggestion_type"> Guaranteer Name	</label>
-                        {!! Form::text('guaranteer-name', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerName3', 'readonly']) !!}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="suggestion_type"> Guaranteer Name	English</label>
-                        {!! Form::text('guaranteer-name-en', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn3', 'readonly']) !!}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="suggestion_type"> Address</label>
-                        {!! Form::text('address', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerAddress3', 'readonly']) !!}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="suggestion_type"> Phone Number</label>
-                        {!! Form::text('phone-number', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerPhoneNumber3', 'readonly']) !!}
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-        <!-- Guaranteer Details 4 -->
-        <fieldset class="scheduler-border" id="guaranteerDetails4" style="display:none">
-            <legend class="scheduler-border">Guaranteer Details 4</legend>
-            <div class="form-row form-gorup">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="suggestion_type"> Guaranteer Name	</label>
-                        {!! Form::text('guaranteer-name', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerName4', 'readonly']) !!}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="suggestion_type"> Guaranteer Name	English</label>
-                        {!! Form::text('guaranteer-name-en', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn4', 'readonly']) !!}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="suggestion_type"> Address</label>
-                        {!! Form::text('address', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerAddress4', 'readonly']) !!}
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label for="suggestion_type"> Phone Number</label>
-                        {!! Form::text('phone-number', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerPhoneNumber4', 'readonly']) !!}
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-        <!-- Loan Details -->
-        <fieldset class="scheduler-border">
-            <legend class="scheduler-border">Loan Details</legend>
-            <div class="form-row form-gorup">
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="suggestion_type"> Loan Amount	</label>
                         {!! Form::text('loan-amount', isset($data['row']->loanDetails->loan_amount) ? $data['row']->loanDetails->loan_amount : null, ('' == 'required') ?
@@ -330,7 +172,7 @@
                         ['class' => 'form-control form-control-sm', 'id' => 'loanAmount', 'readonly']) !!}
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="suggestion_type"> Installment Amount	</label>
                         {!! Form::text('installment-amount', isset($data['row']->loanDetails->payment_amount) ? $data['row']->loanDetails->payment_amount : null, ('' == 'required') ?
@@ -340,11 +182,164 @@
                 </div>
             </div>
         </fieldset>
+        <!-- Guaranteer Details 1 -->
+        <!-- <fieldset class="scheduler-border" id="guaranteerDetails1" style="display:none">
+            <legend class="scheduler-border">Guaranteer Details 1</legend>
+            <div class="form-row form-gorup">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="suggestion_type"> Guaranteer Name	</label>
+                        {!! Form::text('guaranteer-name', null, ('' == 'required') ?
+                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerName1', 'readonly']) !!}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="suggestion_type"> Guaranteer Name	English</label>
+                        {!! Form::text('guaranteer-name-en', null, ('' == 'required') ?
+                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
+                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn1', 'readonly']) !!}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="suggestion_type"> Address</label>
+                        {!! Form::text('address', null, ('' == 'required') ?
+                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerAddress1', 'readonly']) !!}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="suggestion_type"> Phone Number</label>
+                        {!! Form::text('phone-number', null, ('' == 'required') ?
+                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
+                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerPhoneNumber1', 'readonly']) !!}
+                    </div>
+                </div>
+            </div>
+        </fieldset> -->
+        <!-- Guaranteer Details 2 -->
+        <!-- <fieldset class="scheduler-border" id="guaranteerDetails2" style="display:none">
+            <legend class="scheduler-border">Guaranteer Details 2</legend>
+            <div class="form-row form-gorup">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="suggestion_type"> Guaranteer Name	</label>
+                        {!! Form::text('guaranteer-name', null, ('' == 'required') ?
+                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerName2', 'readonly']) !!}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="suggestion_type"> Guaranteer Name	English</label>
+                        {!! Form::text('guaranteer-name-en', null, ('' == 'required') ?
+                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
+                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn2', 'readonly']) !!}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="suggestion_type"> Address</label>
+                        {!! Form::text('address', null, ('' == 'required') ?
+                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerAddress2', 'readonly']) !!}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="suggestion_type"> Phone Number</label>
+                        {!! Form::text('phone-number', null, ('' == 'required') ?
+                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
+                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerPhoneNumber2', 'readonly']) !!}
+                    </div>
+                </div>
+            </div>
+        </fieldset> -->
+        <!-- Guaranteer Details 3 -->
+        <!-- <fieldset class="scheduler-border" id="guaranteerDetails3" style="display:none">
+            <legend class="scheduler-border">Guaranteer Details 3</legend>
+            <div class="form-row form-gorup">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="suggestion_type"> Guaranteer Name	</label>
+                        {!! Form::text('guaranteer-name', null, ('' == 'required') ?
+                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerName3', 'readonly']) !!}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="suggestion_type"> Guaranteer Name	English</label>
+                        {!! Form::text('guaranteer-name-en', null, ('' == 'required') ?
+                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
+                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn3', 'readonly']) !!}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="suggestion_type"> Address</label>
+                        {!! Form::text('address', null, ('' == 'required') ?
+                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerAddress3', 'readonly']) !!}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="suggestion_type"> Phone Number</label>
+                        {!! Form::text('phone-number', null, ('' == 'required') ?
+                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
+                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerPhoneNumber3', 'readonly']) !!}
+                    </div>
+                </div>
+            </div>
+        </fieldset> -->
+        <!-- Guaranteer Details 4 -->
+        <!-- <fieldset class="scheduler-border" id="guaranteerDetails4" style="display:none">
+            <legend class="scheduler-border">Guaranteer Details 4</legend>
+            <div class="form-row form-gorup">
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="suggestion_type"> Guaranteer Name	</label>
+                        {!! Form::text('guaranteer-name', null, ('' == 'required') ?
+                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerName4', 'readonly']) !!}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="suggestion_type"> Guaranteer Name	English</label>
+                        {!! Form::text('guaranteer-name-en', null, ('' == 'required') ?
+                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
+                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn4', 'readonly']) !!}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="suggestion_type"> Address</label>
+                        {!! Form::text('address', null, ('' == 'required') ?
+                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerAddress4', 'readonly']) !!}
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="suggestion_type"> Phone Number</label>
+                        {!! Form::text('phone-number', null, ('' == 'required') ?
+                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
+                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerPhoneNumber4', 'readonly']) !!}
+                    </div>
+                </div>
+            </div>
+        </fieldset> -->
+
         <!-- Others Details -->
         <fieldset class="scheduler-border">
             <legend class="scheduler-border">Others Details</legend>
             <div class="form-row form-gorup">
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="suggestion_type"> FollowUp Date	</label> <span class="text-danger">*</span>
                         <div class="input-group">
@@ -357,10 +352,10 @@
                         
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="suggestion_type"> Assign User</label> <span class="text-danger">*</span>
-                        @if(!isset($data['row']))
+                        @if(isset($data))
                             {!! Form::select('user_id', isset($data['suggestion_types'])?$data['suggestion_types']:[], (isset($data['suggestion_type'])? $data['suggestion_type'] : null),
                             ['class' => 'form-control select_to ', 'id' => 'selectUser']) !!}
                         @else
@@ -373,7 +368,7 @@
         </fieldset>
 
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <button type="submit" class="btn btn-sm btn-success"> {{ $button }} </button>
                 <a type="button" href="{{ route($base_route.'.index') }}"
                 class="btn btn-sm btn-danger row-edit">
@@ -417,46 +412,46 @@
                             $('#loanAmount').val(data.loanDetails.loan_amount);
                             $('#installmentAmount').val(data.loanDetails.payment_amount);  
 
-                            if(data.guarantorDetails) {
-                                if(data.guarantorDetails.guarantor1_name) {
-                                    document.getElementById('guaranteerDetails1').style.display = "";
-                                    $('#guaranteerName1').val(data.guarantorDetails.guarantor1_name);
-                                    $('#guaranteerNameEn1').val(data.guarantorDetails.guarantor1_name);
-                                    $('#guaranteerAddress1').val(data.guarantorDetails.g1_former_address);
-                                    $('#guaranteerPhoneNumber1').val(data.guarantorDetails.guarantor1_contact_number);
-                                }else {
-                                    document.getElementById('guaranteerDetails1').style.display = "none";
-                                }
-                                if(data.guarantorDetails.guarantor2_name) {
-                                    document.getElementById('guaranteerDetails2').style.display = "";
-                                    $('#guaranteerName2').val(data.guarantorDetails.guarantor2_name);
-                                    $('#guaranteerNameEn2').val(data.guarantorDetails.guarantor2_name);
-                                    $('#guaranteerAddress2').val(data.guarantorDetails.g2_former_address);
-                                    $('#guaranteerPhoneNumber2').val(data.guarantorDetails.guarantor2_contact_number);
-                                } else {
-                                    document.getElementById('guaranteerDetails2').style.display = "none";
-                                }
+                            // if(data.guarantorDetails) {
+                            //     if(data.guarantorDetails.guarantor1_name) {
+                            //         document.getElementById('guaranteerDetails1').style.display = "";
+                            //         $('#guaranteerName1').val(data.guarantorDetails.guarantor1_name);
+                            //         $('#guaranteerNameEn1').val(data.guarantorDetails.guarantor1_name);
+                            //         $('#guaranteerAddress1').val(data.guarantorDetails.g1_former_address);
+                            //         $('#guaranteerPhoneNumber1').val(data.guarantorDetails.guarantor1_contact_number);
+                            //     }else {
+                            //         document.getElementById('guaranteerDetails1').style.display = "none";
+                            //     }
+                            //     if(data.guarantorDetails.guarantor2_name) {
+                            //         document.getElementById('guaranteerDetails2').style.display = "";
+                            //         $('#guaranteerName2').val(data.guarantorDetails.guarantor2_name);
+                            //         $('#guaranteerNameEn2').val(data.guarantorDetails.guarantor2_name);
+                            //         $('#guaranteerAddress2').val(data.guarantorDetails.g2_former_address);
+                            //         $('#guaranteerPhoneNumber2').val(data.guarantorDetails.guarantor2_contact_number);
+                            //     } else {
+                            //         document.getElementById('guaranteerDetails2').style.display = "none";
+                            //     }
 
-                                if(data.guarantorDetails.guarantor3_name) {
-                                    document.getElementById('guaranteerDetails1').style.display = "";
-                                    $('#guaranteerName3').val(data.guarantorDetails.guarantor3_name);
-                                    $('#guaranteerNameEn3').val(data.guarantorDetails.guarantor3_name);
-                                    $('#guaranteerAddress3').val(data.guarantorDetails.g3_former_address);
-                                    $('#guaranteerPhoneNumber3').val(data.guarantorDetails.guarantor3_contact_number);
-                                } else {
-                                    document.getElementById('guaranteerDetails3').style.display = "none";
-                                }
+                            //     if(data.guarantorDetails.guarantor3_name) {
+                            //         document.getElementById('guaranteerDetails1').style.display = "";
+                            //         $('#guaranteerName3').val(data.guarantorDetails.guarantor3_name);
+                            //         $('#guaranteerNameEn3').val(data.guarantorDetails.guarantor3_name);
+                            //         $('#guaranteerAddress3').val(data.guarantorDetails.g3_former_address);
+                            //         $('#guaranteerPhoneNumber3').val(data.guarantorDetails.guarantor3_contact_number);
+                            //     } else {
+                            //         document.getElementById('guaranteerDetails3').style.display = "none";
+                            //     }
 
-                                if(data.guarantorDetails.guarantor4_name) {
-                                    document.getElementById('guaranteerDetails1').style.display = "";
-                                    $('#guaranteerName4').val(data.guarantorDetails.guarantor4_name);
-                                    $('#guaranteerNameEn4').val(data.guarantorDetails.guarantor4_name);
-                                    $('#guaranteerAddress4').val(data.guarantorDetails.g4_former_address);
-                                    $('#guaranteerPhoneNumber4').val(data.guarantorDetails.guarantor4_contact_number);
-                                } else {
-                                    document.getElementById('guaranteerDetails4').style.display = "none";
-                                }
-                            }
+                            //     if(data.guarantorDetails.guarantor4_name) {
+                            //         document.getElementById('guaranteerDetails1').style.display = "";
+                            //         $('#guaranteerName4').val(data.guarantorDetails.guarantor4_name);
+                            //         $('#guaranteerNameEn4').val(data.guarantorDetails.guarantor4_name);
+                            //         $('#guaranteerAddress4').val(data.guarantorDetails.g4_former_address);
+                            //         $('#guaranteerPhoneNumber4').val(data.guarantorDetails.guarantor4_contact_number);
+                            //     } else {
+                            //         document.getElementById('guaranteerDetails4').style.display = "none";
+                            //     }
+                            // }
                             if(data.userDetails) {
                                 var select = document.getElementById('selectUser');
                                 var opt = document.createElement('option');

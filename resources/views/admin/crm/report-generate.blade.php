@@ -154,7 +154,6 @@
                                 <th class="bb-0 font-weight-bold fs--14 "> Date</th>
                                 <th class="bb-0 font-weight-bold fs--14 "> Customer Name</th>
                                 <th class="bb-0 font-weight-bold fs--14 "> Branch Name</th>
-                                <!-- <th class="bb-0 font-weight-bold fs--14 "> User</th> -->
                                 <th class="bb-0 font-weight-bold fs--14 "> Contacted to</th>
                                 <th class="bb-0 font-weight-bold fs--14 "> Contacted value</th>
                                 <th class="bb-0 font-weight-bold fs--14 "> Details</th>

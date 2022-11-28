@@ -22,8 +22,9 @@
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             @foreach($bulk_action as $key => $value)
-
-                                <a class="dropdown-item bulk_list" id="{{ $key }}">{{ $value == "Inactive" ? "Task Close" : $value }}</a>
+                                @if($key == 'inactive')
+                                    <a class="dropdown-item bulk_list" id="{{ $key }}">{{ $value == "Inactive" ? "Task Close" : $value }}</a>
+                                @endif
                             @endforeach
                         </div>
                         {!! Form::open(['url' => route($base_route.'.bulk-action'), 'method' => 'POST', 'id' => 'bulk-action-form', 'class' =>"display:none"]) !!}
@@ -36,7 +37,7 @@
                 @can('create-'.Illuminate\Support\Str::lower($panel))
                     <a type="button" href="{{ route($base_route.'.create') }}"
                         class="btn btn-success btn-sm ">
-                        <i class="fi fi-plus"></i> नयाँ {{ config('custom.record_types.darta') }}
+                        <i class="fi fi-plus"></i> Create Task
                     </a>
                 @endcan
 
@@ -64,43 +65,59 @@
                                 <th class="bb-0 font-weight-bold fs--14 "> Last followup User</th>
                                 <th class="bb-0 font-weight-bold fs--14 "> Details of Last followup</th>
                                 <th class="bb-0 font-weight-bold fs--14 ">Attachment View Option</th>
-                                <th class="bb-0 font-weight-bold fs--14 "> Actions</th>
+                                <th class="bb-0 font-weight-bold fs--14" width="170px"> Actions</th>
                             </tr>
                         </thead>
                         <tbody id="item_list">
                         @if ($data['rows']->count() > 0)
-                            @foreach($data['rows'] as $row)
-                                <tr class="odd gradeX">
-                                    <td class="center">
+                            @foreach($data['task'] as $value)
+                                @foreach($value as $key => $row)
+                                    <tr class="odd gradeX">
+                                        <td class="center">
+                                            @can('update-'.Illuminate\Support\Str::lower($panel))
+                                            <label>
+                                                <input type="checkbox" class="checkboxes" value="{{ $row->id }}"/>
+                                            </label>
+                                            @endcan
+                                        </td>
+                                        <td>{{ $row->application->borrower_name_en}}</td>
+                                        <td>{{ $row->application->borrower_name}}</td>
+                                        <td>{{ $row->created_at }}</td>
+                                        
+                                        <td>
+                                            @if (!$loop->last)
+                                                {{ $value[$key]->user->name}}
+                                            @else
+                                                {{ $row->user->name }}
+                                            @endif
+                                        </td>
+                                        <td>{{ $row->description }}</td>
+                                        <td>
+                                            @if(!empty($row->document))
+                                                <a href="{{Storage::disk('public')->url($row->document)}}" target="_blank" rel="noopener noreferrer">View Document</a>
+                                            @endif
+                                        </td>
+                                        <td>
                                         @can('update-'.Illuminate\Support\Str::lower($panel))
-                                        <label>
-                                            <input type="checkbox" class="checkboxes" value="{{ $row->id }}"/>
-                                        </label>
+                                            @if ($loop->first)
+                                                <a type="button" href="{{ route($base_route.'.create.by.id', $row->id) }}"
+                                                    class="btn btn-icon-only btn-info btn-sm row-create-by-id fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                                    Create
+                                                </a>
+                                                <a type="button" href="{{ route($base_route.'.edit', $row->id) }}"
+                                                    class="btn btn-icon-only btn-info btn-sm row-edit fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                                    Edit
+                                                </a>
+                                                <a type="button" href="{{ route($base_route.'.postpond', $row->id) }}"
+                                                    class="btn btn-icon-only btn-info btn-sm row-postpone fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                                    Postpone
+                                                </a>       
+                                            @endif
+                                            
                                         @endcan
-                                    </td>
-                                    <td>{{ $row->application->borrower_name_en}}</td>
-                                    <td>{{ $row->application->borrower_name}}</td>
-                                    <td>{{ $row->created_at }}</td>
-                                    <td>{{ $row->user->name}}</td>
-                                    <td>{{ $row->description }}</td>
-                                    <td>
-                                        @if(!empty($row->document))
-                                            <a href="{{Storage::disk('public')->url($row->document)}}" target="_blank" rel="noopener noreferrer">View Document</a>
-                                        @endif
-                                    </td>
-                                    <td>
-                                    @can('update-'.Illuminate\Support\Str::lower($panel))
-                                        <a type="button" href="{{ route($base_route.'.edit', $row->id) }}"
-                                            class="btn btn-icon-only btn-info btn-sm row-edit">
-                                            <i class="fi fi-pencil"></i>
-                                        </a>
-                                        <a type="button" href="{{ route($base_route.'.postpond', $row->id) }}"
-                                            class="btn btn-icon-only btn-info btn-sm row-edit">
-                                            <i class="fi fi-pencil"></i>
-                                        </a>
-                                    @endcan
-                                    </td>
-                                </tr>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             @endforeach
                         @else
                             <tr>

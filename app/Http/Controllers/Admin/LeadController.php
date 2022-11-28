@@ -221,6 +221,12 @@ class LeadController extends BaseController
         return parent::redirectRequest($leadUpdateRequest, $id);
     }
 
+     /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
     protected function delete($row)
     {
         abort_unless(\Gate::allows('delete-'.Str::lower($this->panel)), 403);
@@ -229,5 +235,19 @@ class LeadController extends BaseController
         }
         $row->delete();
         return true;
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        abort_unless(\Gate::allows('delete-'.Str::lower($this->panel)), 403);
+        $this->model->where('id', $id)->delete();
+
+        return redirect()->back()->with('success_message', $this->panel . ' delete successfully.');
     }
 }

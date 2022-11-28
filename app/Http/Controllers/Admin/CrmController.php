@@ -45,21 +45,21 @@ class CrmController extends BaseController
         abort_unless(\Gate::allows('show-'.Str::lower($this->panel)), 403);
         $searchParm  = $request->only('searchDate', 'application_id', 'user_id');
         // $searchDate = $searchParm->searchDate;
-        $applicationId = $searchParm['application_id'];
-        $userId = $searchParm['user_id'];
+        // $applicationId = $searchParm['application_id'];
+        // $userId = $searchParm['user_id'];
 
         $data['per_page'] = $request->per_page ? $request->per_page : 10;
         $data['rows'] = Task::where('status', true)
             ->leftjoin('guarantor_details', 'guarantor_details.application_id', 'tasks.application_id')
             ->paginate($data['per_page']);
 
-        if(!empty($userId)) {
-            $data['rows'] = $data['rows']->where('user_id', '=', $userId);
-        }
+        // if(!empty($userId)) {
+        //     $data['rows'] = $data['rows']->where('user_id', '=', $userId);
+        // }
 
-        if(!empty($applicationId)) {
-            $data['rows'] = $data['rows']->where('application_id', '=', $applicationId);
-        }
+        // if(!empty($applicationId)) {
+        //     $data['rows'] = $data['rows']->where('application_id', '=', $applicationId);
+        // }
         $data['request'] = $request->all();
         $data['rows'] = $data['rows']->groupBy('user_id');
         $result = Application::select('applications.application_id', 'applications.borrower_name', 'applications.borrower_name_en','applications.contact_number', 'applications.loan_type')->get();

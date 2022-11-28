@@ -23,6 +23,7 @@ class CreateLeadsTable extends Migration
             $table->boolean('status')->default(true);
             $table->timestamps();
             $table->softDeletes();
+            $table->unique(['application_id', 'deleted_at']);
         });
     }
 

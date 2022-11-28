@@ -24,7 +24,7 @@ class LeadCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'application_id' => ['required'],
+            'application_id' => ['required', 'unique:leads,application_id,NULL,id,deleted_at,NULL'],
             'loan_account_number' => ['required'],
             'follow_up_at_bs' => ['required', 'date'],
             'user_id' => ['nullable'],
@@ -39,6 +39,7 @@ class LeadCreateRequest extends FormRequest
     public function messages()
     {
         return [
+            'application_id.unique' => 'Customer Lead has been already created!!',
             'loan_account_number.required' => 'The Loan Account Number field is required',
             'follow_up_at_bs.required' => 'The Follow Up date field is required',
             'follow_up_at_bs.date' => 'The Follow Up date field must be in date',

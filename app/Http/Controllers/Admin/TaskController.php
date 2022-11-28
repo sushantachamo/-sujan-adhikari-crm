@@ -48,6 +48,7 @@ class TaskController extends BaseController
 
         $data['rows'] = $data['rows']->where('status', true)->orderby('created_at', 'desc')->paginate($data['per_page']);
         $data['request'] = $request->all();
+        $data['task'] = $data['rows']->groupBy('application_id');
 
         return view(parent::loadDefaultDataToView($this->view_path.'.index'), compact('data'));
 
@@ -63,8 +64,8 @@ class TaskController extends BaseController
         abort_unless(\Gate::allows('create-'.Str::lower($this->panel)), 403);
 
         $result = [];
-        $result['customerDetails'] = Application::select('applications.application_id', 'applications.borrower_name', 'applications.borrower_name_en','applications.contact_number', 'applications.loan_type');
-        $result['customerDetails'] = $result['customerDetails']->orderby('created_at', 'desc')->get();
+        $result['customerDetails'] = Application::rightjoin('leads', 'leads.application_id', 'applications.application_id');
+        $result['customerDetails'] = $result['customerDetails']->get();
         $taskType = [
             "" => "Select",
             "n/a" => "N/A",
@@ -84,6 +85,48 @@ class TaskController extends BaseController
         }
 
         return view(parent::loadDefaultDataToView($this->view_path.'.create'), compact('data', 'taskType'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function createById($id)
+    {
+        abort_unless(\Gate::allows('create-'.Str::lower($this->panel)), 403);
+
+        $data = [];
+        $data['row'] = $this->model->select('id', 'application_id')->where('id', $id);
+
+        $data['row'] = $data['row']->first();
+
+        if (!$data['row']) {
+            $request->session()->flash('error_message', 'Invalid request.');
+            return redirect()->route($this->base_route.'.index');
+        }
+
+        $result = User::where('status', '=', 1 )->get();
+        $taskType = [
+            "" => "Select",
+            "n/a" => "N/A",
+            "phone" => "PHONE",
+            "email" => "Email",
+            "onsite-visit" => "Onsite VIsit",
+        ];
+        $data['userDetails'] = [
+            "" => "SELECT"
+        ];
+        foreach ($result as $key => $value) {
+            $array = [
+                $value->id => $value->name
+            ];
+
+            $data['userDetails'] = $data['userDetails'] + $array;
+        }
+
+
+        return view(parent::loadDefaultDataToView($this->view_path.'.createById'), compact('data', 'taskType'));
     }
 
     /**

@@ -94,7 +94,7 @@
                                         <td>{{ $row->description }}</td>
                                         <td>
                                             @if(!empty($row->document))
-                                                <a href="{{Storage::disk('public')->url($row->document)}}" target="_blank" rel="noopener noreferrer">View Document</a>
+                                                <a href="{{Storage::disk('local')->url($row->document)}}" target="_blank" rel="noopener noreferrer">View Document</a>
                                             @endif
                                         </td>
                                         <td>

@@ -142,7 +142,7 @@ class TaskController extends BaseController
 
         $filePath = FALSE;
         if ($taskCreateRequest->hasFile('document')) {
-            $filePath = Storage::disk('public')->putFile('task-activity', $taskCreateRequest->file('document'));
+            $filePath = Storage::disk('local')->putFile('task-activity', $taskCreateRequest->file('document'));
             
             if(!$filePath) {
                 return __('Image cannot be upload!!');

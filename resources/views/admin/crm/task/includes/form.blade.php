@@ -105,8 +105,10 @@
             </div>
         </div>
     </fieldset>
-    @endif
+    @else
     <input type="hidden" value="{{isset($data['row']->application_id) ? $data['row']->application_id: null}}" id="selectCustomer" name="application_id">
+    @endif
+
     
     <div id="leadDetails" 
     @if(!isset($data['row']))

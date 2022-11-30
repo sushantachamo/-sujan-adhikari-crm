@@ -109,13 +109,28 @@
                     <fieldset class="scheduler-border">
                         <legend class="scheduler-border">Search Filter</legend>
                         <div class="form-row form-gorup">
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <div class="form-group">
-                                    <label for="suggestion_type"> FollowUp Date	</label> <span class="text-danger">*</span>
+                                    <label for="suggestion_type"> FollowUp Start Date	</label>
                                     <div class="input-group">
-                                        {!! Form::text('searchDate', isset($data['row']['registered_at_bs'])?$data['row']['registered_at_bs']:(isset($rawApplicant)? $rawApplicant['registered_at_bs'] : null), ['placeholder' => config('fields.loan_details.registered_at.name_np'), 'class' => 'form-control form-control-sm nepalidate-picker masked', 'data-format' => '9999-99-99', 'data-placeholder' => '_', 'placeholder'=>'YYYY-MM-DD','id' => 'searchDate_bs']) !!}
+                                        {!! Form::text('searchStartDate_bs', isset($data['row']['registered_at_bs'])?$data['row']['registered_at_bs']:(isset($rawApplicant)? $rawApplicant['registered_at_bs'] : null), ['placeholder' => config('fields.loan_details.registered_at.name_np'), 'class' => 'form-control form-control-sm nepalidate-picker masked', 'data-format' => '9999-99-99', 'data-placeholder' => '_', 'placeholder'=>'YYYY-MM-DD','id' => 'searchStartDate_bs']) !!}
                                         
-                                        {!! Form::text('searchDate', isset($data['row']['registered_at']) ? $data['row']['registered_at']->format('Y-m-d') : (isset($rawApplicant['registered_at'])? $rawApplicant['registered_at']->format('Y-m-d'):null), ['class' => 'hidden', 'style'=>'display:none', 'id' => 'searchDate']) !!}
+                                        {!! Form::text('searchStartDate', isset($data['row']['registered_at']) ? $data['row']['registered_at']->format('Y-m-d') : (isset($rawApplicant['registered_at'])? $rawApplicant['registered_at']->format('Y-m-d'):null), ['class' => 'hidden', 'style'=>'display:none', 'id' => 'searchStartDate']) !!}
+                                        <span class="input-group-btn">
+                                            <button class="btn  btn-sm btn-danger" type="button" id="registered_at_clear"><i class="fi fi-close"></i></button>
+                                        </span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label for="suggestion_type"> FollowUp End Date	</label>
+                                    <div class="input-group">
+                                        {!! Form::text('searchEndDate', isset($data['row']['registered_at_bs'])?$data['row']['registered_at_bs']:(isset($rawApplicant)? $rawApplicant['registered_at_bs'] : null), ['placeholder' => config('fields.loan_details.registered_at.name_np'), 'class' => 'form-control form-control-sm nepalidate-picker masked', 'data-format' => '9999-99-99', 'data-placeholder' => '_', 'placeholder'=>'YYYY-MM-DD','id' => 'searchEndDate_bs']) !!}
+                                        
+                                        {!! Form::text('searchEndDate', isset($data['row']['registered_at']) ? $data['row']['registered_at']->format('Y-m-d') : (isset($rawApplicant['registered_at'])? $rawApplicant['registered_at']->format('Y-m-d'):null), ['class' => 'hidden', 'style'=>'display:none', 'id' => 'searchEndDate']) !!}
                                         <span class="input-group-btn">
                                             <button class="btn  btn-sm btn-danger" type="button" id="registered_at_clear"><i class="fi fi-close"></i></button>
                                         </span>
@@ -127,20 +142,20 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="customer_name"> Customer Name	</label>
-                                    {!! Form::select('application_id', isset($data['applications'])?$data['applications']:[], (isset($data['applications'])? $data['applications'] : null),
-                                        ['class' => 'form-control select_to customer_details', 'id' => 'selectCustomer']) !!}
+                                    {!! Form::select('application_id[]', isset($data['applications'])?$data['applications']:[], (isset($data['applications'])? $data['applications'] : null),
+                                        ['class' => 'form-control select_to customer_details', 'id' => 'selectCustomer', 'multiple' => 'multiple']) !!}
                                 </div>
                             </div>
 
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="customer_name"> User	</label>
-                                    {!! Form::select('user_id', isset($data['users'])?$data['users']:[], (isset($data['users'])? $data['users'] : null),
-                                        ['class' => 'form-control select_to user_details', 'id' => 'selectUser']) !!}
+                                    {!! Form::select('user_id[]', isset($data['users'])?$data['users']:[], (isset($data['users'])? $data['users'] : null),
+                                        ['class' => 'form-control select_to user_details', 'id' => 'selectUser', 'multiple']) !!}
                                 </div>
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-2">
                                 <br>
                                 <button type="submit" class="btn btn-sm btn-success"> Search </button>
                             </div>
@@ -166,7 +181,7 @@
                                     @foreach($value as $key => $row)
                                         @if($key==0)
                                         <tr>
-                                            <td colspan="7"><strong> <center>{{$row->userAssign->name}}</center> </strong></td>
+                                            <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$row->userAssign->name}}</strong></td>
                                         </tr>
                                         @endif
                                         <tr class="odd gradeX">
@@ -234,10 +249,8 @@
         $(document).ready(function () {
             $('.select2').select2();
             $('.select_to').select2();
-            customDatePicker('searchDate');
-            $('#registered_at').datepicker({
-                multidate: true
-            });
+            customDatePicker('searchStartDate');
+            customDatePicker('searchEndDate');
         });
     </script>
 @endsection

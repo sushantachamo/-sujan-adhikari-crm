@@ -125,7 +125,7 @@ nav.nav-deep-dark.nav-deep-hover>ul>li.nav-item.active {
                         </a>
                     </li>
                 @endcan
-				<li class="nav-item ">
+				<li class="nav-item  {{ Request::is('admin/crm') || Request::is('admin/crm/*') ? 'active' : '' }}">
 					<a class="nav-link" href="#">
 						<span class="group-icon float-end">
 							<i class="fi fi-arrow-end-slim"></i>
@@ -136,23 +136,23 @@ nav.nav-deep-dark.nav-deep-hover>ul>li.nav-item.active {
 					</a>
 
 					<ul class="nav flex-column">
-						<li class="nav-item ">
-							<a class="nav-link" href="{{ route('admin.crm.index') }}">
+						<li class="nav-item">
+							<a class="nav-link {{ Request::is('admin/application') ? 'active' : '' }}" href="{{ route('admin.crm.index') }}">
 								Dashboard
 							</a>
 						</li>
 						<li class="nav-item ">
-							<a class="nav-link" href="{{ route('admin.lead.index') }}">
+							<a class="nav-link {{ Request::is('admin/application') ? 'active' : '' }}" href="{{ route('admin.lead.index') }}">
 								Lead
 							</a>
 						</li>
 						<li class="nav-item ">
-							<a class="nav-link" href="{{ route('admin.task-activity.index') }}">
+							<a class="nav-link {{ Request::is('admin/application') ? 'active' : '' }}" href="{{ route('admin.task-activity.index') }}">
 								Task
 							</a>
 						</li>
 						<li class="nav-item ">
-							<a class="nav-link" href="{{ route('admin.crm.report-generate') }}">
+							<a class="nav-link {{ Request::is('admin/application') ? 'active' : '' }}" href="{{ route('admin.crm.report-generate') }}">
 								Report Generate
 							</a>
 						</li>

@@ -66,18 +66,21 @@ Route::post('darta_chalani/delete/{id}', ['as' => 'darta_chalani.forcedelete', '
 Route::get('darta_chalani/{record_id}/{filename}',['as'=>'file_link', 'uses'=> 'DartaChalaniController@getFile'])->where('filename', '^[^/]+$');
 Route::get('darta_chalani/file/delete/{record_id}/{filename}', ['as' => 'darta_chalani.deleteFile', 'uses' => 'DartaChalaniController@deleteFile']);
 
-Route::resource('lead', 'LeadController');
-Route::get('getApplicationDetailsById/{id?}', 'LeadController@getApplicationDetailsById');
-Route::post('lead/bulk-action', ['as' => 'lead.bulk-action', 'uses' => 'LeadController@bulkAction']);
-Route::get('lead/delete/{id}', ['as' => 'lead.delete', 'uses' => 'LeadController@destroy']);
+Route::group(['prefix' => 'crm'], function () {
+    Route::resource('lead', 'LeadController');
+    Route::get('getApplicationDetailsById/{id?}', 'LeadController@getApplicationDetailsById');
+    Route::post('lead/bulk-action', ['as' => 'lead.bulk-action', 'uses' => 'LeadController@bulkAction']);
+    Route::get('lead/delete/{id}', ['as' => 'lead.delete', 'uses' => 'LeadController@destroy']);
 
-Route::resource('task-activity', 'TaskController');
-Route::post('task-activity/bulk-action', ['as' => 'task-activity.bulk-action', 'uses' => 'TaskController@bulkAction']);
-Route::get('task-activity/{id}/postpond', ['as' => 'task-activity.postpond', 'uses' => 'TaskController@postpond']);
-Route::PUT('task-activity/postpond/{id}', ['as' => 'task-activity.postpondAction', 'uses' => 'TaskController@postpondAction']);
-Route::get('task-activity/create/{id}', ['as' => 'task-activity.create.by.id', 'uses' => 'TaskController@createById']);
+    Route::resource('task-activity', 'TaskController');
+    Route::post('task-activity/bulk-action', ['as' => 'task-activity.bulk-action', 'uses' => 'TaskController@bulkAction']);
+    Route::get('task-activity/{id}/postpond', ['as' => 'task-activity.postpond', 'uses' => 'TaskController@postpond']);
+    Route::PUT('task-activity/postpond/{id}', ['as' => 'task-activity.postpondAction', 'uses' => 'TaskController@postpondAction']);
+    Route::get('task-activity/create/{id}', ['as' => 'task-activity.create.by.id', 'uses' => 'TaskController@createById']);
 
-Route::resource('crm', 'CrmController');
-Route::get('report-generate/', ['as' => 'crm.report-generate', 'uses' => 'CrmController@reportGenerate']);
+    Route::get('dashboard/', ['as' => 'crm.index', 'uses' => 'CrmController@index']);
+    Route::get('report-generate/', ['as' => 'crm.report-generate', 'uses' => 'CrmController@reportGenerate']);
+
+});
 
 

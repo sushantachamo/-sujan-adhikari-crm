@@ -164,7 +164,7 @@
                     document.getElementById('leadDetails').style.display = 'block';
                     $.ajax(
                     {
-                        url: "/admin/getApplicationDetailsById/"+lead_id,
+                        url: "/admin/crm/getApplicationDetailsById/"+lead_id,
                         type: "GET",
                         cache: false,
                         success: function (data)
@@ -238,7 +238,7 @@
                 $('#details').val(null);
                 if(type == 'phone') {
                     $.ajax({
-                        url: '/admin/getApplicationDetailsById/' + application_id,
+                        url: '/admin/crm/getApplicationDetailsById/' + application_id,
                         type: "GET",
                         cache: false,
                         success: function(data){
@@ -255,7 +255,7 @@
                 $('#details1').val(null);
                 if(type == 'phone') {
                     $.ajax({
-                        url: '/admin/getApplicationDetailsById/' + application_id,
+                        url: '/admin/crm/getApplicationDetailsById/' + application_id,
                         type: "GET",
                         cache: false,
                         success: function(data){
@@ -271,7 +271,7 @@
                 $('#details2').val(null);
                 if(type == 'phone') {
                     $.ajax({
-                        url: '/admin/getApplicationDetailsById/' + application_id,
+                        url: '/admin/crm/getApplicationDetailsById/' + application_id,
                         type: "GET",
                         cache: false,
                         success: function(data){
@@ -287,7 +287,7 @@
                 $('#details3').val(null);
                 if(type == 'phone') {
                     $.ajax({
-                        url: '/admin/getApplicationDetailsById/' + application_id,
+                        url: '/admin/crm/getApplicationDetailsById/' + application_id,
                         type: "GET",
                         cache: false,
                         success: function(data){
@@ -303,7 +303,7 @@
                 $('#details4').val(null);
                 if(type == 'phone') {
                     $.ajax({
-                        url: '/admin/getApplicationDetailsById/' + application_id,
+                        url: '/admin/crm/getApplicationDetailsById/' + application_id,
                         type: "GET",
                         cache: false,
                         success: function(data){

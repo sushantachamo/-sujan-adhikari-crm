@@ -67,16 +67,4 @@ class Task extends Model
     {
         return $this->hasOne(\App\Models\User::class, 'id', 'user_id');
     }
-
-    /**
-     * Interact with the product's image.
-     *
-     * @return  \Illuminate\Database\Eloquent\Casts\Attribute
-     */
-    protected function document(): Attribute
-    {
-        return Attribute::make(
-            get: fn ($value) => !$value ? "asdasd" : Storage::disk('public')->url($value) // this is dummy image, need to change once image get uploaded to minio storage
-        );
-    }
 }

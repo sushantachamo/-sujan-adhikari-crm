@@ -8,6 +8,8 @@ use Illuminate\Support\Str;
 Use App\Models\Admin\Task;
 Use App\Models\Admin\Application;
 use App\Models\User;
+use Carbon\Carbon;
+use Pratiksh\Nepalidate\Facades\NepaliDate;
 
 class CrmController extends BaseController
 {
@@ -28,10 +30,14 @@ class CrmController extends BaseController
     public function index(Request $request)
     {
         abort_unless(\Gate::allows('show-'.Str::lower($this->panel)), 403);
-
-
-        return view(parent::loadDefaultDataToView($this->view_path.'.dashboard'), );
-
+        $data = [];
+        $data['today'] = Task::WhereDate('follow_up_at_bs', NepaliDate::create(\Carbon\Carbon::now())->toBS())->get();
+        $data['thisweek'] = Task::whereBetween('follow_up_at_bs', [NepaliDate::create(\Carbon\Carbon::now()->startOfWeek())->toBS(), NepaliDate::create(\Carbon\Carbon::now()->endOfWeek())->toBS()])->get();
+        
+        $month = explode("-",NepaliDate::create(\Carbon\Carbon::now())->toBS());
+        $data['currentmonth'] = Task::whereMonth('follow_up_at_bs', $month[1])->get();
+        
+        return view(parent::loadDefaultDataToView($this->view_path.'.dashboard'), compact('data'));
     }
 
     /**

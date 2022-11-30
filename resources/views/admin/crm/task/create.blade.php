@@ -7,17 +7,17 @@
     ])
     <section class="rounded mb-3">
 			@include('admin.includes.flash-notification')
-	        <div class="col-md-12">
+			<div class="col-md-12">
 					{!! Form::open(['url' => route($base_route.'.store'), 'method' => 'post', 'role' => 'form',
-					 'enctype' => 'multipart/form-data']) !!}
+					'enctype' => 'multipart/form-data']) !!}
 
 						@include($view_path.'.includes.form', [
-	                    'button' => 'Save',
+						'button' => 'Save',
 						'title' => "नयाँ Task-activity ",
-	                	])
+						])
 
-		            {!! Form::close() !!}
-	        </div>
+					{!! Form::close() !!}
+			</div>	        
     </section>
 @endsection
 @section('js_scripts')

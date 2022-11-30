@@ -146,14 +146,46 @@
 
 
 @section('post_scripts')
-
+    <script src="http://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/js/nepali.datepicker.v4.0.min.js" type="text/javascript"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
-
+            
             $('.select2').select2();
             $('.select_to').select2();
             customDatePicker('registered_at');
+
+            /* Select your element */
+            var elm = document.getElementById("registered_at_bs");
+            
+            /* Initialize Datepicker with options */
+            elm.nepaliDatePicker({
+                disableDaysBefore: 0,
+                onChange: function() {
+                    let changeDate = $('#registered_at_bs').val();
+                    let nepaliToday = NepaliFunctions.GetCurrentBsDate();
+                    let newDate = NepaliFunctions.BsDatesDiff(changeDate, nepaliToday, 'YYYY-MM-DD')
+                    $('#days').val(newDate);
+                }
+            });
+
+            $('#days').on('change', function() {
+                const date = new Date();
+                let days = $('#days').val();
+                date.setDate(date.getDate() + parseInt(days))
+                var currentdate = new Date(date).toJSON().slice(0,10);
+                $('#registered_at').val(currentdate);
+                // nepali date
+                let nepaliToday = NepaliFunctions.GetCurrentBsDate();
+                let newDate = NepaliFunctions.BsAddDays(nepaliToday, parseInt(days), 'YYYY-MM-DD')
+                newDate = newDate["year"]+"-"+pad2(newDate["month"])+"-"+pad2(newDate["day"]);
+                console.log(newDate);
+                $('#registered_at_bs').val(newDate);
+            });
+
+            function pad2(number) {
+                return (number < 10 ? '0' : '') + number
+            }
 
             $('#selectCustomer').on('change', function() {
                 let lead_id = this.value;
@@ -312,10 +344,7 @@
                     });
                 }
             });
-
-
         });
-
     </script>
 @endsection
 

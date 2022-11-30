@@ -92,282 +92,299 @@
             height: auto !important;
         }
 </style>
-    @if(!isset($data['row']))
-    <fieldset class="scheduler-border">
-        <legend class="scheduler-border" style="margin-bottom:0.5rem">Select Customer</legend>
-        <div class="form-row form-gorup">
-            <div class="col-md-12">
-                <div class="form-group" style="margin-bottom:0.5rem">
-                    <label for="customer_name" style="margin:0px"> Customer Name	</label> <span class="text-danger">*</span>
-                    {!! Form::select('application_id', isset($data)?$data:[], (isset($data)? $data : null),
-                        ['class' => 'form-control select_to customer_details', 'id' => 'selectCustomer']) !!}
-                </div>
-            </div>
-        </div>
-    </fieldset>
-    @else
-    <input type="hidden" value="{{isset($data['row']->application_id) ? $data['row']->application_id: null}}" id="selectCustomer" name="application_id">
-    @endif
-
-    
-    <div id="leadDetails" 
-    @if(!isset($data['row']))
-        style="display:none"      
-    @endif
-    >
-        <!-- Customer details -->
-        <fieldset class="scheduler-border">
-            <legend class="scheduler-border" style="margin-bottom:0.5rem">Customer Details</legend>
-            <div class="form-row form-gorup">
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Customer Name	English</label>
-                        {!! Form::text('customer-name-en', isset($data['row']) ? $data['row']->application->borrower_name: null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required']:
-                        ['class' => 'form-control form-control-sm', 'id' => 'customerNameEn', 'readonly']) !!}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Task Type</label>
-                        {!! Form::select('type', isset($taskType)?$taskType:[], (isset($taskType)? $taskType : null),
-                            ['class' => 'form-control select_to ', 'id' => 'type']) !!}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Details</label>
-                        {!! Form::text('details', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'details']) !!}
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-
-        <!-- Guaranteer Details 1 -->
-        <fieldset class="scheduler-border" id="guaranteerDetails1" style="display:none">
-            <legend class="scheduler-border" style="margin-bottom:0.5rem">Guaranteer Details 1</legend>
-            <div class="form-row form-gorup">
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Guaranteer Name	English</label>
-                        {!! Form::text('guaranteer-name-en', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn1', 'readonly']) !!}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Task Type</label>
-                        {!! Form::select('type1', isset($taskType)?$taskType:[], (isset($taskType)? $taskType : null),
-                            ['class' => 'form-control select_to ', 'id' => 'type1']) !!}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Details</label>
-                        {!! Form::text('details1', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'details1']) !!}
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-        <!-- Guaranteer Details 2 -->
-        <fieldset class="scheduler-border" id="guaranteerDetails2" style="display:none">
-            <legend class="scheduler-border" style="margin-bottom:0.5rem">Guaranteer Details 2</legend>
-            <div class="form-row form-gorup">
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Guaranteer Name</label>
-                        {!! Form::text('guaranteer-name-en2', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn2', 'readonly']) !!}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Task Type</label>
-                        {!! Form::select('type2', isset($taskType)?$taskType:[], (isset($taskType)? $taskType : null),
-                            ['class' => 'form-control select_to ', 'id' => 'type2']) !!}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Details</label>
-                        {!! Form::text('details2', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'details2']) !!}
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-        <!-- Guaranteer Details 3 -->
-        <fieldset class="scheduler-border" id="guaranteerDetails3" style="display:none">
-            <legend class="scheduler-border" style="margin-bottom:0.5rem">Guaranteer Details 3</legend>
-            <div class="form-row form-gorup">
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Guaranteer Name</label>
-                        {!! Form::text('guaranteer-name-en3', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn3', 'readonly']) !!}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Task Type</label>
-                        {!! Form::select('type3', isset($taskType)?$taskType:[], (isset($taskType)? $taskType : null),
-                            ['class' => 'form-control select_to ', 'id' => 'type3']) !!}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Details</label>
-                        {!! Form::text('details3', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'details3']) !!}
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-        <!-- Guaranteer Details 4 -->
-        <fieldset class="scheduler-border" id="guaranteerDetails4" style="display:none">
-            <legend class="scheduler-border" style="margin-bottom:0.5rem">Guaranteer Details 4</legend>
-            <div class="form-row form-gorup">
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Guaranteer Name</label>
-                        {!! Form::text('guaranteer-name-en4', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn4', 'readonly']) !!}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Task Type</label>
-                        {!! Form::select('type4', isset($taskType)?$taskType:[], (isset($taskType)? $taskType : null),
-                            ['class' => 'form-control select_to ', 'id' => 'type4']) !!}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Details</label>
-                        {!! Form::text('details4', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'details4']) !!}
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-        <!-- Description Details -->
-        <fieldset class="scheduler-border">
-            <legend class="scheduler-border" style="margin-bottom:0.5rem">Description</legend>
-            <div class="form-row form-gorup">
-                <div class="col-md-12">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Description</label>
-                        {!! Form::text('description', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'description']) !!}
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-        <!-- Dues Details -->
-        <fieldset class="scheduler-border">
-            <legend class="scheduler-border" style="margin-bottom:0.5rem">Dues Details</legend>
-            <div class="form-row form-gorup">
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Number of Dues</label>
-                        {!! Form::number('number_of_dues', isset($data['row']) ? $data['row']->number_of_dues: null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'number_of_dues']) !!}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Principal Amount	</label>
-                        {!! Form::number('principal_amount', isset($data['row']) ? $data['row']->due_principal_amount: null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'principalAmount']) !!}
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Interest Amount</label>
-                        {!! Form::number('interest_amount', isset($data['row']) ? $data['row']->due_interest_amount: null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'interestAmount']) !!}
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-        <!-- Others Details -->
-        <fieldset class="scheduler-border">
-            <legend class="scheduler-border" style="margin-bottom:0.5rem">Others Details</legend>
-            <div class="form-row form-gorup">
-                <div class="col-md-3">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Days</label>
-                        {!! Form::number('days', null, ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'days']) !!}
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> FollowUp Date	</label> <span class="text-danger">*</span>
-                        <div class="input-group">
-                            {!! Form::text('follow_up_at_bs', isset($data['row']['registered_at_bs'])?$data['row']['registered_at_bs']:(isset($rawApplicant)? $rawApplicant['registered_at_bs'] : null), ['placeholder' => config('fields.loan_details.registered_at.name_np'), 'class' => 'form-control form-control-sm nepalidate-picker masked', 'data-format' => '9999-99-99', 'data-placeholder' => '_', 'placeholder'=>'YYYY-MM-DD','id' => 'registered_at_bs']) !!}
-                            {!! Form::text('follow_up_at', isset($data['row']['registered_at']) ? $data['row']['registered_at']->format('Y-m-d') : (isset($rawApplicant['registered_at'])? $rawApplicant['registered_at']->format('Y-m-d'):null), ['class' => 'hidden', 'style'=>'display:none', 'id' => 'registered_at']) !!}
-                            <span class="input-group-btn">
-                                <button class="btn  btn-sm btn-danger" type="button" id="registered_at_clear"><i class="fi fi-close"></i></button>
-                            </span>
-                        </div>
-                        
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="suggestion_type" style="margin:0px"> Assign User</label> <span class="text-danger">*</span>
-                        @if(!isset($data['row']))
-                            {!! Form::select('user_id', isset($data['suggestion_types'])?$data['suggestion_types']:[], (isset($data['suggestion_type'])? $data['suggestion_type'] : null),
-                            ['class' => 'form-control select_to ', 'id' => 'selectUser']) !!}
-                        @else
-                            {!! Form::select('user_id', isset($data['userDetails'])?$data['userDetails']:[], (isset($data['userDetails'])? $data['userDetails'] : null), ['class' => 'form-control select_to']) !!}
-                        @endif
-                        
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="form-group" style="margin-bottom:0.5rem">
-                        <label for="">Document</label>
-                        <br>
-                        {!! Form::file('document', null,  ('' == 'required') ?
-                        ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm', 'id' => 'document']) !!}
-                    </div>
-                </div>
-            </div>
-        </fieldset>
-
         <div class="row">
-            <div class="col-md-6">
-                <button type="submit" class="btn btn-sm btn-success"> {{ $button }} </button>
-                <a type="button" href="{{ route($base_route.'.index') }}"
-                class="btn btn-sm btn-danger row-edit">
-                    Cancel
-                </a>
+            <div class="col-md-8">
+                @if(!isset($data['row']))
+                <fieldset class="scheduler-border">
+                    <legend class="scheduler-border" style="margin-bottom:0.5rem">Select Customer</legend>
+                    <div class="form-row form-gorup">
+                        <div class="col-md-12">
+                            <div class="form-group" style="margin-bottom:0.5rem">
+                                <label for="customer_name" style="margin:0px"> Customer Name	</label> <span class="text-danger">*</span>
+                                {!! Form::select('application_id', isset($data)?$data:[], (isset($data)? $data : null),
+                                    ['class' => 'form-control select_to customer_details', 'id' => 'selectCustomer']) !!}
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                @else
+                <input type="hidden" value="{{isset($data['row']->application_id) ? $data['row']->application_id: null}}" id="selectCustomer" name="application_id">
+                @endif
+
+                
+                <div id="leadDetails" 
+                @if(!isset($data['row']))
+                    style="display:none"      
+                @endif
+                >
+                    <!-- Customer details -->
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border" style="margin-bottom:0.5rem">Customer Details</legend>
+                        <div class="form-row form-gorup">
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Customer Name	English</label>
+                                    {!! Form::text('customer-name-en', isset($data['row']) ? $data['row']->application->borrower_name: null, ('' == 'required') ?
+                                    ['class' => 'form-control form-control-sm', 'required' => 'required']:
+                                    ['class' => 'form-control form-control-sm', 'id' => 'customerNameEn', 'readonly']) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Task Type</label>
+                                    {!! Form::select('type', isset($taskType)?$taskType:[], (isset($taskType)? $taskType : null),
+                                        ['class' => 'form-control select_to ', 'id' => 'type']) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Details</label>
+                                    {!! Form::text('details', null, ('' == 'required') ?
+                                    ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                                    ['class' => 'form-control form-control-sm', 'id' => 'details']) !!}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <!-- Guaranteer Details 1 -->
+                    <fieldset class="scheduler-border" id="guaranteerDetails1" style="display:none">
+                        <legend class="scheduler-border" style="margin-bottom:0.5rem">Guaranteer Details 1</legend>
+                        <div class="form-row form-gorup">
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Guaranteer Name	English</label>
+                                    {!! Form::text('guaranteer-name-en', null, ('' == 'required') ?
+                                    ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
+                                    ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn1', 'readonly']) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Task Type</label>
+                                    {!! Form::select('type1', isset($taskType)?$taskType:[], (isset($taskType)? $taskType : null),
+                                        ['class' => 'form-control select_to ', 'id' => 'type1']) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Details</label>
+                                    {!! Form::text('details1', null, ('' == 'required') ?
+                                    ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                                    ['class' => 'form-control form-control-sm', 'id' => 'details1']) !!}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- Guaranteer Details 2 -->
+                    <fieldset class="scheduler-border" id="guaranteerDetails2" style="display:none">
+                        <legend class="scheduler-border" style="margin-bottom:0.5rem">Guaranteer Details 2</legend>
+                        <div class="form-row form-gorup">
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Guaranteer Name</label>
+                                    {!! Form::text('guaranteer-name-en2', null, ('' == 'required') ?
+                                    ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
+                                    ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn2', 'readonly']) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Task Type</label>
+                                    {!! Form::select('type2', isset($taskType)?$taskType:[], (isset($taskType)? $taskType : null),
+                                        ['class' => 'form-control select_to ', 'id' => 'type2']) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Details</label>
+                                    {!! Form::text('details2', null, ('' == 'required') ?
+                                    ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                                    ['class' => 'form-control form-control-sm', 'id' => 'details2']) !!}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- Guaranteer Details 3 -->
+                    <fieldset class="scheduler-border" id="guaranteerDetails3" style="display:none">
+                        <legend class="scheduler-border" style="margin-bottom:0.5rem">Guaranteer Details 3</legend>
+                        <div class="form-row form-gorup">
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Guaranteer Name</label>
+                                    {!! Form::text('guaranteer-name-en3', null, ('' == 'required') ?
+                                    ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
+                                    ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn3', 'readonly']) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Task Type</label>
+                                    {!! Form::select('type3', isset($taskType)?$taskType:[], (isset($taskType)? $taskType : null),
+                                        ['class' => 'form-control select_to ', 'id' => 'type3']) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Details</label>
+                                    {!! Form::text('details3', null, ('' == 'required') ?
+                                    ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                                    ['class' => 'form-control form-control-sm', 'id' => 'details3']) !!}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- Guaranteer Details 4 -->
+                    <fieldset class="scheduler-border" id="guaranteerDetails4" style="display:none">
+                        <legend class="scheduler-border" style="margin-bottom:0.5rem">Guaranteer Details 4</legend>
+                        <div class="form-row form-gorup">
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Guaranteer Name</label>
+                                    {!! Form::text('guaranteer-name-en4', null, ('' == 'required') ?
+                                    ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
+                                    ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn4', 'readonly']) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Task Type</label>
+                                    {!! Form::select('type4', isset($taskType)?$taskType:[], (isset($taskType)? $taskType : null),
+                                        ['class' => 'form-control select_to ', 'id' => 'type4']) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Details</label>
+                                    {!! Form::text('details4', null, ('' == 'required') ?
+                                    ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                                    ['class' => 'form-control form-control-sm', 'id' => 'details4']) !!}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- Description Details -->
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border" style="margin-bottom:0.5rem">Description</legend>
+                        <div class="form-row form-gorup">
+                            <div class="col-md-12">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Description</label>
+                                    {!! Form::text('description', null, ('' == 'required') ?
+                                    ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                                    ['class' => 'form-control form-control-sm', 'id' => 'description']) !!}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- Dues Details -->
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border" style="margin-bottom:0.5rem">Dues Details</legend>
+                        <div class="form-row form-gorup">
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Number of Dues</label>
+                                    {!! Form::number('number_of_dues', isset($data['row']) ? $data['row']->number_of_dues: null, ('' == 'required') ?
+                                    ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                                    ['class' => 'form-control form-control-sm', 'id' => 'number_of_dues']) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Principal Amount	</label>
+                                    {!! Form::number('principal_amount', isset($data['row']) ? $data['row']->due_principal_amount: null, ('' == 'required') ?
+                                    ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                                    ['class' => 'form-control form-control-sm', 'id' => 'principalAmount']) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Interest Amount</label>
+                                    {!! Form::number('interest_amount', isset($data['row']) ? $data['row']->due_interest_amount: null, ('' == 'required') ?
+                                    ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                                    ['class' => 'form-control form-control-sm', 'id' => 'interestAmount']) !!}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <!-- Others Details -->
+                    <fieldset class="scheduler-border">
+                        <legend class="scheduler-border" style="margin-bottom:0.5rem">Others Details</legend>
+                        <div class="form-row form-gorup">
+                            <div class="col-md-3">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Days</label>
+                                    {!! Form::number('days', null, ('' == 'required') ?
+                                    ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                                    ['class' => 'form-control form-control-sm', 'id' => 'days']) !!}
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> FollowUp Date	</label> <span class="text-danger">*</span>
+                                    <div class="input-group">
+                                        {!! Form::text('follow_up_at_bs', isset($data['row']['registered_at_bs'])?$data['row']['registered_at_bs']:(isset($rawApplicant)? $rawApplicant['registered_at_bs'] : null), ['placeholder' => config('fields.loan_details.registered_at.name_np'), 'class' => 'form-control form-control-sm nepalidate-picker masked', 'data-format' => '9999-99-99', 'data-placeholder' => '_', 'placeholder'=>'YYYY-MM-DD','id' => 'registered_at_bs']) !!}
+                                        {!! Form::text('follow_up_at', isset($data['row']['registered_at']) ? $data['row']['registered_at']->format('Y-m-d') : (isset($rawApplicant['registered_at'])? $rawApplicant['registered_at']->format('Y-m-d'):null), ['class' => 'hidden', 'style'=>'display:none', 'id' => 'registered_at']) !!}
+                                        <span class="input-group-btn">
+                                            <button class="btn  btn-sm btn-danger" type="button" id="registered_at_clear"><i class="fi fi-close"></i></button>
+                                        </span>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="suggestion_type" style="margin:0px"> Assign User</label> <span class="text-danger">*</span>
+                                    @if(!isset($data['row']))
+                                        {!! Form::select('user_id', isset($data['suggestion_types'])?$data['suggestion_types']:[], (isset($data['suggestion_type'])? $data['suggestion_type'] : null),
+                                        ['class' => 'form-control select_to ', 'id' => 'selectUser']) !!}
+                                    @else
+                                        {!! Form::select('user_id', isset($data['userDetails'])?$data['userDetails']:[], (isset($data['userDetails'])? $data['userDetails'] : null), ['class' => 'form-control select_to']) !!}
+                                    @endif
+                                    
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group" style="margin-bottom:0.5rem">
+                                    <label for="">Document</label>
+                                    <br>
+                                    {!! Form::file('document', null,  ('' == 'required') ?
+                                    ['class' => 'form-control form-control-sm', 'required' => 'required'] :
+                                    ['class' => 'form-control form-control-sm', 'id' => 'document']) !!}
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="submit" class="btn btn-sm btn-success"> {{ $button }} </button>
+                            <a type="button" href="{{ route($base_route.'.index') }}"
+                            class="btn btn-sm btn-danger row-edit">
+                                Cancel
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <fieldset class="scheduler-border">
+                    <legend class="scheduler-border" style="margin-bottom:0.5rem">Activity Log</legend>
+                    <div class="form-row form-gorup">
+                        <div class="col-md-12">
+                            <div class="form-group" style="margin-bottom:0.5rem">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
             </div>
         </div>
-    </div>
+    
 
 
 @section('post_scripts')
-
+    <script src="http://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/js/nepali.datepicker.v4.0.min.js" type="text/javascript"></script>
     <script type="text/javascript">
 
         $(document).ready(function () {
@@ -375,6 +392,37 @@
             $('.select2').select2();
             $('.select_to').select2();
             customDatePicker('registered_at');
+            /* Select your element */
+            var elm = document.getElementById("registered_at_bs");
+            
+            /* Initialize Datepicker with options */
+            elm.nepaliDatePicker({
+                disableDaysBefore: 0,
+                onChange: function() {
+                    let changeDate = $('#registered_at_bs').val();
+                    let nepaliToday = NepaliFunctions.GetCurrentBsDate();
+                    let newDate = NepaliFunctions.BsDatesDiff(changeDate, nepaliToday, 'YYYY-MM-DD')
+                    $('#days').val(newDate);
+                }
+            });
+
+            $('#days').on('change', function() {
+                const date = new Date();
+                let days = $('#days').val();
+                date.setDate(date.getDate() + parseInt(days))
+                var currentdate = new Date(date).toJSON().slice(0,10);
+                $('#registered_at').val(currentdate);
+                // nepali date
+                let nepaliToday = NepaliFunctions.GetCurrentBsDate();
+                let newDate = NepaliFunctions.BsAddDays(nepaliToday, parseInt(days), 'YYYY-MM-DD')
+                newDate = newDate["year"]+"-"+pad2(newDate["month"])+"-"+pad2(newDate["day"]);
+                console.log(newDate);
+                $('#registered_at_bs').val(newDate);
+            });
+
+            function pad2(number) {
+                return (number < 10 ? '0' : '') + number
+            }
 
             $('#selectCustomer').on('change', function() {
                 let lead_id = this.value;

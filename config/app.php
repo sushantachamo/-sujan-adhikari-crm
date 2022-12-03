@@ -161,6 +161,7 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
+        Shankhadev\Bsdate\BsdateServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -249,6 +250,7 @@ return [
 
         'PDF' => Barryvdh\DomPDF\Facade::class,
         // 'PDF' => Meneses\LaravelMpdf\Facades\LaravelMpdf::class
+        'Bsdate' => Shankhadev\Bsdate\BsdateFacade::class,
 
     ],
 

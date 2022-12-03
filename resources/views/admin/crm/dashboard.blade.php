@@ -39,110 +39,180 @@
     @endforeach
     </div>
     
-    <div class="col-md-12 mb-20" id="test">
-        <div class="card-box height-100-p pd-20" style="position: relative;">
+    <div class="col-md-12 mb-20">
+        <div class="card-box pd-20" style="position: relative;">
             <div class="d-flex flex-wrap justify-content-between align-items-center pb-0 pb-md-3">
-                <div class="form-group mb-md-0">
-                    <div class="table-responsive">
-                        <table class="table table-hover table-bordered table-sm" id="today">
-                            <thead>
-                                <tr>
-                                    <th class="bb-0 font-weight-bold fs--14 "> Customer Name</th>
-                                    <th class="bb-0 font-weight-bold fs--14 "> Last followup Date</th>
-                                    <th class="bb-0 font-weight-bold fs--14 "> Last followup User</th>
-                                    <th class="bb-0 font-weight-bold fs--14 "> Details of Last followup</th>
-                                    <th class="bb-0 font-weight-bold fs--14 ">Attachment View Option</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($data['today'] as $key => $row)
-                                <tr class="odd gradeX">
-                                    <td>{{ $row->application->borrower_name_en}}</td>
-                                    <td>{{ $row->created_at }}</td>
-                                    <td>
-                                    @if (!$loop->last)
-                                        {{ $value[$key]->user->name}}
-                                    @else
-                                        {{ $row->user->name }}
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered table-sm" id="today" style="display:block">
+                        <thead>
+                            <tr>
+                                <th class="bb-0 font-weight-bold fs--14 "> Customer Name</th>
+                                <th class="bb-0 font-weight-bold fs--14 "> Last followup Date</th>
+                                <th class="bb-0 font-weight-bold fs--14 "> Details of Last followup</th>
+                                <th class="bb-0 font-weight-bold fs--14 ">Attachment View Option</th>
+                                <th class="bb-0 font-weight-bold fs--14"> Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($data['today'] as $row)
+                                @foreach($row as $key => $value)
+                                    @if($key == 0) 
+                                        <tr>
+                                            <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $value->user->name }}</strong></td>
+                                        </tr>
                                     @endif
-                                    </td>
-                                    <td>{{ $row->description }}</td>
-                                    <td>
-                                    @if(!empty($row->document))
-                                        <a href="{{Storage::disk('local')->url($row->document)}}" target="_blank" rel="noopener noreferrer">View Document</a>
-                                    @endif
-                                    </td>
-                                </tr>
+                                    <tr class="odd gradeX">
+                                        <td>{{ $value->application->borrower_name_en}}</td>
+                                        <td>
+                                            @php
+                                                $year= $value->created_at->format('Y');
+                                                $month= $value->created_at->format('m');
+                                                $day= $value->created_at->format('d');
+                                                $date=Bsdate::eng_to_nep($year,$month,$day);
+                                                echo $date['date'].' '.$date['nmonth'].' '.$date['year']
+                                            @endphp  
+                                        </td>
+                                        <td>{{ $value->description }}</td>
+                                        <td>
+                                        @if(!empty($value->document))
+                                            <a href="{{Storage::disk('local')->url($value->document)}}" target="_blank" rel="noopener noreferrer">View Document</a>
+                                        @endif
+                                        </td>
+                                        <td>
+                                            @if ($loop->first)
+                                                <a type="button" href="{{ route('admin.task-activity.create.by.id', $value->id) }}"
+                                                    class="btn btn-icon-only btn-info btn-sm row-create-by-id fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                                    Create
+                                                </a>
+                                                <a type="button" href="{{ route('admin.task-activity.edit', $value->id) }}"
+                                                    class="btn btn-icon-only btn-info btn-sm row-edit fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                                    Edit
+                                                </a>
+                                                <a type="button" href="{{ route('admin.task-activity.postpond', $value->id) }}"
+                                                    class="btn btn-icon-only btn-info btn-sm row-postpone fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                                    Postpone
+                                                </a>       
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
                             @endforeach
-                            </tbody>
-                        </table>
+                        </tbody>
+                    </table>
 
-                        <table class="table table-hover table-bordered table-sm" id="thisweek" style="display:none">
-                            <thead>
-                                <tr>
-                                    <th class="bb-0 font-weight-bold fs--14 "> Customer Name</th>
-                                    <th class="bb-0 font-weight-bold fs--14 "> Last followup Date</th>
-                                    <th class="bb-0 font-weight-bold fs--14 "> Last followup User</th>
-                                    <th class="bb-0 font-weight-bold fs--14 "> Details of Last followup</th>
-                                    <th class="bb-0 font-weight-bold fs--14 ">Attachment View Option</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($data['thisweek'] as $key => $row)
-                                <tr class="odd gradeX">
-                                    <td>{{ $row->application->borrower_name_en}}</td>
-                                    <td>{{ $row->created_at }}</td>
-                                    <td>
-                                    @if (!$loop->last)
-                                        {{ $value[$key]->user->name}}
-                                    @else
-                                        {{ $row->user->name }}
+                    <table class="table table-hover table-bordered table-sm" id="thisweek" style="display:none">
+                        <thead>
+                            <tr>
+                                <th class="bb-0 font-weight-bold fs--14 "> Customer Name</th>
+                                <th class="bb-0 font-weight-bold fs--14 "> Last followup Date</th>
+                                <th class="bb-0 font-weight-bold fs--14 "> Details of Last followup</th>
+                                <th class="bb-0 font-weight-bold fs--14 ">Attachment View Option</th>
+                                <th class="bb-0 font-weight-bold fs--14"> Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($data['thisweek'] as $row)
+                                @foreach($row as $key => $value)
+                                    @if($key == 0) 
+                                        <tr>
+                                            <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $value->user->name }}</strong></td>
+                                        </tr>
                                     @endif
-                                    </td>
-                                    <td>{{ $row->description }}</td>
-                                    <td>
-                                    @if(!empty($row->document))
-                                        <a href="{{Storage::disk('local')->url($row->document)}}" target="_blank" rel="noopener noreferrer">View Document</a>
-                                    @endif
-                                    </td>
-                                </tr>
+                                    <tr class="odd gradeX">
+                                        <td>{{ $value->application->borrower_name_en}}</td>
+                                        <td>
+                                            @php
+                                                $year= $value->created_at->format('Y');
+                                                $month= $value->created_at->format('m');
+                                                $day= $value->created_at->format('d');
+                                                $date=Bsdate::eng_to_nep($year,$month,$day);
+                                                echo $date['date'].' '.$date['nmonth'].' '.$date['year']
+                                            @endphp 
+                                        </td>
+                                        <td>{{ $value->description }}</td>
+                                        <td>
+                                        @if(!empty($value->document))
+                                            <a href="{{Storage::disk('local')->url($value->document)}}" target="_blank" rel="noopener noreferrer">View Document</a>
+                                        @endif
+                                        </td>
+                                        <td>
+                                            @if ($loop->first)
+                                                <a type="button" href="{{ route('admin.task-activity.create.by.id', $value->id) }}"
+                                                    class="btn btn-icon-only btn-info btn-sm row-create-by-id fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                                    Create
+                                                </a>
+                                                <a type="button" href="{{ route('admin.task-activity.edit', $value->id) }}"
+                                                    class="btn btn-icon-only btn-info btn-sm row-edit fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                                    Edit
+                                                </a>
+                                                <a type="button" href="{{ route('admin.task-activity.postpond', $value->id) }}"
+                                                    class="btn btn-icon-only btn-info btn-sm row-postpone fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                                    Postpone
+                                                </a>       
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
                             @endforeach
-                            </tbody>
-                        </table>
+                        </tbody>
+                    </table>
 
-                        <table class="table table-hover table-bordered table-sm" id="currentmonth" style="display:none">
-                            <thead>
-                                <tr>
-                                    <th class="bb-0 font-weight-bold fs--14 "> Customer Name</th>
-                                    <th class="bb-0 font-weight-bold fs--14 "> Last followup Date</th>
-                                    <th class="bb-0 font-weight-bold fs--14 "> Last followup User</th>
-                                    <th class="bb-0 font-weight-bold fs--14 "> Details of Last followup</th>
-                                    <th class="bb-0 font-weight-bold fs--14 ">Attachment View Option</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($data['currentmonth'] as $key => $row)
-                                <tr class="odd gradeX">
-                                    <td>{{ $row->application->borrower_name_en}}</td>
-                                    <td>{{ $row->created_at }}</td>
-                                    <td>
-                                    @if (!$loop->last)
-                                        {{ $value[$key]->user->name}}
-                                    @else
-                                        {{ $row->user->name }}
+                    <table class="table table-hover table-bordered table-sm" id="currentmonth" style="display:none">
+                        <thead>
+                            <tr>
+                                <th class="bb-0 font-weight-bold fs--14 "> Customer Name</th>
+                                <th class="bb-0 font-weight-bold fs--14 "> Last followup Date</th>
+                                <th class="bb-0 font-weight-bold fs--14 "> Details of Last followup</th>
+                                <th class="bb-0 font-weight-bold fs--14 ">Attachment View Option</th>
+                                <th class="bb-0 font-weight-bold fs--14"> Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($data['currentmonth'] as $row)
+                                @foreach($row as $key => $value)
+                                    @if($key == 0) 
+                                        <tr>
+                                            <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $value->user->name }}</strong></td>
+                                        </tr>
                                     @endif
-                                    </td>
-                                    <td>{{ $row->description }}</td>
-                                    <td>
-                                    @if(!empty($row->document))
-                                        <a href="{{Storage::disk('local')->url($row->document)}}" target="_blank" rel="noopener noreferrer">View Document</a>
-                                    @endif
-                                    </td>
-                                </tr>
+                                    <tr class="odd gradeX">
+                                        <td>{{ $value->application->borrower_name_en}}</td>
+                                        <td>
+                                            @php
+                                                $year= $value->created_at->format('Y');
+                                                $month= $value->created_at->format('m');
+                                                $day= $value->created_at->format('d');
+                                                $date=Bsdate::eng_to_nep($year,$month,$day);
+                                                echo $date['date'].' '.$date['nmonth'].' '.$date['year']
+                                            @endphp 
+                                        </td>
+                                        <td>{{ $value->description }}</td>
+                                        <td>
+                                        @if(!empty($value->document))
+                                            <a href="{{Storage::disk('local')->url($value->document)}}" target="_blank" rel="noopener noreferrer">View Document</a>
+                                        @endif
+                                        </td>
+                                        <td>
+                                            @if ($loop->first)
+                                                <a type="button" href="{{ route('admin.task-activity.create.by.id', $value->id) }}"
+                                                    class="btn btn-icon-only btn-info btn-sm row-create-by-id fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                                    Create
+                                                </a>
+                                                <a type="button" href="{{ route('admin.task-activity.edit', $value->id) }}"
+                                                    class="btn btn-icon-only btn-info btn-sm row-edit fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                                    Edit
+                                                </a>
+                                                <a type="button" href="{{ route('admin.task-activity.postpond', $value->id) }}"
+                                                    class="btn btn-icon-only btn-info btn-sm row-postpone fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                                    Postpone
+                                                </a>       
+                                            @endif
+                                        </td>
+                                    </tr>
+                                @endforeach
                             @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

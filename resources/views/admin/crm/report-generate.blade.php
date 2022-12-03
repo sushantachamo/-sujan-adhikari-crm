@@ -162,6 +162,7 @@
                         </div>
                     </fieldset>
                 </form>
+                                            
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered table-sm">
                         <thead>
@@ -185,9 +186,20 @@
                                         </tr>
                                         @endif
                                         <tr class="odd gradeX">
-                                            <td>{{ $row->created_at }}</td>
+                                            <td>
+                                                @php
+                                                $year= $row->created_at->format('Y');
+                                                $month= $row->created_at->format('m');
+                                                $day= $row->created_at->format('d');
+                                                $date=Bsdate::eng_to_nep($year,$month,$day);
+                                                echo $date['date'].' '.$date['nmonth'].' '.$date['year']
+                                                @endphp    
                                             <td>{{ $row->application->borrower_name_en }}</td>
-                                            <td></td>
+                                            <td>
+                                                @if( $row->office_id) 
+                                                    {{$row->office->name_en}}
+                                                @endif
+                                            </td>
                                             <td>
                                                 @if(!empty($row->details))
                                                     {{ $row->application->borrower_name_en }}<br>

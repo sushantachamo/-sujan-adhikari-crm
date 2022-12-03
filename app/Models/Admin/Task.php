@@ -39,6 +39,8 @@ class Task extends Model
         'created_by',
         'updated_by',
         'user_id',
+        'office_id',
+        'order'
     ];
 
     /**
@@ -66,5 +68,10 @@ class Task extends Model
     public function userAssign()
     {
         return $this->hasOne(\App\Models\User::class, 'id', 'user_id');
+    }
+
+    public function office()
+    {
+        return $this->hasOne(\App\Models\Admin\Office::class, 'id', 'office_id');
     }
 }

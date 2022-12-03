@@ -10,6 +10,7 @@ Use App\Models\Admin\Application;
 use App\Models\User;
 use Carbon\Carbon;
 use Pratiksh\Nepalidate\Facades\NepaliDate;
+use Auth;
 
 class CrmController extends BaseController
 {
@@ -31,12 +32,25 @@ class CrmController extends BaseController
     {
         abort_unless(\Gate::allows('show-'.Str::lower($this->panel)), 403);
         $data = [];
-        $data['today'] = Task::WhereDate('follow_up_at_bs', NepaliDate::create(\Carbon\Carbon::now())->toBS())->get();
-        $data['thisweek'] = Task::whereBetween('follow_up_at_bs', [NepaliDate::create(\Carbon\Carbon::now()->startOfWeek())->toBS(), NepaliDate::create(\Carbon\Carbon::now()->endOfWeek())->toBS()])->get();
+
+        
+        $data['today'] = Task::WhereDate('follow_up_at_bs', NepaliDate::create(\Carbon\Carbon::now())->toBS());
+        $data['thisweek'] = Task::whereBetween('follow_up_at_bs', [NepaliDate::create(\Carbon\Carbon::now()->startOfWeek())->toBS(), NepaliDate::create(\Carbon\Carbon::now()->endOfWeek())->toBS()]);
         
         $month = explode("-",NepaliDate::create(\Carbon\Carbon::now())->toBS());
-        $data['currentmonth'] = Task::whereMonth('follow_up_at_bs', $month[1])->get();
+        $data['currentmonth'] = Task::whereMonth('follow_up_at_bs', $month[1]);
         
+        if(!Auth::user()->hasRole('super-admin'))
+        {
+            $data['today'] = $data['today']->where('user_id', Auth::user()->id);
+            $data['thisweek'] = $data['thisweek']->where('user_id', Auth::user()->id);
+            $data['currentmonth'] = $data['currentmonth']->where('user_id', Auth::user()->id);
+        }
+
+        $data['today'] = $data['today']->get()->groupBy('application_id');
+            $data['thisweek'] = $data['thisweek']->get()->groupBy('application_id');
+            $data['currentmonth'] = $data['currentmonth']->get()->groupBy('application_id');
+
         return view(parent::loadDefaultDataToView($this->view_path.'.dashboard'), compact('data'));
     }
 
@@ -53,6 +67,7 @@ class CrmController extends BaseController
         $endDate = $request->only('searchEndDate');
         $applicationId = $request->only('application_id');
         $userId = $request->only('user_id');
+
 
         $data['per_page'] = $request->per_page ? $request->per_page : 10;
         $data['rows'] = Task::where('status', true)
@@ -77,9 +92,14 @@ class CrmController extends BaseController
         }
         
         $data['request'] = $request->all();
-        $data['rows'] = $data['rows']->paginate($data['per_page'])->groupBy('user_id');
-        $result = Application::select('applications.application_id', 'applications.borrower_name', 'applications.borrower_name_en','applications.contact_number', 'applications.loan_type')->get();
 
+        if(!Auth::user()->hasRole('super-admin'))
+        {
+            $data['row'] = $data['row']->where('user_id', Auth::user()->id);
+        }
+        $data['rows'] = $data['rows']->orderBy('created_at', 'DESC')->paginate($data['per_page'])->groupBy('user_id');
+        $result = Application::select('applications.application_id', 'applications.borrower_name', 'applications.borrower_name_en','applications.contact_number', 'applications.loan_type')->get();
+        
         $data['applications'] = [
             "" => "SELECT"
         ];

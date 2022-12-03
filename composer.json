@@ -21,7 +21,8 @@
         "pratiksh/nepalidate": "^1.4",
         "spatie/laravel-backup": "^7.6",
         "spatie/laravel-permission": "^5.4",
-        "yajra/laravel-datatables": "^1.5"
+        "yajra/laravel-datatables": "^1.5",
+        "shankhadev/bsdate": "master-dev"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -74,11 +74,13 @@
                                 @foreach($value as $key => $row)
                                     <tr class="odd gradeX">
                                         <td class="center">
+                                        @if ($row->order)
                                             @can('update-'.Illuminate\Support\Str::lower($panel))
                                             <label>
                                                 <input type="checkbox" class="checkboxes" value="{{ $row->id }}"/>
                                             </label>
                                             @endcan
+                                        @endif
                                         </td>
                                         <td>{{ $row->application->borrower_name_en}}</td>
                                         <td>{{ $row->application->borrower_name}}</td>
@@ -99,7 +101,7 @@
                                         </td>
                                         <td>
                                         @can('update-'.Illuminate\Support\Str::lower($panel))
-                                            @if ($loop->first)
+                                            @if ($row->order)
                                                 <a type="button" href="{{ route($base_route.'.create.by.id', $row->id) }}"
                                                     class="btn btn-icon-only btn-info btn-sm row-create-by-id fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
                                                     Create

@@ -102,6 +102,7 @@ class LeadController extends BaseController
         $data['loanDetails'] = LoanDetails::where('application_id', '=', $id)->first();
         $data['userDetails'] = User::where('status', '=', 1 )->get();
         $data['leadDetails'] = $this->model->where('application_id', '=', $id)->first();
+        $data['activityLog'] = ActivityLog::select('users.name', 'activity_logs.action', )->where('activity_logs.panel_id', $id)->where('activity_logs.panel', 'task')->join('users', 'users.id', 'activity_logs.user_id')->orderBy('activity_logs.created_at', 'DESC')->get();
             
         if(!Auth::user()->hasRole('super-admin'))
         {

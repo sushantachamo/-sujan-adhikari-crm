@@ -323,8 +323,8 @@
                                 <div class="form-group" style="margin-bottom:0.5rem">
                                     <label for="suggestion_type" style="margin:0px"> FollowUp Date	</label> <span class="text-danger">*</span>
                                     <div class="input-group">
-                                        {!! Form::text('follow_up_at_bs', isset($data['row']['registered_at_bs'])?$data['row']['registered_at_bs']:(isset($rawApplicant)? $rawApplicant['registered_at_bs'] : null), ['placeholder' => config('fields.loan_details.registered_at.name_np'), 'class' => 'form-control form-control-sm nepalidate-picker masked', 'data-format' => '9999-99-99', 'data-placeholder' => '_', 'placeholder'=>'YYYY-MM-DD','id' => 'registered_at_bs']) !!}
-                                        {!! Form::text('follow_up_at', isset($data['row']['registered_at']) ? $data['row']['registered_at']->format('Y-m-d') : (isset($rawApplicant['registered_at'])? $rawApplicant['registered_at']->format('Y-m-d'):null), ['class' => 'hidden', 'style'=>'display:none', 'id' => 'registered_at']) !!}
+                                        {!! Form::text('follow_up_at_bs', isset($data['row']['registered_at_bs'])?$data['row']['registered_at_bs']:(isset($rawApplicant)? $rawApplicant['registered_at_bs'] : null), ['placeholder' => config('fields.loan_details.registered_at.name_np'), 'class' => 'form-control form-control-sm nepalidate-picker masked', 'data-format' => '9999-99-99', 'data-placeholder' => '_', 'placeholder'=>'YYYY-MM-DD','id' => 'follow_up_at_bs']) !!}
+                                        {!! Form::text('follow_up_at', isset($data['row']['registered_at']) ? $data['row']['registered_at']->format('Y-m-d') : (isset($rawApplicant['registered_at'])? $rawApplicant['registered_at']->format('Y-m-d'):null), ['class' => 'hidden', 'style'=>'display:none', 'id' => 'follow_up_at']) !!}
                                         <span class="input-group-btn">
                                             <button class="btn  btn-sm btn-danger" type="button" id="registered_at_clear"><i class="fi fi-close"></i></button>
                                         </span>
@@ -373,7 +373,27 @@
                     <div class="form-row form-gorup">
                         <div class="col-md-12">
                             <div class="form-group" style="margin-bottom:0.5rem">
-                                
+                                <ul class="list-group list-group-flush rounded slimscroll" data-slimscroll-visible="true" id="taskActivityLog">
+                                    @if(!empty($data['activityLog']))
+                                        @foreach($data['activityLog'] as $activitylog)
+                                        <li class="list-group-item pt-1 pb-1">
+                                            <div class="d-flex">
+                                                <div class="badge badge-{{ config('activitylog.action.'.$activitylog->action.'.color') }} badge-soft badge-ico-sm rounded-circle float-start">
+                                                    <i class="fi {{ config('activitylog.action.'.$activitylog->action.'.icon') }}"></i>
+                                                </div>
+                                                <div class="pl--12 pr--12">
+                                                    <p class="text-dark font-weight-medium m-0">
+                                                        {{ App\Models\User::where('id', $activitylog->user_id)->first()->name }} has {!! $activitylog->action !!} {{ $activitylog->panel }}.
+                                                    </p>
+                                                    <p class="m-0">
+                                                        {{ $activitylog->created_at->diffForHumans()}}
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        @endforeach
+                                    @endif
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -393,16 +413,17 @@
             $('.select_to').select2();
             customDatePicker('registered_at');
             /* Select your element */
-            var elm = document.getElementById("registered_at_bs");
+            var elm = document.getElementById("follow_up_at_bs");
             
             /* Initialize Datepicker with options */
             elm.nepaliDatePicker({
                 disableDaysBefore: 0,
                 onChange: function() {
-                    let changeDate = $('#registered_at_bs').val();
+                    let changeDate = $('#follow_up_at_bs').val();
                     let nepaliToday = NepaliFunctions.GetCurrentBsDate();
                     let newDate = NepaliFunctions.BsDatesDiff(changeDate, nepaliToday, 'YYYY-MM-DD')
                     $('#days').val(newDate);
+                    $('#follow_up_at').val(NepaliFunctions.BS2AD(changeDate));
                 }
             });
 
@@ -411,13 +432,12 @@
                 let days = $('#days').val();
                 date.setDate(date.getDate() + parseInt(days))
                 var currentdate = new Date(date).toJSON().slice(0,10);
-                $('#registered_at').val(currentdate);
+                $('#follow_up_at').val(currentdate);
                 // nepali date
                 let nepaliToday = NepaliFunctions.GetCurrentBsDate();
                 let newDate = NepaliFunctions.BsAddDays(nepaliToday, parseInt(days), 'YYYY-MM-DD')
                 newDate = newDate["year"]+"-"+pad2(newDate["month"])+"-"+pad2(newDate["day"]);
-                console.log(newDate);
-                $('#registered_at_bs').val(newDate);
+                $('#follow_up_at_bs').val(newDate);
             });
 
             function pad2(number) {
@@ -438,8 +458,28 @@
                         cache: false,
                         success: function (data)
                         {
-                            console.log(data);
                             $('#customerNameEn').val(data.customerDetails.borrower_name_en);
+
+                            if(data.activityLog) {
+                                let innerHtml = "";
+                                for(var i = 0; i < data.activityLog.length; i++) {
+                                    let icon = 'fi-check';
+                                    let color = 'success';
+                                    if(data.activityLog[i]['action'] == 'created') {
+                                        icon = 'fi-check';
+                                        color = 'success';
+                                    }
+                                    else if(data.activityLog[i]['action'] == 'updated') {
+                                        icon = 'fi-pencil';
+                                        color = 'info';
+                                    }
+                                    innerHtml += '<li class="list-group-item pt-1 pb-1"><div class="d-flex"><div class = "badge badge-'+ color +' badge-soft badge-ico-sm rounded-circle float-start"><i class="fi '+ icon +'"></i></div> <div class="pl--12 pr--12"> <p class="text-dark font-weight-medium m-0">'+ data.activityLog[i]['name'] + ' has ' + data.activityLog[i]['action'] +' task</p><p class="m-0">'+ 'time' +'</p></div></div></li>'; 
+                                    
+                                }
+                                console.log(data.activityLog);
+                                console.log(innerHtml);
+                                document.getElementById('taskActivityLog').innerHTML = innerHtml;
+                            }
 
                             if(data.guarantorDetails) {
                                 if(data.guarantorDetails.guarantor1_name) {

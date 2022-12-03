@@ -45,7 +45,10 @@ class TaskController extends BaseController
         $data = [];
         $data['per_page'] = $request->per_page ? $request->per_page : 10;
         $data['rows'] = $this->model->newQuery();
-
+        if(!Auth::user()->hasRole('super-admin'))
+        {
+            $data['row'] = $data['row']->where('user_id', Auth::user()->id);
+        }
         $data['rows'] = $data['rows']->where('status', true)->orderby('created_at', 'desc')->paginate($data['per_page']);
         $data['request'] = $request->all();
         $data['task'] = $data['rows']->groupBy('application_id');
@@ -65,6 +68,10 @@ class TaskController extends BaseController
 
         $result = [];
         $result['customerDetails'] = Application::rightjoin('leads', 'leads.application_id', 'applications.application_id');
+        if(!Auth::user()->hasRole('super-admin'))
+        {
+            $result['customerDetails'] = $result['customerDetails']->where('user_id', Auth::user()->id);
+        }
         $result['customerDetails'] = $result['customerDetails']->get();
         $taskType = [
             "" => "Select",
@@ -106,6 +113,8 @@ class TaskController extends BaseController
             return redirect()->route($this->base_route.'.index');
         }
 
+        $data['activityLog'] = ActivityLog::where('panel_id', $data['row']['application_id'])->where('panel', 'task')->orderBy('created_at', 'DESC')->get();
+
         $result = User::where('status', '=', 1 )->get();
         $taskType = [
             "" => "Select",
@@ -141,6 +150,16 @@ class TaskController extends BaseController
         DB::beginTransaction(); 
 
         $filePath = FALSE;
+
+        $result = $this->model->where('application_id', $taskCreateRequest->get('application_id'))->get();
+
+        if(!empty($result)) {
+            $data = [
+              'order' => false  
+            ];
+            Task::where('application_id', $taskCreateRequest->get('application_id'))->update($data);
+        }
+
         if ($taskCreateRequest->hasFile('document')) {
             $filePath = Storage::disk('local')->putFile('task-activity', $taskCreateRequest->file('document'));
             
@@ -169,6 +188,8 @@ class TaskController extends BaseController
             'follow_up_at' => $taskCreateRequest->get('follow_up_at'),
             'document' => $filePath,
             'created_by' => Auth::user()->id,
+            'office_id' => Auth::user()->office_id,
+            'order' => true,
             'user_id' => $taskCreateRequest->get('user_id') == null ? Auth::user()->id: $taskCreateRequest->get('user_id'),
         ]);
 

@@ -170,14 +170,33 @@
                         </div>
                     </fieldset>
                 </form>
-                                            
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered table-sm">
                         <thead>
                             <tr>
+                                @if(empty($data['request']))
+                                    <th class="bb-0 font-weight-bold fs--14 "> Branch Name</th>
+                                    <th class="bb-0 font-weight-bold fs--14 "> Assign User</th>
+                                    <th class="bb-0 font-weight-bold fs--14 "> Customer Name</th>
+                                @elseif(array_key_exists('branch_id', $data['request']) && array_key_exists('user_id', $data['request']) && array_key_exists('application_id', $data['request']))
+
+                                @elseif(array_key_exists('branch_id', $data['request']) && array_key_exists('user_id', $data['request']))
+                                    <th class="bb-0 font-weight-bold fs--14 "> Customer Name</th>
+                                @elseif(array_key_exists('branch_id', $data['request']) && array_key_exists('application_id', $data['request']))
+                                    <th class="bb-0 font-weight-bold fs--14 "> Assign User</th>
+                                @elseif(array_key_exists('user_id', $data['request']) && array_key_exists('application_id', $data['request']))
+                                    <th class="bb-0 font-weight-bold fs--14 "> Branch Name</th>
+                                @elseif(array_key_exists('branch_id', $data['request']))
+                                    <th class="bb-0 font-weight-bold fs--14 "> Assign User</th>
+                                    <th class="bb-0 font-weight-bold fs--14 "> Customer Name</th>
+                                @elseif(array_key_exists('user_id', $data['request']))
+                                    <th class="bb-0 font-weight-bold fs--14 "> Branch Name</th>
+                                    <th class="bb-0 font-weight-bold fs--14 "> Customer Name</th>
+                                @elseif(array_key_exists('application_id', $data['request']))
+                                    <th class="bb-0 font-weight-bold fs--14 "> Branch Name</th>
+                                    <th class="bb-0 font-weight-bold fs--14 "> Assign User</th>
+                                @endif
                                 <th class="bb-0 font-weight-bold fs--14 "> Date</th>
-                                <th class="bb-0 font-weight-bold fs--14 "> Customer Name</th>
-                                <th class="bb-0 font-weight-bold fs--14 "> Branch Name</th>
                                 <th class="bb-0 font-weight-bold fs--14 "> Contacted to</th>
                                 <th class="bb-0 font-weight-bold fs--14 "> Contacted value</th>
                                 <th class="bb-0 font-weight-bold fs--14 "> Details</th>
@@ -186,28 +205,28 @@
                         </thead>
                         <tbody id="item_list">
                             @if ($data['rows']->count() > 0)
-                                @foreach($data['rows'] as $key => $value)
-                                    @foreach($value as $key => $row)
-                                        @if($key==0)
+                                
+
+                                @if(empty($data['request']))
+                                    @foreach($data['rows'] as $row)
                                         <tr>
-                                            <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$row->userAssign->name}}</strong></td>
-                                        </tr>
-                                        @endif
-                                        <tr class="odd gradeX">
-                                            <td>
-                                                @php
-                                                $year= $row->created_at->format('Y');
-                                                $month= $row->created_at->format('m');
-                                                $day= $row->created_at->format('d');
-                                                $date=Bsdate::eng_to_nep($year,$month,$day);
-                                                echo $date['date'].' '.$date['nmonth'].' '.$date['year']
-                                                @endphp    
-                                            <td>{{ $row->application->borrower_name_en }}</td>
                                             <td>
                                                 @if( $row->office_id) 
                                                     {{$row->office->name_en}}
                                                 @endif
                                             </td>
+                                            <td>{{$row->userAssign->name}}</td>
+                                            <td>{{ $row->application->borrower_name_en }}</td>
+                                            <td>
+                                                @php
+                                                    $year= $row->created_at->format('Y');
+                                                    $month= $row->created_at->format('m');
+                                                    $day= $row->created_at->format('d');
+                                                    $date=Bsdate::eng_to_nep($year,$month,$day);
+                                                    echo $date['date'].' '.$date['nmonth'].' '.$date['year']
+                                                @endphp
+                                            </td>
+                                            
                                             <td>
                                                 @if(!empty($row->details))
                                                     {{ $row->application->borrower_name_en }}<br>
@@ -224,7 +243,6 @@
                                                 @if(!empty($row->details4))
                                                     {{ $row->guarantor4_name }}<br>
                                                 @endif
-                                                
                                             </td>
                                             <td>
                                                 @if(!empty($row->details))
@@ -244,11 +262,28 @@
                                                 @endif
                                             </td>
                                             <td>{{ $row->description }}</td>
-                                            <td>{{ $row->follow_up_at }} ({{ $row->follow_up_at_bs }}) </td>
+                                            <td>{{ $row->follow_up_at_bs }} </td>
                                         </tr>
                                     @endforeach
-                                    
-                                @endforeach
+                                @elseif(array_key_exists('branch_id', $data['request']) && array_key_exists('user_id', $data['request']) && array_key_exists('application_id', $data['request']))
+                                    @foreach($data['rows'] as $key => $row)
+                                        @if($key == 0)
+                                        <tr>
+                                            <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $row->office->name_en }} {{ $row->userAssign->name }} {{ $row->application->borrower_name_en }}</strong></td>
+                                        </tr>
+                                        @endif
+                                        <tr>
+                                            <td></td>
+                                        </tr>
+                                        
+                                    @endforeach
+                                @elseif(array_key_exists('branch_id', $data['request']) && array_key_exists('user_id', $data['request']))
+                                @elseif(array_key_exists('branch_id', $data['request']) && array_key_exists('application_id', $data['request']))
+                                @elseif(array_key_exists('user_id', $data['request']) && array_key_exists('application_id', $data['request']))
+                                @elseif(array_key_exists('branch_id', $data['request']))
+                                @elseif(array_key_exists('user_id', $data['request']))
+                                @elseif(array_key_exists('application_id', $data['request']))
+                                @endif
                             @else
                                 <tr>
                                     <td colspan="9">

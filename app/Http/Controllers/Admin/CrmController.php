@@ -66,9 +66,10 @@ class CrmController extends BaseController
         abort_unless(\Gate::allows('show-'.Str::lower($this->panel)), 403);
         $startDate = $request->only('searchStartDate');
         $endDate = $request->only('searchEndDate');
-        $applicationId = $request->only('application_id');
-        $userId = $request->only('user_id');
-        $branchId = $request->only('branch_id');
+        $applicationId = $request->only('application_id') != NULl ? $request->only('application_id') : NUll;
+        $userId = $request->only('user_id') != NULl ? $request->only('user_id') : NUll;
+        $branchId = $request->only('branch_id') != NULl ? $request->only('branch_id') : NULL;
+
 
         $data['per_page'] = $request->per_page ? $request->per_page : 10;
         $data['rows'] = Task::where('status', true)
@@ -102,7 +103,21 @@ class CrmController extends BaseController
         {
             $data['row'] = $data['row']->where('user_id', Auth::user()->id);
         }
-        $data['rows'] = $data['rows']->orderBy('created_at', 'DESC')->paginate($data['per_page'])->groupBy('user_id');
+        $data['rows'] = $data['rows']->orderBy('created_at', 'DESC')->paginate($data['per_page']);
+
+        if(empty($branchId['branch_id']) && !empty($userId['user_id']) && !empty($applicationId['application_id'])) {
+            $data['rows'] = $data['rows']->groupBy(['user_id', 'application_id', 'office_id']);
+        } 
+        else if(empty($branchId['branch_id']) && !empty($userId['user_id'])) {
+            $data['rows'] = $data['rows']->groupBy(['user_id', 'office_id']);
+        } 
+        else if(empty($branchId['branch_id']) && !empty($applicationId['application_id'])) {
+            $data['rows'] = $data['rows']->groupBy(['office_id', 'application_id']);
+        }
+        else if(empty($userId['user_id']) && !empty($applicationId['application_id'])) {
+            $data['rows'] = $data['rows']->groupBy(['user_id', 'application_id']);
+        }
+        
         $result = Application::select('applications.application_id', 'applications.borrower_name', 'applications.borrower_name_en','applications.contact_number', 'applications.loan_type')->get();
         
         $data['applications'] = [
@@ -141,7 +156,7 @@ class CrmController extends BaseController
             ];
             $data['offices'] = $data['offices']+ $array;
         }
-
+        
         return view(parent::loadDefaultDataToView($this->view_path.'.report-generate'), compact('data'));
 
     }

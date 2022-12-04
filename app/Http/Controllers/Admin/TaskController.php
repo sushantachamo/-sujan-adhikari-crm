@@ -76,8 +76,8 @@ class TaskController extends BaseController
         }
         $result['customerDetails'] = $result['customerDetails']->get();
         $taskType = [
-            "" => "Select",
-            "n/a" => "N/A",
+            "" => "N/A",
+            "sms" => "SMS",
             "phone" => "PHONE",
             "email" => "Email",
             "onsite-visit" => "Onsite VIsit",
@@ -119,8 +119,8 @@ class TaskController extends BaseController
 
         $result = User::where('status', '=', 1 )->get();
         $taskType = [
-            "" => "Select",
-            "n/a" => "N/A",
+            "" => "N/A",
+            "sms" => "SMS",
             "phone" => "PHONE",
             "email" => "Email",
             "onsite-visit" => "Onsite VIsit",
@@ -263,6 +263,7 @@ class TaskController extends BaseController
         $result = User::where('status', '=', 1 )->get();
         $taskType = [
             "" => "N/A",
+            "sms" => "SMS",
             "phone" => "PHONE",
             "email" => "Email",
             "onsite-visit" => "Onsite VIsit",

@@ -551,7 +551,7 @@
                 console.log(application_id);
                 let type = $('#type').val();
                 $('#details').val(null);
-                if(type == 'phone') {
+                if(type == 'phone' || type == 'sms') {
                     $.ajax({
                         url: '/admin/crm/getApplicationDetailsById/' + application_id,
                         type: "GET",
@@ -568,7 +568,7 @@
                 let application_id = $('#selectCustomer').val();
                 let type = $('#type1').val();
                 $('#details1').val(null);
-                if(type == 'phone') {
+                if(type == 'phone' || type == 'sms') {
                     $.ajax({
                         url: '/admin/crm/getApplicationDetailsById/' + application_id,
                         type: "GET",
@@ -584,7 +584,7 @@
                 let application_id = $('#selectCustomer').val();
                 let type = $('#type2').val();
                 $('#details2').val(null);
-                if(type == 'phone') {
+                if(type == 'phone' || type == 'sms') {
                     $.ajax({
                         url: '/admin/crm/getApplicationDetailsById/' + application_id,
                         type: "GET",
@@ -600,7 +600,7 @@
                 let application_id = $('#selectCustomer').val();
                 let type = $('#type3').val();
                 $('#details3').val(null);
-                if(type == 'phone') {
+                if(type == 'phone' || type == 'sms') {
                     $.ajax({
                         url: '/admin/crm/getApplicationDetailsById/' + application_id,
                         type: "GET",
@@ -616,7 +616,7 @@
                 let application_id = $('#selectCustomer').val();
                 let type = $('#type4').val();
                 $('#details4').val(null);
-                if(type == 'phone') {
+                if(type == 'phone' || type == 'sms') {
                     $.ajax({
                         url: '/admin/crm/getApplicationDetailsById/' + application_id,
                         type: "GET",

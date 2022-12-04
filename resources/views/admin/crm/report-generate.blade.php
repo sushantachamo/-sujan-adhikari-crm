@@ -142,8 +142,8 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="customer_name"> Branch	</label>
-                                    {!! Form::select('branch[]', isset($data['applications'])?$data['applications']:[], (isset($data['applications'])? $data['applications'] : null),
-                                        ['class' => 'form-control select_to customer_details', 'id' => 'branch', 'multiple' => 'multiple']) !!}
+                                    {!! Form::select('branch_id[]', isset($data['offices'])?$data['offices']:[], (isset($data['offices'])? $data['offices'] : null),
+                                        ['class' => 'form-control select_to customer_details', 'id' => 'branch_id', 'multiple' => 'multiple']) !!}
                                 </div>
                             </div>
 

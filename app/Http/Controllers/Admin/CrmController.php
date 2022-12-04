@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 Use App\Models\Admin\Task;
 Use App\Models\Admin\Application;
 use App\Models\User;
+use App\Models\Admin\Office;
 use Carbon\Carbon;
 use Pratiksh\Nepalidate\Facades\NepaliDate;
 use Auth;
@@ -67,7 +68,7 @@ class CrmController extends BaseController
         $endDate = $request->only('searchEndDate');
         $applicationId = $request->only('application_id');
         $userId = $request->only('user_id');
-
+        $branchId = $request->only('branch_id');
 
         $data['per_page'] = $request->per_page ? $request->per_page : 10;
         $data['rows'] = Task::where('status', true)
@@ -89,6 +90,10 @@ class CrmController extends BaseController
 
         if(!empty($applicationId['application_id'])) {
             $data['rows'] = $data['rows']->whereIn('tasks.application_id', $applicationId['application_id']);
+        }
+
+        if(!empty($branchId['branch_id'])) {
+            $data['rows'] = $data['rows']->whereIn('tasks.office_id', $branchId['branch_id']);
         }
         
         $data['request'] = $request->all();
@@ -122,6 +127,19 @@ class CrmController extends BaseController
                 $value->id => $value->name
             ];
             $data['users'] = $data['users']+ $array;
+        }
+
+        $result = Office::select('offices.id', 'offices.name_en', 'offices.name_np')->where('status', 1)->get();
+
+        $data['offices'] = [
+            "" => "SELECT"
+        ];
+
+        foreach ($result as $key => $value) {
+            $array = [
+                $value->id => $value->name_en.' /'.$value->name_np
+            ];
+            $data['offices'] = $data['offices']+ $array;
         }
 
         return view(parent::loadDefaultDataToView($this->view_path.'.report-generate'), compact('data'));

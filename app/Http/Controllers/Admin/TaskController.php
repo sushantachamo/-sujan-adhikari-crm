@@ -17,6 +17,7 @@ use App\Models\ActivityLog;
 use App\Helpers\Helper as Helper;
 use Illuminate\Support\Facades\Storage;
 use App\Libraries\HelperClass\ViewHelper;
+use Carbon\Carbon;
 
 class TaskController extends BaseController
 {
@@ -192,9 +193,37 @@ class TaskController extends BaseController
             'order' => true,
             'user_id' => $taskCreateRequest->get('user_id') == null ? Auth::user()->id: $taskCreateRequest->get('user_id'),
         ]);
+        $customerDetails = '';
+        $guarantorDetails1 = '';
+        $guarantorDetails2 = '';
+        $guarantorDetails3 = '';
+        $guarantorDetails4 = '';
+        $description = $taskCreateRequest->get('description');
+
+        if($taskCreateRequest->get('type')) {
+            $customerDetails = $taskCreateRequest->get('type').' to '. $taskCreateRequest->get('details'). ' <br>';
+        }
+
+        if($taskCreateRequest->get('type1')) {
+            $guarantorDetails1 = $taskCreateRequest->get('type1').' to '. $taskCreateRequest->get('details1'). ' <br>';
+        }
+
+        if($taskCreateRequest->get('type2')) {
+            $guarantorDetails2 = $taskCreateRequest->get('type2').' to '. $taskCreateRequest->get('details2'). ' <br>';
+        }
+
+        if($taskCreateRequest->get('type3')) {
+            $guarantorDetails3 = $taskCreateRequest->get('type3').' to '. $taskCreateRequest->get('details3'). ' <br>';
+        }
+
+        if($taskCreateRequest->get('type4')) {
+            $guarantorDetails4 = $taskCreateRequest->get('type4').' to '. $taskCreateRequest->get('details4'). ' <br>';
+        }
+
+        $message = 'user has created on '.Carbon::now()->format('Y-m-d'). $customerDetails . $guarantorDetails1 . $guarantorDetails2 . $guarantorDetails3 . $guarantorDetails4 . '<br> Details : '. $description;
 
         if(config('custom.activity_log') == true) {
-            ActivityLog::makeActivity('Add a new task :'.$this->panel .' <a href="' . route($this->base_route . '.show', $task_data->id) . '">' . $task_data->id . '</a>', $this->panel, $task_data->id, 'created');
+            ActivityLog::makeActivity($message, $this->panel, $task_data->application_id, 'created');
         }
             
         DB::commit();
@@ -223,10 +252,11 @@ class TaskController extends BaseController
             return redirect()->route($this->base_route.'.index');
         }
 
+        $data['activityLog'] = ActivityLog::where('panel_id', $data['row']['application_id'])->where('panel', 'task')->orderBy('created_at', 'DESC')->get();
+
         $result = User::where('status', '=', 1 )->get();
         $taskType = [
-            "" => "Select",
-            "n/a" => "N/A",
+            "" => "N/A",
             "phone" => "PHONE",
             "email" => "Email",
             "onsite-visit" => "Onsite VIsit",
@@ -298,9 +328,37 @@ class TaskController extends BaseController
 
         $this->model->find($id)->update($update_data);
 
+        $customerDetails = '';
+        $guarantorDetails1 = '';
+        $guarantorDetails2 = '';
+        $guarantorDetails3 = '';
+        $guarantorDetails4 = '';
+        $description = $taskUpdateRequest->get('description');
+
+        if($taskUpdateRequest->get('type')) {
+            $customerDetails = $taskUpdateRequest->get('type').' to '. $taskUpdateRequest->get('details'). ' <br>';
+        }
+
+        if($taskUpdateRequest->get('type1')) {
+            $guarantorDetails1 = $taskUpdateRequest->get('type1').' to '. $taskUpdateRequest->get('details1'). ' <br>';
+        }
+
+        if($taskUpdateRequest->get('type2')) {
+            $guarantorDetails2 = $taskUpdateRequest->get('type2').' to '. $taskUpdateRequest->get('details2'). ' <br>';
+        }
+
+        if($taskUpdateRequest->get('type3')) {
+            $guarantorDetails3 = $taskUpdateRequest->get('type3').' to '. $taskUpdateRequest->get('details3'). ' <br>';
+        }
+
+        if($taskUpdateRequest->get('type4')) {
+            $guarantorDetails4 = $taskUpdateRequest->get('type4').' to '. $taskUpdateRequest->get('details4'). ' <br>';
+        }
+
+        $message = 'user has updated on '.Carbon::now()->format('Y-m-d'). $customerDetails . $guarantorDetails1 . $guarantorDetails2 . $guarantorDetails3 . $guarantorDetails4 . '\n Details : '. $description;
 
         if(config('custom.activity_log') == true)
-            ActivityLog::makeActivity('update a '.$this->panel .' <a href="' . route($this->base_route . '.show', $id) . '">' . $id . '</a>', $this->panel, $id, 'updated');
+            ActivityLog::makeActivity($message, $this->panel, $taskUpdateRequest->application_id, 'updated');
         DB::commit();
 
         $taskUpdateRequest->session()->flash('success_message', $this->panel . ' updated successfully.');

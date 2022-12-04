@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/irnebjmy/public_html/sujan-adhikari-crm/
+    - /bin/cp * $DEPLOYPATH

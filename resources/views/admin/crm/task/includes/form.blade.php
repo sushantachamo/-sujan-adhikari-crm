@@ -383,7 +383,13 @@
                                                 </div>
                                                 <div class="pl--12 pr--12">
                                                     <p class="text-dark font-weight-medium m-0">
-                                                        {{ App\Models\User::where('id', $activitylog->user_id)->first()->name }} {{ $activitylog->message}}.
+                                                        {{ App\Models\User::where('id', $activitylog->user_id)->first()->name }} 
+                                                        @php 
+                                                            $message = explode('<br>', $activitylog->message)
+                                                        @endphp
+                                                        @foreach($message as $value)
+                                                            {{$value}}<br>
+                                                        @endforeach
                                                     </p>
                                                     <p class="m-0">
                                                         {{ $activitylog->created_at->diffForHumans()}}

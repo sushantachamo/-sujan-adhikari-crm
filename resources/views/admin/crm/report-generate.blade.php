@@ -264,7 +264,66 @@
                                         </tr>
                                     @endforeach
                                 @elseif(array_key_exists('branch_id', $data['request']) && array_key_exists('user_id', $data['request']) && array_key_exists('application_id', $data['request']))
-                                    
+                                    @foreach($data['rows'] as $values)
+                                        @foreach($values as $value)
+                                            @foreach($value as $key => $rows)
+                                                @foreach($rows as $key => $row)
+                                                    @if($key == 0)
+                                                        <tr>
+                                                            <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $row->office->name_en }}--{{ $row->userAssign->name }}--{{ $row->application->borrower_name_en }}</strong></td>
+                                                        </tr>
+                                                    @endif
+                                                    <tr>
+                                                        <td>
+                                                            @php
+                                                                $year= $row->created_at->format('Y');
+                                                                $month= $row->created_at->format('m');
+                                                                $day= $row->created_at->format('d');
+                                                                $date=Bsdate::eng_to_nep($year,$month,$day);
+                                                                echo $date['date'].' '.$date['nmonth'].' '.$date['year']
+                                                            @endphp
+                                                        </td>
+                                                        <td>
+                                                            @if(!empty($row->details))
+                                                                {{ $row->application->borrower_name_en }}<br>
+                                                            @endif
+                                                            @if(!empty($row->details1))
+                                                                {{ $row->guarantor1_name }}<br>
+                                                            @endif
+                                                            @if(!empty($row->details2))
+                                                                {{ $row->guarantor2_name }}<br>
+                                                            @endif
+                                                            @if(!empty($row->details3))
+                                                                {{ $row->guarantor13 }}<br>
+                                                            @endif
+                                                            @if(!empty($row->details4))
+                                                                {{ $row->guarantor4_name }}<br>
+                                                            @endif
+                                                        </td>
+                                                        <td>
+                                                            @if(!empty($row->details))
+                                                                {{ $row->details }}<br>
+                                                            @endif
+                                                            @if(!empty($row->details1))
+                                                                {{ $row->details1 }}<br>
+                                                            @endif
+                                                            @if(!empty($row->details2))
+                                                                {{ $row->details2 }}<br>
+                                                            @endif
+                                                            @if(!empty($row->details3))
+                                                                {{ $row->details3 }}<br>
+                                                            @endif
+                                                            @if(!empty($row->details4))
+                                                                {{ $row->details4 }}<br>
+                                                            @endif
+                                                        </td>
+                                                        <td>{{ $row->description }}</td>
+                                                        <td>{{ $row->follow_up_at_bs }} </td>
+                                                    </tr>
+                                                @endforeach
+                                            @endforeach
+                                        @endforeach
+                                    @endforeach
                                 @elseif(array_key_exists('branch_id', $data['request']) && array_key_exists('user_id', $data['request']))
                                     @foreach($data['rows'] as $value)
                                         @foreach($value as $key => $rows)
@@ -325,7 +384,6 @@
                                             @endforeach
                                         @endforeach
                                     @endforeach
-                            
                                 @elseif(array_key_exists('branch_id', $data['request']) && array_key_exists('application_id', $data['request']))
                                     @foreach($data['rows'] as $value)
                                         @foreach($value as $key => $rows)
@@ -447,7 +505,68 @@
                                         @endforeach
                                     @endforeach
                                 @elseif(array_key_exists('branch_id', $data['request']))
-                                    
+                                    @foreach($data['rows'] as $key => $value)
+                                        @foreach($value as $key => $row)
+                                            @if($key==0)
+                                            <tr>
+                                                <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$row->office->name_en}}</strong></td>
+                                            </tr>
+                                            @endif
+                                            <tr class="odd gradeX">
+                                                <td>
+                                                {{$row->userAssign->name}}
+                                                </td>
+                                                <td>{{ $row->application->borrower_name_en }}</td>
+                                                <td>
+                                                    @php
+                                                    $year= $row->created_at->format('Y');
+                                                    $month= $row->created_at->format('m');
+                                                    $day= $row->created_at->format('d');
+                                                    $date=Bsdate::eng_to_nep($year,$month,$day);
+                                                    echo $date['date'].' '.$date['nmonth'].' '.$date['year']
+                                                    @endphp    
+                                                </td>
+                                                <td>
+                                                    @if(!empty($row->details))
+                                                        {{ $row->application->borrower_name_en }}<br>
+                                                    @endif
+                                                    @if(!empty($row->details1))
+                                                        {{ $row->guarantor1_name }}<br>
+                                                    @endif
+                                                    @if(!empty($row->details2))
+                                                        {{ $row->guarantor2_name }}<br>
+                                                    @endif
+                                                    @if(!empty($row->details3))
+                                                        {{ $row->guarantor13 }}<br>
+                                                    @endif
+                                                    @if(!empty($row->details4))
+                                                        {{ $row->guarantor4_name }}<br>
+                                                    @endif
+                                                    
+                                                </td>
+                                                <td>
+                                                    @if(!empty($row->details))
+                                                        {{ $row->details }}<br>
+                                                    @endif
+                                                    @if(!empty($row->details1))
+                                                        {{ $row->details1 }}<br>
+                                                    @endif
+                                                    @if(!empty($row->details2))
+                                                        {{ $row->details2 }}<br>
+                                                    @endif
+                                                    @if(!empty($row->details3))
+                                                        {{ $row->details3 }}<br>
+                                                    @endif
+                                                    @if(!empty($row->details4))
+                                                        {{ $row->details4 }}<br>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $row->description }}</td>
+                                                <td>{{ $row->follow_up_at }} ({{ $row->follow_up_at_bs }}) </td>
+                                            </tr>
+                                            
+                                        @endforeach
+                                    @endforeach
                                 @elseif(array_key_exists('user_id', $data['request']))
                                     @foreach($data['rows'] as $key => $value)
                                         @foreach($value as $key => $row)
@@ -513,6 +632,69 @@
                                         @endforeach
                                     @endforeach
                                 @elseif(array_key_exists('application_id', $data['request']))
+                                    @foreach($data['rows'] as $key => $value)
+                                        @foreach($value as $key => $row)
+                                            @if($key==0)
+                                            <tr>
+                                                <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $row->application->borrower_name_en }}</strong></td>
+                                            </tr>
+                                            @endif
+                                            <tr class="odd gradeX">
+                                                <td>
+                                                    @if( $row->office_id) 
+                                                        {{$row->office->name_en}}
+                                                    @endif
+                                                </td>
+                                                <td>{{$row->userAssign->name}}</td>
+                                                <td>
+                                                    @php
+                                                    $year= $row->created_at->format('Y');
+                                                    $month= $row->created_at->format('m');
+                                                    $day= $row->created_at->format('d');
+                                                    $date=Bsdate::eng_to_nep($year,$month,$day);
+                                                    echo $date['date'].' '.$date['nmonth'].' '.$date['year']
+                                                    @endphp    
+                                                </td>
+                                                <td>
+                                                    @if(!empty($row->details))
+                                                        {{ $row->application->borrower_name_en }}<br>
+                                                    @endif
+                                                    @if(!empty($row->details1))
+                                                        {{ $row->guarantor1_name }}<br>
+                                                    @endif
+                                                    @if(!empty($row->details2))
+                                                        {{ $row->guarantor2_name }}<br>
+                                                    @endif
+                                                    @if(!empty($row->details3))
+                                                        {{ $row->guarantor13 }}<br>
+                                                    @endif
+                                                    @if(!empty($row->details4))
+                                                        {{ $row->guarantor4_name }}<br>
+                                                    @endif
+                                                    
+                                                </td>
+                                                <td>
+                                                    @if(!empty($row->details))
+                                                        {{ $row->details }}<br>
+                                                    @endif
+                                                    @if(!empty($row->details1))
+                                                        {{ $row->details1 }}<br>
+                                                    @endif
+                                                    @if(!empty($row->details2))
+                                                        {{ $row->details2 }}<br>
+                                                    @endif
+                                                    @if(!empty($row->details3))
+                                                        {{ $row->details3 }}<br>
+                                                    @endif
+                                                    @if(!empty($row->details4))
+                                                        {{ $row->details4 }}<br>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $row->description }}</td>
+                                                <td>{{ $row->follow_up_at }} ({{ $row->follow_up_at_bs }}) </td>
+                                            </tr>
+                                        @endforeach
+                                    @endforeach
                                 @endif
                             @else
                                 <tr>

@@ -74,6 +74,7 @@ class CrmController extends BaseController
         $data['per_page'] = $request->per_page ? $request->per_page : 10;
         $data['rows'] = Task::where('status', true)
             ->join('guarantor_details', 'guarantor_details.application_id', 'tasks.application_id');
+        
         if(!empty($startDate['searchStartDate']) && !empty($endDate['searchEndDate'])) {
             $data['rows'] = $data['rows']->whereBetween('tasks.follow_up_at', [$startDate['searchStartDate'], $endDate['searchEndDate']]);
             
@@ -117,11 +118,14 @@ class CrmController extends BaseController
         else if(!empty($userId['user_id']) && !empty($applicationId['application_id'])) {
             $data['rows'] = $data['rows']->groupBy(['user_id', 'application_id']);
         }
-        else if(!empty($userId['branch_id'])) {
-            $data['rows'] = $data['rows']->groupBy(['branch_id']);
+        else if(!empty($branchId['branch_id'])) {
+            $data['rows'] = $data['rows']->groupBy(['office_id']);
         }
         else if(!empty($userId['user_id'])) {
             $data['rows'] = $data['rows']->groupBy(['user_id']);
+        }
+        else if(!empty($applicationId['application_id'])) {
+            $data['rows'] = $data['rows']->groupBy(['application_id']);
         }
 
         

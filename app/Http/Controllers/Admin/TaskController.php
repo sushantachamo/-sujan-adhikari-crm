@@ -18,6 +18,7 @@ use App\Helpers\Helper as Helper;
 use Illuminate\Support\Facades\Storage;
 use App\Libraries\HelperClass\ViewHelper;
 use Carbon\Carbon;
+use Krishnahimself\DateConverter\DateConverter;
 
 class TaskController extends BaseController
 {
@@ -220,7 +221,12 @@ class TaskController extends BaseController
             $guarantorDetails4 = $taskCreateRequest->get('type4').' to '. $taskCreateRequest->get('details4'). ' <br>';
         }
 
-        $message = 'user has created on '.Carbon::now()->format('Y-m-d'). $customerDetails . $guarantorDetails1 . $guarantorDetails2 . $guarantorDetails3 . $guarantorDetails4 . '<br> Details : '. $description;
+        $year= Carbon::now()->format('Y');
+        $month= Carbon::now()->format('m');
+        $day= Carbon::now()->format('d');
+        $nepaliDate = DateConverter::fromEnglishDate($year, $month, $day)->toNepaliDate();
+
+        $message = 'user has created on '.$nepaliDate. '<br>' . $customerDetails . $guarantorDetails1 . $guarantorDetails2 . $guarantorDetails3 . $guarantorDetails4 . 'Details : '. $description;
 
         if(config('custom.activity_log') == true) {
             ActivityLog::makeActivity($message, $this->panel, $task_data->application_id, 'created');
@@ -355,7 +361,12 @@ class TaskController extends BaseController
             $guarantorDetails4 = $taskUpdateRequest->get('type4').' to '. $taskUpdateRequest->get('details4'). ' <br>';
         }
 
-        $message = 'user has updated on '.Carbon::now()->format('Y-m-d'). $customerDetails . $guarantorDetails1 . $guarantorDetails2 . $guarantorDetails3 . $guarantorDetails4 . '\n Details : '. $description;
+        $year= Carbon::now()->format('Y');
+        $month= Carbon::now()->format('m');
+        $day= Carbon::now()->format('d');
+        $nepaliDate = DateConverter::fromEnglishDate($year, $month, $day)->toNepaliDate();
+
+        $message = 'user has created on '.$nepaliDate. '<br>' . $customerDetails . $guarantorDetails1 . $guarantorDetails2 . $guarantorDetails3 . $guarantorDetails4 . 'Details : '. $description;
 
         if(config('custom.activity_log') == true)
             ActivityLog::makeActivity($message, $this->panel, $taskUpdateRequest->application_id, 'updated');

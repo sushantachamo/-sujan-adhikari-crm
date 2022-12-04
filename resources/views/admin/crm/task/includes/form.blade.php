@@ -473,7 +473,7 @@
                                         icon = 'fi-pencil';
                                         color = 'info';
                                     }
-                                    innerHtml += '<li class="list-group-item pt-1 pb-1"><div class="d-flex"><div class = "badge badge-'+ color +' badge-soft badge-ico-sm rounded-circle float-start"><i class="fi '+ icon +'"></i></div> <div class="pl--12 pr--12"> <p class="text-dark font-weight-medium m-0">'+ data.activityLog[i]['name'] +  data.activityLog[i]['message'] +' </p><p class="m-0">'+ 'time' +'</p></div></div></li>'; 
+                                    innerHtml += '<li class="list-group-item pt-1 pb-1"><div class="d-flex"><div class = "badge badge-'+ color +' badge-soft badge-ico-sm rounded-circle float-start"><i class="fi '+ icon +'"></i></div> <div class="pl--12 pr--12"> <p class="text-dark font-weight-medium m-0">'+ data.activityLog[i]['name'] +  data.activityLog[i]['message'] +' </p><p class="m-0"><br></p></div></div></li>'; 
                                     
                                 }
                                 console.log(data.activityLog);

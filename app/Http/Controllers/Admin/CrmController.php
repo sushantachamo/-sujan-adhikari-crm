@@ -105,18 +105,25 @@ class CrmController extends BaseController
         }
         $data['rows'] = $data['rows']->orderBy('created_at', 'DESC')->paginate($data['per_page']);
 
-        if(empty($branchId['branch_id']) && !empty($userId['user_id']) && !empty($applicationId['application_id'])) {
+        if(!empty($branchId['branch_id']) && !empty($userId['user_id']) && !empty($applicationId['application_id'])) {
             $data['rows'] = $data['rows']->groupBy(['user_id', 'application_id', 'office_id']);
         } 
-        else if(empty($branchId['branch_id']) && !empty($userId['user_id'])) {
+        else if(!empty($branchId['branch_id']) && !empty($userId['user_id'])) {
             $data['rows'] = $data['rows']->groupBy(['user_id', 'office_id']);
         } 
-        else if(empty($branchId['branch_id']) && !empty($applicationId['application_id'])) {
+        else if(!empty($branchId['branch_id']) && !empty($applicationId['application_id'])) {
             $data['rows'] = $data['rows']->groupBy(['office_id', 'application_id']);
         }
-        else if(empty($userId['user_id']) && !empty($applicationId['application_id'])) {
+        else if(!empty($userId['user_id']) && !empty($applicationId['application_id'])) {
             $data['rows'] = $data['rows']->groupBy(['user_id', 'application_id']);
         }
+        else if(!empty($userId['branch_id'])) {
+            $data['rows'] = $data['rows']->groupBy(['branch_id']);
+        }
+        else if(!empty($userId['user_id'])) {
+            $data['rows'] = $data['rows']->groupBy(['user_id']);
+        }
+
         
         $result = Application::select('applications.application_id', 'applications.borrower_name', 'applications.borrower_name_en','applications.contact_number', 'applications.loan_type')->get();
         

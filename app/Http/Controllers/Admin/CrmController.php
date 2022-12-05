@@ -155,7 +155,14 @@ class CrmController extends BaseController
             $data['users'] = $data['users']+ $array;
         }
 
-        $result = Office::select('offices.id', 'offices.name_en', 'offices.name_np')->where('status', 1)->get();
+        $result = Office::select('offices.id', 'offices.name_en', 'offices.name_np')->where('status', 1);
+
+        // if(!Auth::user()->hasRole('super-admin'))
+        // {
+        //     $result = $result->where('office_id', Auth::user()->office_id);
+        // }
+
+        $result = $result->get();
 
         $data['offices'] = [
             "" => "SELECT"

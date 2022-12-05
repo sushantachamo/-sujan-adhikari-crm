@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use App\Models\Admin\Task;
+use App\Models\Admin\Lead;
 use App\Models\Admin\Application;
 use App\Http\Requests\Admin\Task\TaskCreateRequest;
 use App\Http\Requests\Admin\Task\TaskUpdateRequest;
@@ -69,12 +70,14 @@ class TaskController extends BaseController
         abort_unless(\Gate::allows('create-'.Str::lower($this->panel)), 403);
 
         $result = [];
-        $result['customerDetails'] = Application::rightjoin('leads', 'leads.application_id', 'applications.application_id');
+
+        $result['customerDetails'] = Lead::join('applications', 'applications.application_id', 'leads.application_id');
         if(!Auth::user()->hasRole('super-admin'))
         {
-            $result['customerDetails'] = $result['customerDetails']->where('user_id', Auth::user()->id);
+            $result['customerDetails'] = $result['customerDetails']->where('leads.user_id', Auth::user()->id);
         }
         $result['customerDetails'] = $result['customerDetails']->get();
+
         $taskType = [
             "" => "N/A",
             "sms" => "SMS",

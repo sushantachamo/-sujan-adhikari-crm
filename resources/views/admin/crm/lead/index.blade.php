@@ -22,8 +22,8 @@
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             @foreach($bulk_action as $key => $value)
-                                @if($value == "Delete")
-                                    <a class="dropdown-item bulk_list" id="{{ $key }}">{{ $value == "Delete" ? "Lead Close" : $value }}</a>
+                                @if($key == "inactive")
+                                    <a class="dropdown-item bulk_list" id="{{ $key }}">{{ $value == "Inactive" ? "Lead Close" : $value }}</a>
                                 @endif
                             @endforeach
                         </div>
@@ -33,6 +33,18 @@
                             {!! Form::close() !!}
                     </div>
                 @endif
+
+                <div class="dropdown show float-left">
+                    <a class="btn border-info btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Action <i class="fi fi-arrow-down-full "></i>
+                    </a>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a href="{{ route($base_route.'.index') }}?status=true" class="dropdown-item" name="true">Active</a>
+                        <a href="{{ route($base_route.'.index') }}?status=false" class="dropdown-item" id="false">InActive</a>
+                    </div>
+                    
+                </div>
 
                 @can('create-'.Illuminate\Support\Str::lower($panel))
                     <a type="button" href="{{ route($base_route.'.create') }}"
@@ -83,19 +95,25 @@
                                     <td>{{$row->application->borrower_name_en}}</td>
                                     <td>{{$row->application->contact_number}}</td>
                                     <td>{{$row->application->b_t_tole}}</td>
-                                    <td>{{$row->follow_up_at_bs}} ({{$row->follow_up_at}})</td>
+                                    <td>{{$row->follow_up_at_bs}}</td>
                                     <td>{{$row->user->name}} </td>
                                     <td>
-                                        @can('update-'.Illuminate\Support\Str::lower($panel))
-                                        <a type="button" href="{{ route($base_route.'.edit', ['lead'=>$row->id, 'form-name'=>'lead_details']) }}"
-                                            class="btn btn-icon-only btn-info btn-sm row-edit fs--13" style="padding:0.2rem 0.75rem">
-                                            Edit
-                                        </a>
-                                        <a type="button" href="{{ route($base_route.'.delete', ['id'=>$row->id, 'form-name'=>'lead_details']) }}"
-                                            class="btn btn-icon-only btn-info btn-sm row-edit fs--13 " style="padding:0.2rem 0.75rem">
-                                            Lead Close
-                                        </a>
-                                        @endcan
+                                        @if($row->status)
+                                            @can('update-'.Illuminate\Support\Str::lower($panel))
+                                            <a type="button" href="{{ route($base_route.'.edit', ['lead'=>$row->id, 'form-name'=>'lead_details']) }}"
+                                                class="btn btn-icon-only btn-info btn-sm row-edit fs--13" style="padding:0.2rem 0.75rem">
+                                                Edit
+                                            </a>
+                                            <a type="button" href="{{ route($base_route.'.status', ['id'=>$row->id, 'form-name'=>'lead_details']) }}"
+                                                class="btn btn-icon-only btn-info btn-sm row-edit fs--13 " style="padding:0.2rem 0.75rem">
+                                                Lead Close
+                                            </a>
+                                            <a type="button" href="{{ route($base_route.'.delete', ['id'=>$row->id, 'form-name'=>'lead_details']) }}"
+                                                class="btn btn-icon-only btn-info btn-sm row-edit fs--13 " style="padding:0.2rem 0.75rem">
+                                                Delete
+                                            </a>
+                                            @endcan
+                                        @endif
                                 </td>
                                 </tr>
                             @endforeach

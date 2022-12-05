@@ -71,7 +71,7 @@ class TaskController extends BaseController
 
         $result = [];
 
-        $result['customerDetails'] = Lead::join('applications', 'applications.application_id', 'leads.application_id');
+        $result['customerDetails'] = Lead::join('applications', 'applications.application_id', 'leads.application_id')->where('leads.status' , true);
         if(!Auth::user()->hasRole('super-admin'))
         {
             $result['customerDetails'] = $result['customerDetails']->where('leads.user_id', Auth::user()->id);

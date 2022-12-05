@@ -71,6 +71,8 @@ Route::group(['prefix' => 'crm'], function () {
     Route::get('getApplicationDetailsById/{id?}', 'LeadController@getApplicationDetailsById');
     Route::post('lead/bulk-action', ['as' => 'lead.bulk-action', 'uses' => 'LeadController@bulkAction']);
     Route::get('lead/delete/{id}', ['as' => 'lead.delete', 'uses' => 'LeadController@destroy']);
+    Route::get('lead/status/{id}', ['as' => 'lead.status', 'uses' => 'LeadController@updateStatus']);
+
 
     Route::resource('task-activity', 'TaskController');
     Route::post('task-activity/bulk-action', ['as' => 'task-activity.bulk-action', 'uses' => 'TaskController@bulkAction']);

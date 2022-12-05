@@ -48,10 +48,13 @@ class LeadController extends BaseController
     {
         abort_unless(\Gate::allows('show-'.Str::lower($this->panel)), 403);
         $data = [];
+        
         $data['per_page'] = $request->per_page ? $request->per_page : 10;
-        $data['rows'] = $this->model->newQuery();
+        $data['status'] = isset($request->status) ? $request->status: "true";
+        $data['status'] = $data['status'] == "true" ? true : false;
 
-        $data['rows'] = $data['rows']->where('status', true)->orderby('created_at', 'desc')->paginate($data['per_page']);
+        $data['rows'] = $this->model->where('status', $data['status'])->orderby('created_at', 'desc')->paginate($data['per_page']);
+
         $data['request'] = $request->all();
 
         return view(parent::loadDefaultDataToView($this->view_path.'.index'), compact('data'));
@@ -250,5 +253,22 @@ class LeadController extends BaseController
         $this->model->where('id', $id)->delete();
 
         return redirect()->back()->with('success_message', $this->panel . ' delete successfully.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateStatus($id)
+    {
+        abort_unless(\Gate::allows('delete-'.Str::lower($this->panel)), 403);
+        $data = [
+            "status" => false
+        ];
+        $this->model->find($id)->update($data);
+
+        return redirect()->back()->with('success_message', $this->panel . ' Closed successfully.');
     }
 }

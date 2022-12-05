@@ -118,6 +118,11 @@
                                                 Delete
                                             </a>
                                             @endcan
+                                        @else
+                                            <a type="button" href="{{ route($base_route.'.status', ['id'=>$row->id, 'form-name'=>'lead_details']) }}"
+                                                class="btn btn-icon-only btn-info btn-sm row-edit fs--13 " style="padding:0.2rem 0.75rem">
+                                                Lead Open
+                                            </a>
                                         @endif
                                     </td>
                                 </tr>

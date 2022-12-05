@@ -276,11 +276,17 @@ class LeadController extends BaseController
     public function updateStatus($id)
     {
         abort_unless(\Gate::allows('delete-'.Str::lower($this->panel)), 403);
+
+        $result = $this->model->find($id);
+
         $data = [
-            "status" => false
+            "status" => $result->status ? false : true
         ];
+
         $this->model->find($id)->update($data);
 
-        return redirect()->back()->with('success_message', $this->panel . ' Closed successfully.');
+        $message = $result->status ? " Closed" : " Opened";
+
+        return redirect()->back()->with('success_message', $this->panel . $message .' successfully.');
     }
 }

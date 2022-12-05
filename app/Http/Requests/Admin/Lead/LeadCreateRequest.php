@@ -39,7 +39,7 @@ class LeadCreateRequest extends FormRequest
     public function messages()
     {
         return [
-            'application_id.unique' => 'Customer Lead has been already created!!',
+            'application_id.unique' => 'Customer Lead has been already created or inactive!!',
             'loan_account_number.required' => 'The Loan Account Number field is required',
             'follow_up_at_bs.required' => 'The Follow Up date field is required',
             'follow_up_at_bs.date' => 'The Follow Up date field must be in date',

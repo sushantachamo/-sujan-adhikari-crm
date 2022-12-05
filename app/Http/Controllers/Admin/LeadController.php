@@ -56,7 +56,7 @@ class LeadController extends BaseController
         $data['rows'] = $this->model->where('status', $data['status']);
         
         if(isset($request->search)) {
-            $result = DB::table('applications')->select('application_id')->where('borrower_name_en', 'like', '%'.$request->search.'%')->get();
+            $result = Application::select('application_id')->where('borrower_name_en', 'like', '%'.$request->search.'%')->get();
             $resultArray = [];
 
             foreach ($result as $key => $value) {

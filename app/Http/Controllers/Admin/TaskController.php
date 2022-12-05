@@ -48,14 +48,14 @@ class TaskController extends BaseController
         $data = [];
         $data['per_page'] = $request->per_page ? $request->per_page : 10;
         $data['rows'] = $this->model->newQuery();
-        
+
         if(!Auth::user()->hasRole('super-admin'))
         {
             $data['row'] = $data['row']->where('user_id', Auth::user()->id);
         }
 
         if(isset($request->search)) {
-            $result = DB::table('applications')->select('application_id')->where('borrower_name_en', 'like', '%'.$request->search.'%')->get();
+            $result = Application::select('application_id')->where('borrower_name_en', 'like', '%'.$request->search.'%')->get();
             $resultArray = [];
 
             foreach ($result as $key => $value) {
@@ -64,8 +64,18 @@ class TaskController extends BaseController
             $data['rows'] = $data['rows']->whereIn('application_id', $resultArray);
         }
 
+        $leadResult = Lead::select('application_id')->where('status', true)->get();
+        $leadResultArray = [];
+
+        foreach ($leadResult as $key => $value) {
+            array_push($leadResultArray, $value->application_id);
+        }
+        
+        $data['rows'] = $data['rows']->whereIn('application_id', $leadResultArray);
+
         $data['rows'] = $data['rows']->where('status', true)->orderby('created_at', 'desc')->paginate($data['per_page']);
         $data['request'] = $request->all();
+
         $data['task'] = $data['rows']->groupBy('application_id');
 
         return view(parent::loadDefaultDataToView($this->view_path.'.index'), compact('data'));

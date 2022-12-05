@@ -52,8 +52,20 @@ class LeadController extends BaseController
         $data['per_page'] = $request->per_page ? $request->per_page : 10;
         $data['status'] = isset($request->status) ? $request->status: "true";
         $data['status'] = $data['status'] == "true" ? true : false;
+        
+        $data['rows'] = $this->model->where('status', $data['status']);
+        
+        if(isset($request->search)) {
+            $result = DB::table('applications')->select('application_id')->where('borrower_name_en', 'like', '%'.$request->search.'%')->get();
+            $resultArray = [];
 
-        $data['rows'] = $this->model->where('status', $data['status'])->orderby('created_at', 'desc')->paginate($data['per_page']);
+            foreach ($result as $key => $value) {
+                array_push($resultArray, $value->application_id);
+            }
+            $data['rows'] = $data['rows']->whereIn('application_id', $resultArray);
+        }
+
+        $data['rows'] = $data['rows']->orderby('created_at', 'desc')->paginate($data['per_page']);
 
         $data['request'] = $request->all();
 

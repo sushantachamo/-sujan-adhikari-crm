@@ -46,6 +46,10 @@
                     
                 </div>
 
+                <div class="dropdown show float-right">
+                    <label>Search:<input type="search" class="form-control form-control-sm" placeholder="Search Customer" id="leadCustomerSearch"></label>
+                </div>
+
                 @can('create-'.Illuminate\Support\Str::lower($panel))
                     <a type="button" href="{{ route($base_route.'.create') }}"
                         class="btn btn-success btn-sm ">
@@ -66,6 +70,7 @@
                         </div>
                     </div>
                 @endif 
+                
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered table-sm">
                         <thead>
@@ -114,7 +119,7 @@
                                             </a>
                                             @endcan
                                         @endif
-                                </td>
+                                    </td>
                                 </tr>
                             @endforeach
                         @else
@@ -133,4 +138,14 @@
 @endsection
 
 @section('js_scripts')
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#leadCustomerSearch").on('keyup', function (e) {
+                if (e.key === 'Enter' || e.keyCode === 13) {
+                   let url = window.location.origin + "/admin/crm/lead?search=" + this.value ;
+                    location.replace(url);
+                }
+            });
+        });
+    </script>
 @endsection

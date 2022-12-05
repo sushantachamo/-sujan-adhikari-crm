@@ -25,7 +25,7 @@ class TaskController extends BaseController
     protected $model;
     protected $base_route = 'admin.task-activity';
     protected $view_path = 'admin.crm.task';
-    protected $panel = 'task';
+    protected $panel = 'Task';
     protected $image_name = null;
     protected $folder;
     protected $folder_path;

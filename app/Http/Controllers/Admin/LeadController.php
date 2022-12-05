@@ -28,7 +28,7 @@ class LeadController extends BaseController
     protected $model;
     protected $base_route = 'admin.lead';
     protected $view_path = 'admin.crm.lead';
-    protected $panel = 'lead';
+    protected $panel = 'Lead';
     protected $image_name = null;
     protected $folder;
     protected $folder_path;

@@ -84,7 +84,15 @@
                                         </td>
                                         <td>{{ $row->application->borrower_name_en}}</td>
                                         <td>{{ $row->application->borrower_name}}</td>
-                                        <td>{{ $row->created_at }}</td>
+                                        <td>
+                                            @php
+                                                $year= $row->created_at->format('Y');
+                                                $month= $row->created_at->format('m');
+                                                $day= $row->created_at->format('d');
+                                                $date=Bsdate::eng_to_nep($year,$month,$day);
+                                                echo $date['date'].' '.$date['nmonth'].' '.$date['year']
+                                            @endphp 
+                                        </td>
                                         
                                         <td>
                                             @if (!$loop->last)

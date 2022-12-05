@@ -309,7 +309,7 @@
                     </fieldset>
                     <!-- Others Details -->
                     <fieldset class="scheduler-border">
-                        <legend class="scheduler-border" style="margin-bottom:0.5rem">Others Details</legend>
+                        <legend class="scheduler-border" style="margin-bottom:0.5rem">Next Follow Up Details</legend>
                         <div class="form-row form-gorup">
                             <div class="col-md-3">
                                 <div class="form-group" style="margin-bottom:0.5rem">

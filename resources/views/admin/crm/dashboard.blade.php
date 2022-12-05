@@ -43,7 +43,7 @@
         <div class="card-box pd-20" style="position: relative;">
             <div class="d-flex flex-wrap justify-content-between align-items-center pb-0 pb-md-3">
                 <div class="table-responsive">
-                    <table class="table table-hover table-bordered table-sm" id="today" style="display:block">
+                    <table class="table table-hover table-bordered table-sm" id="today" style="display:">
                         <thead>
                             <tr>
                                 <th class="bb-0 font-weight-bold fs--14 "> Customer Name</th>
@@ -51,46 +51,48 @@
                                 <th class="bb-0 font-weight-bold fs--14 "> Details of Last followup</th>
                                 <th class="bb-0 font-weight-bold fs--14 ">Attachment View</th>
                                 <th class="bb-0 font-weight-bold fs--14 ">Assign User</th>
+                                <th class="bb-0 font-weight-bold fs--14 "> Next followup Date</th>
                                 <th class="bb-0 font-weight-bold fs--14"> Action</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach($data['today'] as $value)
-                                    <tr class="odd gradeX">
-                                        <td>{{ $value->application->borrower_name_en}}</td>
-                                        <td>
-                                            @php
-                                                $year= $value->created_at->format('Y');
-                                                $month= $value->created_at->format('m');
-                                                $day= $value->created_at->format('d');
-                                                $date=Bsdate::eng_to_nep($year,$month,$day);
-                                                echo $date['date'].' '.$date['nmonth'].' '.$date['year']
-                                            @endphp  
-                                        </td>
-                                        <td>{{ $value->description }}</td>
-                                        <td>
-                                        @if(!empty($value->document))
-                                            <a href="{{Storage::disk('local')->url($value->document)}}" target="_blank" rel="noopener noreferrer">View Document</a>
+                                <tr class="odd gradeX">
+                                    <td>{{ $value->application->borrower_name_en}}</td>
+                                    <td>
+                                        @php
+                                            $year= $value->created_at->format('Y');
+                                            $month= $value->created_at->format('m');
+                                            $day= $value->created_at->format('d');
+                                            $date=Bsdate::eng_to_nep($year,$month,$day);
+                                            echo $date['date'].' '.$date['nmonth'].' '.$date['year']
+                                        @endphp  
+                                    </td>
+                                    <td>{{ $value->description }}</td>
+                                    <td>
+                                    @if(!empty($value->document))
+                                        <a href="{{Storage::disk('local')->url($value->document)}}" target="_blank" rel="noopener noreferrer">View Document</a>
+                                    @endif
+                                    </td>
+                                    <td>{{ $value->user->name }}</td>
+                                    <td>{{ $value->follow_up_at_bs }}</td>
+                                    <td>
+                                        @if ($value->order)
+                                            <a type="button" href="{{ route('admin.task-activity.create.by.id', $value->id) }}"
+                                                class="btn btn-icon-only btn-info btn-sm row-create-by-id fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                                Create
+                                            </a>
+                                            <a type="button" href="{{ route('admin.task-activity.edit', $value->id) }}"
+                                                class="btn btn-icon-only btn-info btn-sm row-edit fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                                Edit
+                                            </a>
+                                            <a type="button" href="{{ route('admin.task-activity.postpond', $value->id) }}"
+                                                class="btn btn-icon-only btn-info btn-sm row-postpone fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                                Postpone
+                                            </a>       
                                         @endif
-                                        </td>
-                                        <td>{{ $value->user->name }}</td>
-                                        <td>
-                                            @if ($loop->first)
-                                                <a type="button" href="{{ route('admin.task-activity.create.by.id', $value->id) }}"
-                                                    class="btn btn-icon-only btn-info btn-sm row-create-by-id fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
-                                                    Create
-                                                </a>
-                                                <a type="button" href="{{ route('admin.task-activity.edit', $value->id) }}"
-                                                    class="btn btn-icon-only btn-info btn-sm row-edit fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
-                                                    Edit
-                                                </a>
-                                                <a type="button" href="{{ route('admin.task-activity.postpond', $value->id) }}"
-                                                    class="btn btn-icon-only btn-info btn-sm row-postpone fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
-                                                    Postpone
-                                                </a>       
-                                            @endif
-                                        </td>
-                                    </tr>
+                                    </td>
+                                </tr>
                             @endforeach
                         </tbody>
                     </table>
@@ -103,6 +105,7 @@
                                 <th class="bb-0 font-weight-bold fs--14 "> Details of Last followup</th>
                                 <th class="bb-0 font-weight-bold fs--14 ">Attachment View</th>
                                 <th class="bb-0 font-weight-bold fs--14 ">Assign User</th>
+                                <th class="bb-0 font-weight-bold fs--14 "> Next followup Date</th>
                                 <th class="bb-0 font-weight-bold fs--14"> Action</th>
                             </tr>
                         </thead>
@@ -126,8 +129,9 @@
                                     @endif
                                     </td>
                                     <td>{{ $value->user->name }}</td>
+                                    <td>{{ $value->follow_up_at_bs }}</td>
                                     <td>
-                                        @if ($loop->first)
+                                        @if ($value->order)
                                             <a type="button" href="{{ route('admin.task-activity.create.by.id', $value->id) }}"
                                                 class="btn btn-icon-only btn-info btn-sm row-create-by-id fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
                                                 Create
@@ -155,6 +159,7 @@
                                 <th class="bb-0 font-weight-bold fs--14 "> Details of Last followup</th>
                                 <th class="bb-0 font-weight-bold fs--14 ">Attachment View</th>
                                 <th class="bb-0 font-weight-bold fs--14 ">Assign User</th>
+                                <th class="bb-0 font-weight-bold fs--14 "> Next followup Date</th>
                                 <th class="bb-0 font-weight-bold fs--14"> Action</th>
                             </tr>
                         </thead>
@@ -178,8 +183,9 @@
                                     @endif
                                     </td>
                                     <td>{{ $value->user->name }}</td>
+                                    <td>{{ $value->follow_up_at_bs }}</td>
                                     <td>
-                                        @if ($loop->first)
+                                        @if ($value->order)
                                             <a type="button" href="{{ route('admin.task-activity.create.by.id', $value->id) }}"
                                                 class="btn btn-icon-only btn-info btn-sm row-create-by-id fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
                                                 Create

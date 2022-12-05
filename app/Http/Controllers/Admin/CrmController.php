@@ -48,9 +48,9 @@ class CrmController extends BaseController
             $data['currentmonth'] = $data['currentmonth']->where('user_id', Auth::user()->id);
         }
 
-        $data['today'] = $data['today']->get();
-            $data['thisweek'] = $data['thisweek']->get();
-            $data['currentmonth'] = $data['currentmonth']->get();
+        $data['today'] = $data['today']->where('order', true)->get();
+        $data['thisweek'] = $data['thisweek']->where('order', true)->get();
+        $data['currentmonth'] = $data['currentmonth']->where('order', true)->get();
 
         return view(parent::loadDefaultDataToView($this->view_path.'.dashboard'), compact('data'));
     }

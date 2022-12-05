@@ -41,6 +41,8 @@
                     </a>
                 @endcan
 
+                
+
                 @if($data['rows']->total() > $data['per_page'])
                     <div class="dropdown show float-right">
                         <a class="btn border-info btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -54,6 +56,10 @@
                         </div>
                     </div>
                 @endif 
+
+                <div class="dropdown show float-right" style="margin-right: 20px">
+                    <label>Search:<input type="search" class="form-control form-control-sm" placeholder="Search Customer" id="taskCustomerSearch"></label>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered table-sm">
                         <thead>
@@ -145,4 +151,14 @@
 @endsection
 
 @section('js_scripts')
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#taskCustomerSearch").on('keyup', function (e) {
+                if (e.key === 'Enter' || e.keyCode === 13) {
+                   let url = window.location.origin + "/admin/crm/task-activity?search=" + this.value ;
+                    location.replace(url);
+                }
+            });
+        });
+    </script>
 @endsection

@@ -170,7 +170,10 @@
                         </div>
                     </fieldset>
                 </form>
+
                 <a type="button" id="printBtn" class="btn btn-sm btn-custom text-white  float-right"> <i class="fi fi-print"></i></a>
+                <div class="col-md-4 text-right"> <button id="exporttable" class="btn btn-primary">Export</button> </div>
+
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered table-sm" id= "task_reportgenerate_table">
                         <thead>
@@ -719,6 +722,24 @@
             $('.select_to').select2();
             customDatePicker('searchStartDate');
             customDatePicker('searchEndDate');
+
+            $("#exporttable").click(function(e){
+                console.log("asd");
+                var table = $("#task_reportgenerate_table");
+                if(table && table.length){
+                    $(table).table2excel({
+                    exclude: ".noExl",
+                    name: "Excel Document Name",
+                    filename: "BBBootstrap" + new Date().toISOString().replace(/[\-\:\.]/g, "") + ".xls",
+                    fileext: ".xlsl",
+                    exclude_img: true,
+                    exclude_links: true,
+                    exclude_inputs: true,
+                    preserveColors: false
+                    });
+                }
+            });
         });
     </script>
+    <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/jquery.table2excel.min.js"></script>
 @endsection

@@ -170,8 +170,9 @@
                         </div>
                     </fieldset>
                 </form>
+                <a type="button" id="printBtn" class="btn btn-sm btn-custom text-white  float-right"> <i class="fi fi-print"></i></a>
                 <div class="table-responsive">
-                    <table class="table table-hover table-bordered table-sm">
+                    <table class="table table-hover table-bordered table-sm" id= "task_reportgenerate_table">
                         <thead>
                             <tr>
                                 @if(empty($data['request']))
@@ -721,8 +722,3 @@
         });
     </script>
 @endsection
-
-
-
-
-    

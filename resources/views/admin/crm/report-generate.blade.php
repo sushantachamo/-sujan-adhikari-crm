@@ -730,7 +730,7 @@
                     $(table).table2excel({
                     exclude: ".noExl",
                     name: "Excel Document Name",
-                    filename: "BBBootstrap" + new Date().toISOString().replace(/[\-\:\.]/g, "") + ".xls",
+                    filename: "Report Genarate " + new Date().toISOString().replace(/[\-\:\.]/g, "") + ".xls",
                     fileext: ".xls",
                     exclude_img: true,
                     exclude_links: true,

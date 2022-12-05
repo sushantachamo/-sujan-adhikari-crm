@@ -270,7 +270,7 @@
                                                 @foreach($rows as $key => $row)
                                                     @if($key == 0)
                                                         <tr>
-                                                            <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $row->office->name_en }}--{{ $row->userAssign->name }}--{{ $row->application->borrower_name_en }}</strong></td>
+                                                            <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $row->office->name_en }} -- {{ $row->application->borrower_name_en }} -- {{ $row->userAssign->name }}</strong></td>
                                                         </tr>
                                                     @endif
                                                     <tr>
@@ -330,7 +330,7 @@
                                             @foreach($rows as $key => $row)
                                                 @if($key == 0)
                                                     <tr>
-                                                        <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $row->office->name_en }} {{ $row->userAssign->name }}</strong></td>
+                                                        <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $row->office->name_en }} -- {{ $row->userAssign->name }}</strong></td>
                                                     </tr>
                                                 @endif
                                                 <tr>
@@ -390,7 +390,7 @@
                                             @foreach($rows as $key => $row)
                                                 @if($key == 0)
                                                     <tr>
-                                                        <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $row->office->name_en }} {{ $row->application->borrower_name_en }}</strong></td>
+                                                        <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $row->office->name_en }} -- {{ $row->application->borrower_name_en }}</strong></td>
                                                     </tr>
                                                 @endif
                                                 <tr>
@@ -450,7 +450,7 @@
                                             @foreach($rows as $key => $row)
                                                 @if($key == 0)
                                                     <tr>
-                                                        <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $row->userAssign->name }} {{ $row->application->borrower_name_en }}</strong></td>
+                                                        <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $row->userAssign->name }} -- {{ $row->application->borrower_name_en }}</strong></td>
                                                     </tr>
                                                 @endif
                                                 <tr>

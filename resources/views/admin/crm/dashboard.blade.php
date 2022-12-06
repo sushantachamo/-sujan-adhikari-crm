@@ -77,7 +77,7 @@
                                     <td>{{ $value->user->name }}</td>
                                     <td>{{ $value->follow_up_at_bs }}</td>
                                     <td>
-                                        @if ($value->order)
+                                        @if ($value->order && $value->status)
                                             <a type="button" href="{{ route('admin.task-activity.create.by.id', $value->id) }}"
                                                 class="btn btn-icon-only btn-info btn-sm row-create-by-id fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
                                                 Create
@@ -131,7 +131,7 @@
                                     <td>{{ $value->user->name }}</td>
                                     <td>{{ $value->follow_up_at_bs }}</td>
                                     <td>
-                                        @if ($value->order)
+                                        @if ($value->order && $value->status)
                                             <a type="button" href="{{ route('admin.task-activity.create.by.id', $value->id) }}"
                                                 class="btn btn-icon-only btn-info btn-sm row-create-by-id fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
                                                 Create
@@ -185,7 +185,7 @@
                                     <td>{{ $value->user->name }}</td>
                                     <td>{{ $value->follow_up_at_bs }}</td>
                                     <td>
-                                        @if ($value->order)
+                                        @if ($value->order && $value->status)
                                             <a type="button" href="{{ route('admin.task-activity.create.by.id', $value->id) }}"
                                                 class="btn btn-icon-only btn-info btn-sm row-create-by-id fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
                                                 Create

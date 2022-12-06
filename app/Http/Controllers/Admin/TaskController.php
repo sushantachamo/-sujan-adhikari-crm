@@ -70,15 +70,7 @@ class TaskController extends BaseController
             $data['rows'] = $data['rows']->where('tasks.description', 'LIKE', '%'.$request->search.'%');
             
         }
-
-        // $leadResult = Lead::select('application_id')->where('status', true)->get();
-        // $leadResultArray = [];
-
-        // foreach ($leadResult as $key => $value) {
-        //     array_push($leadResultArray, $value->application_id);
-        // }
         
-        // $data['rows'] = $data['rows']->whereIn('application_id', $leadResultArray);
         $data['rows'] = $data['rows']->join('leads', 'leads.application_id', 'tasks.application_id')->where('leads.deleted_at', null );
         $data['rows'] = $data['rows']->where('tasks.status', true)->orderby('tasks.created_at', 'desc')
         ->paginate($data['per_page']);

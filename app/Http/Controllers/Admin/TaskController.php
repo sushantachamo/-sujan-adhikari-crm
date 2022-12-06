@@ -50,7 +50,7 @@ class TaskController extends BaseController
         $data['per_page'] = $request->per_page ? $request->per_page : 10;
         $data['rows'] = $this->model->newQuery();
 
-        $data['rows'] = $data['rows']->select('tasks.id', 'tasks.document', 'tasks.description', 'tasks.user_id', 'tasks.application_id', 'tasks.created_at', 'tasks.order', 'tasks.created_by', 'leads.status');
+        $data['rows'] = $data['rows']->select('tasks.id', 'tasks.document', 'tasks.description', 'tasks.user_id', 'tasks.application_id', 'tasks.created_at', 'tasks.order', 'tasks.created_by', 'leads.status', 'leads.loan_account_number');
 
         if(!Auth::user()->hasRole('super-admin'))
         {
@@ -70,7 +70,7 @@ class TaskController extends BaseController
             $data['rows'] = $data['rows']->where('tasks.description', 'LIKE', '%'.$request->search.'%');
             
         }
-        
+
         $data['rows'] = $data['rows']->join('leads', 'leads.application_id', 'tasks.application_id')->where('leads.deleted_at', null );
         $data['rows'] = $data['rows']->where('tasks.status', true)->orderby('tasks.created_at', 'desc')
         ->paginate($data['per_page']);

@@ -89,7 +89,7 @@
                                         @endif
                                         </td>
                                         <td>{{ $row->application->borrower_name_en}}</td>
-                                        <td>{{ $row->application->borrower_name}}</td>
+                                        <td>{{ $row->loan_account_number}}</td>
                                         <td>
                                             @php
                                                 $year= $row->created_at->format('Y');

@@ -62,7 +62,11 @@ class TaskController extends BaseController
             foreach ($result as $key => $value) {
                 array_push($resultArray, $value->application_id);
             }
-            $data['rows'] = $data['rows']->whereIn('application_id', $resultArray);
+            if(!empty($resultArray)) {
+                $data['rows'] = $data['rows']->whereIn('application_id', $resultArray);
+            }
+            $data['rows'] = $data['rows']->where('description', 'LIKE', '%'.$request->search.'%');
+            
         }
 
         $leadResult = Lead::select('application_id')->where('status', true)->get();

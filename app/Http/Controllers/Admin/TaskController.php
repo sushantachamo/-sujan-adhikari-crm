@@ -116,7 +116,7 @@ class TaskController extends BaseController
 
         foreach ($result['customerDetails'] as $key => $value) {
             $array = [
-                $value->application_id => $value->borrower_name.' /'.$value->borrower_name_en.' / ( '.$value->application_id. ' - '.$value->loan_type.')'
+                $value->application_id => $value->borrower_name.' /'.$value->borrower_name_en.' / ( '.$value->loan_account_number.')'
             ];
             $data = $data + $array;
         }

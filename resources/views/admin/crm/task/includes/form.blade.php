@@ -117,6 +117,7 @@
                     style="display:none"      
                 @endif
                 >
+                
                     <!-- Customer details -->
                     <fieldset class="scheduler-border">
                         <legend class="scheduler-border" style="margin-bottom:0.5rem">Customer Details</legend>
@@ -148,13 +149,14 @@
                     </fieldset>
 
                     <!-- Guaranteer Details 1 -->
-                    <fieldset class="scheduler-border" id="guaranteerDetails1" style="display:none">
+                    @if(isset($data['guarantorDetails']['guarantor1_name']))
+                    <fieldset class="scheduler-border" id="guaranteerDetails1">
                         <legend class="scheduler-border" style="margin-bottom:0.5rem">Guaranteer Details 1</legend>
                         <div class="form-row form-gorup">
                             <div class="col-md-4">
                                 <div class="form-group" style="margin-bottom:0.5rem">
                                     <label for="suggestion_type" style="margin:0px"> Guaranteer Name	English</label>
-                                    {!! Form::text('guaranteer-name-en', null, ('' == 'required') ?
+                                    {!! Form::text('guaranteer-name-en', isset($data['guarantorDetails']['guarantor1_name']) ? $data['guarantorDetails']['guarantor1_name']: null, ('' == 'required') ?
                                     ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
                                     ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn1', 'readonly']) !!}
                                 </div>
@@ -176,14 +178,16 @@
                             </div>
                         </div>
                     </fieldset>
+                    @endif
                     <!-- Guaranteer Details 2 -->
-                    <fieldset class="scheduler-border" id="guaranteerDetails2" style="display:none">
+                    @if(isset($data['guarantorDetails']['guarantor2_name']))
+                    <fieldset class="scheduler-border" id="guaranteerDetails2">
                         <legend class="scheduler-border" style="margin-bottom:0.5rem">Guaranteer Details 2</legend>
                         <div class="form-row form-gorup">
                             <div class="col-md-4">
                                 <div class="form-group" style="margin-bottom:0.5rem">
                                     <label for="suggestion_type" style="margin:0px"> Guaranteer Name</label>
-                                    {!! Form::text('guaranteer-name-en2', null, ('' == 'required') ?
+                                    {!! Form::text('guaranteer-name-en2', isset($data['guarantorDetails']['guarantor2_name']) ? $data['guarantorDetails']['guarantor2_name']:  null, ('' == 'required') ?
                                     ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
                                     ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn2', 'readonly']) !!}
                                 </div>
@@ -205,14 +209,16 @@
                             </div>
                         </div>
                     </fieldset>
+                    @endif
                     <!-- Guaranteer Details 3 -->
-                    <fieldset class="scheduler-border" id="guaranteerDetails3" style="display:none">
+                    @if(isset($data['guarantorDetails']['guarantor3_name']))
+                    <fieldset class="scheduler-border" id="guaranteerDetails3">
                         <legend class="scheduler-border" style="margin-bottom:0.5rem">Guaranteer Details 3</legend>
                         <div class="form-row form-gorup">
                             <div class="col-md-4">
                                 <div class="form-group" style="margin-bottom:0.5rem">
                                     <label for="suggestion_type" style="margin:0px"> Guaranteer Name</label>
-                                    {!! Form::text('guaranteer-name-en3', null, ('' == 'required') ?
+                                    {!! Form::text('guaranteer-name-en3', isset($data['guarantorDetails']['guarantor3_name']) ? $data['guarantorDetails']['guarantor3_name']:  null, ('' == 'required') ?
                                     ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
                                     ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn3', 'readonly']) !!}
                                 </div>
@@ -234,14 +240,16 @@
                             </div>
                         </div>
                     </fieldset>
+                    @endif
                     <!-- Guaranteer Details 4 -->
-                    <fieldset class="scheduler-border" id="guaranteerDetails4" style="display:none">
+                    @if(isset($data['guarantorDetails']['guarantor4_name']))
+                    <fieldset class="scheduler-border" id="guaranteerDetails4">
                         <legend class="scheduler-border" style="margin-bottom:0.5rem">Guaranteer Details 4</legend>
                         <div class="form-row form-gorup">
                             <div class="col-md-4">
                                 <div class="form-group" style="margin-bottom:0.5rem">
                                     <label for="suggestion_type" style="margin:0px"> Guaranteer Name</label>
-                                    {!! Form::text('guaranteer-name-en4', null, ('' == 'required') ?
+                                    {!! Form::text('guaranteer-name-en4', isset($data['guarantorDetails']['guarantor4_name']) ? $data['guarantorDetails']['guarantor4_name']:  null, ('' == 'required') ?
                                     ['class' => 'form-control form-control-sm', 'required' => 'required', 'readonly =>readonly'] :
                                     ['class' => 'form-control form-control-sm', 'id' => 'guaranteerNameEn4', 'readonly']) !!}
                                 </div>
@@ -263,6 +271,7 @@
                             </div>
                         </div>
                     </fieldset>
+                    @endif
                     <!-- Description Details -->
                     <fieldset class="scheduler-border">
                         <legend class="scheduler-border" style="margin-bottom:0.5rem">Description</legend>

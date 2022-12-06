@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 use App\Models\Admin\Task;
 use App\Models\Admin\Lead;
 use App\Models\Admin\Application;
+use App\Models\Admin\GuarantorDetails;
 use App\Http\Requests\Admin\Task\TaskCreateRequest;
 use App\Http\Requests\Admin\Task\TaskUpdateRequest;
 use App\Http\Requests\Admin\Task\TaskPostpondRequest;
@@ -139,6 +140,8 @@ class TaskController extends BaseController
             $request->session()->flash('error_message', 'Invalid request.');
             return redirect()->route($this->base_route.'.index');
         }
+
+        $data['guarantorDetails'] = GuarantorDetails::select('guarantor1_name', 'guarantor2_name', 'guarantor3_name', 'guarantor4_name')->where('application_id', $data['row']->application_id)->first();
 
         $data['activityLog'] = ActivityLog::where('panel_id', $data['row']['application_id'])->where('panel', 'task')->orderBy('created_at', 'DESC')->get();
 
@@ -282,6 +285,8 @@ class TaskController extends BaseController
             $request->session()->flash('error_message', 'Invalid request.');
             return redirect()->route($this->base_route.'.index');
         }
+
+        $data['guarantorDetails'] = GuarantorDetails::select('guarantor1_name', 'guarantor2_name', 'guarantor3_name', 'guarantor4_name')->where('application_id', $data['row']->application_id)->first();
 
         $data['activityLog'] = ActivityLog::where('panel_id', $data['row']['application_id'])->where('panel', 'task')->orderBy('created_at', 'DESC')->get();
 

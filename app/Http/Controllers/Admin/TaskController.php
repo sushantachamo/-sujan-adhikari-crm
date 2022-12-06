@@ -50,9 +50,11 @@ class TaskController extends BaseController
         $data['per_page'] = $request->per_page ? $request->per_page : 10;
         $data['rows'] = $this->model->newQuery();
 
+        $data['rows'] = $data['rows']->select('tasks.id', 'tasks.document', 'tasks.description', 'tasks.user_id', 'tasks.application_id', 'tasks.created_at', 'tasks.order', 'tasks.created_by', 'leads.status');
+
         if(!Auth::user()->hasRole('super-admin'))
         {
-            $data['row'] = $data['row']->where('user_id', Auth::user()->id);
+            $data['row'] = $data['row']->where('tasks.user_id', Auth::user()->id);
         }
 
         if(isset($request->search)) {
@@ -63,25 +65,27 @@ class TaskController extends BaseController
                 array_push($resultArray, $value->application_id);
             }
             if(!empty($resultArray)) {
-                $data['rows'] = $data['rows']->whereIn('application_id', $resultArray);
+                $data['rows'] = $data['rows']->whereIn('tasks.application_id', $resultArray);
             }
-            $data['rows'] = $data['rows']->where('description', 'LIKE', '%'.$request->search.'%');
+            $data['rows'] = $data['rows']->where('tasks.description', 'LIKE', '%'.$request->search.'%');
             
         }
 
-        $leadResult = Lead::select('application_id')->where('status', true)->get();
-        $leadResultArray = [];
+        // $leadResult = Lead::select('application_id')->where('status', true)->get();
+        // $leadResultArray = [];
 
-        foreach ($leadResult as $key => $value) {
-            array_push($leadResultArray, $value->application_id);
-        }
+        // foreach ($leadResult as $key => $value) {
+        //     array_push($leadResultArray, $value->application_id);
+        // }
         
-        $data['rows'] = $data['rows']->whereIn('application_id', $leadResultArray);
-
-        $data['rows'] = $data['rows']->where('status', true)->orderby('created_at', 'desc')->paginate($data['per_page']);
+        // $data['rows'] = $data['rows']->whereIn('application_id', $leadResultArray);
+        $data['rows'] = $data['rows']->join('leads', 'leads.application_id', 'tasks.application_id')->where('leads.deleted_at', null );
+        $data['rows'] = $data['rows']->where('tasks.status', true)->orderby('tasks.created_at', 'desc')
+        ->paginate($data['per_page']);
         $data['request'] = $request->all();
 
         $data['task'] = $data['rows']->groupBy('application_id');
+
 
         return view(parent::loadDefaultDataToView($this->view_path.'.index'), compact('data'));
 

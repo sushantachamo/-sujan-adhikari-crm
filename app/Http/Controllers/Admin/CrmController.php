@@ -84,7 +84,8 @@ class CrmController extends BaseController
         $branchId = $request->only('branch_id') != NULl ? $request->only('branch_id') : NULL;
 
 
-        $data['per_page'] = $request->per_page ? $request->per_page : 10;
+        $data['per_page'] = $request->per_page ? $request->per_page : 25;
+
         $data['rows'] = Task::where('status', true)
             ->join('guarantor_details', 'guarantor_details.application_id', 'tasks.application_id');
         
@@ -141,7 +142,6 @@ class CrmController extends BaseController
             $data['rows'] = $data['rows']->groupBy(['application_id']);
         }
 
-        
         $result = Application::select('applications.application_id', 'applications.borrower_name', 'applications.borrower_name_en','applications.contact_number', 'applications.loan_type')->get();
         
         $data['applications'] = [

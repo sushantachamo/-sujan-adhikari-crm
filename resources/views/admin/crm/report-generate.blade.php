@@ -174,6 +174,21 @@
                 <a type="button" id="printBtn" class="btn btn-sm btn-custom text-white  float-right"> <i class="fi fi-print"></i></a>
                 <div class="text-right" style="margin-right:4%"> <button id="exporttable" class="btn btn-success btn-sm">Export</button> </div>
 
+                @if($data['per_page'])
+                    <div class="dropdown show float-right">
+                        <a class="btn border-info btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ $data['per_page'] }} <i class="fi fi-arrow-down-full"></i>
+                        </a>
+
+                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                            @for ($i=25; $i<=200; $i+=25)
+                                <a class="dropdown-item" href="{{ route($base_route.'.report-generate',['per_page'=>$i]) }}">{{ $i }}</a>
+                                @php $i+=25 @endphp
+                            @endfor
+                        </div>
+                    </div>
+                @endif
+
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered table-sm" id= "task_reportgenerate_table">
                         <thead>
@@ -209,7 +224,7 @@
                         </thead>
                         <tbody id="item_list">
                             @if ($data['rows']->count() > 0)
-                                @if(empty($data['request']))
+                                @if(empty($data['request']) || !empty($data['request']['per_page']))
                                     @foreach($data['rows'] as $row)
                                         <tr>
                                             <td>
@@ -274,7 +289,11 @@
                                                 @foreach($rows as $key => $row)
                                                     @if($key == 0)
                                                         <tr>
-                                                            <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $row->office->name_en }} -- {{ $row->application->borrower_name_en }} -- {{ $row->userAssign->name }}</strong></td>
+                                                            <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            @if( $row->office_id) 
+                                                                {{$row->office->name_en}}
+                                                            @endif
+                                                            -- {{ $row->application->borrower_name_en }} -- {{ $row->userAssign->name }}</strong></td>
                                                         </tr>
                                                     @endif
                                                     <tr>
@@ -334,7 +353,11 @@
                                             @foreach($rows as $key => $row)
                                                 @if($key == 0)
                                                     <tr>
-                                                        <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $row->office->name_en }} -- {{ $row->userAssign->name }}</strong></td>
+                                                        <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        @if( $row->office_id) 
+                                                            {{$row->office->name_en}}
+                                                        @endif 
+                                                        -- {{ $row->userAssign->name }}</strong></td>
                                                     </tr>
                                                 @endif
                                                 <tr>
@@ -394,7 +417,11 @@
                                             @foreach($rows as $key => $row)
                                                 @if($key == 0)
                                                     <tr>
-                                                        <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $row->office->name_en }} -- {{ $row->application->borrower_name_en }}</strong></td>
+                                                        <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                        @if( $row->office_id) 
+                                                            {{$row->office->name_en}}
+                                                        @endif
+                                                        -- {{ $row->application->borrower_name_en }}</strong></td>
                                                     </tr>
                                                 @endif
                                                 <tr>
@@ -458,7 +485,11 @@
                                                     </tr>
                                                 @endif
                                                 <tr>
-                                                    <td>{{ $row->office->name_en }}</td>
+                                                    <td>
+                                                        @if( $row->office_id) 
+                                                            {{$row->office->name_en}}
+                                                        @endif
+                                                    </td>
                                                     <td>
                                                         @php
                                                             $year= $row->created_at->format('Y');
@@ -513,7 +544,11 @@
                                         @foreach($value as $key => $row)
                                             @if($key==0)
                                             <tr>
-                                                <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{$row->office->name_en}}</strong></td>
+                                                <td colspan="7"><strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    @if( $row->office_id) 
+                                                        {{$row->office->name_en}}
+                                                    @endif
+                                                </strong></td>
                                             </tr>
                                             @endif
                                             <tr class="odd gradeX">

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 Use App\Models\Admin\Task;
+Use App\Models\Admin\Lead;
 Use App\Models\Admin\Application;
 use App\Models\User;
 use App\Models\Admin\Office;
@@ -35,12 +36,11 @@ class CrmController extends BaseController
         $data = [];
 
         
-        $data['today'] = Task::select('tasks.id', 'tasks.document', 'tasks.description', 'tasks.user_id', 'tasks.application_id', 'tasks.created_at', 'tasks.order', 'tasks.created_by', 'leads.status')->WhereDate('tasks.follow_up_at_bs', NepaliDate::create(\Carbon\Carbon::now())->toBS());
-        
-        $data['thisweek'] = Task::select('tasks.id', 'tasks.document', 'tasks.description', 'tasks.user_id', 'tasks.application_id', 'tasks.created_at', 'tasks.order', 'tasks.created_by', 'leads.status')->whereBetween('tasks.follow_up_at_bs', [NepaliDate::create(\Carbon\Carbon::now()->startOfWeek())->toBS(), NepaliDate::create(\Carbon\Carbon::now()->endOfWeek())->toBS()]);
+        $data['today'] = Task::WhereDate('tasks.follow_up_at_bs', NepaliDate::create(\Carbon\Carbon::now())->toBS());
+        $data['thisweek'] = Task::whereBetween('tasks.follow_up_at_bs', [NepaliDate::create(\Carbon\Carbon::now()->startOfWeek())->toBS(), NepaliDate::create(\Carbon\Carbon::now()->endOfWeek())->toBS()]);
         
         $month = explode("-",NepaliDate::create(\Carbon\Carbon::now())->toBS());
-        $data['currentmonth'] = Task::select('tasks.id', 'tasks.document', 'tasks.description', 'tasks.user_id', 'tasks.application_id', 'tasks.created_at', 'tasks.order', 'tasks.created_by', 'leads.status')->whereMonth('tasks.follow_up_at_bs', $month[1]);
+        $data['currentmonth'] = Task::whereMonth('tasks.follow_up_at_bs', $month[1]);
         
         if(!Auth::user()->hasRole('super-admin'))
         {
@@ -48,9 +48,18 @@ class CrmController extends BaseController
             $data['thisweek'] = $data['thisweek']->where('tasks.user_id', Auth::user()->id);
             $data['currentmonth'] = $data['currentmonth']->where('tasks.user_id', Auth::user()->id);
         }
-        $data['today']= $data['today']->join('leads', 'leads.application_id', 'tasks.application_id')->where('leads.deleted_at', null );
-        $data['thisweek']= $data['thisweek']->join('leads', 'leads.application_id', 'tasks.application_id')->where('leads.deleted_at', null );
-        $data['currentmonth']= $data['currentmonth']->join('leads', 'leads.application_id', 'tasks.application_id')->where('leads.deleted_at', null );
+
+        $leadResult = Lead::select('application_id')->where('status', true)->get();
+        $leadResultArray = [];
+
+        foreach ($leadResult as $key => $value) {
+            array_push($leadResultArray, $value->application_id);
+        }
+
+        $data['today'] = $data['today']->whereIn('application_id', $leadResultArray);
+        $data['thisweek'] = $data['thisweek']->whereIn('application_id', $leadResultArray);
+        $data['currentmonth'] = $data['currentmonth']->whereIn('application_id', $leadResultArray);
+
 
         $data['today'] = $data['today']->where('tasks.order', true)->get();
         $data['thisweek'] = $data['thisweek']->where('tasks.order', true)->get();

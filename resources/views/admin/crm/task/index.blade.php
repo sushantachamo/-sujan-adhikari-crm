@@ -58,7 +58,7 @@
                 @endif 
 
                 <div class="dropdown show float-right" style="margin-right: 20px">
-                    <label>Search:<input type="search" class="form-control form-control-sm" placeholder="Search Customer" id="taskCustomerSearch"></label>
+                    <label>Search:<input type="search" class="form-control form-control-sm" placeholder="Search" id="taskCustomerSearch"></label>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-hover table-bordered table-sm">

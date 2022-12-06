@@ -57,6 +57,8 @@ class TaskController extends BaseController
             $data['row'] = $data['row']->where('tasks.user_id', Auth::user()->id);
         }
 
+        $data['rows'] = $data['rows']->join('leads', 'leads.application_id', 'tasks.application_id')->where('leads.deleted_at', null );
+
         if(isset($request->search)) {
             $result = Application::select('application_id')->where('borrower_name_en', 'like', '%'.$request->search.'%')->get();
             $resultArray = [];
@@ -67,11 +69,11 @@ class TaskController extends BaseController
             if(!empty($resultArray)) {
                 $data['rows'] = $data['rows']->whereIn('tasks.application_id', $resultArray);
             }
-            $data['rows'] = $data['rows']->where('tasks.description', 'LIKE', '%'.$request->search.'%');
+            $data['rows'] = $data['rows']->where('tasks.description', 'LIKE', '%'.$request->search.'%')->orwhere('leads.loan_account_number', 'LIKE', '%'.$request->search.'%');
             
         }
 
-        $data['rows'] = $data['rows']->join('leads', 'leads.application_id', 'tasks.application_id')->where('leads.deleted_at', null );
+        
         $data['rows'] = $data['rows']->where('tasks.status', true)->orderby('tasks.created_at', 'desc')
         ->paginate($data['per_page']);
         $data['request'] = $request->all();

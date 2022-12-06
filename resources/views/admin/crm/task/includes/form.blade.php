@@ -381,8 +381,8 @@
                     <legend class="scheduler-border" style="margin-bottom:0.5rem">Activity Log</legend>
                     <div class="form-row form-gorup">
                         <div class="col-md-12">
-                            <div class="form-group" style="margin-bottom:0.5rem">
-                                <ul class="list-group list-group-flush rounded slimscroll" data-slimscroll-visible="true" id="taskActivityLog">
+                            <div class="form-group" style="margin-bottom:0.5rem overflow: auto; width: auto; height: 700px;">
+                                <ul class="list-group list-group-flush rounded slimscroll" data-slimscroll-visible="true" id="taskActivityLog" >
                                     @if(!empty($data['activityLog']))
                                         @foreach($data['activityLog'] as $activitylog)
                                         <li class="list-group-item pt-1 pb-1">

@@ -161,7 +161,7 @@
                         <label for="suggestion_type" style="margin:0px"> Loan Account Number	</label> <span class="text-danger">*</span>
                         {!! Form::number('loan_account_number', isset($data['row']->loan_account_number) ? $data['row']->loan_account_number : null, ('' == 'required') ?
                         ['class' => 'form-control form-control-sm', 'required' => 'required'] :
-                        ['class' => 'form-control form-control-sm']) !!}
+                        ['class' => 'form-control form-control-sm', 'id' => 'loanAccountNumber', 'readonly']) !!}
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -337,7 +337,7 @@
 
         <!-- Others Details -->
         <fieldset class="scheduler-border">
-            <legend class="scheduler-border" style="margin-bottom:0.5rem">Others Details</legend>
+            <legend class="scheduler-border" style="margin-bottom:0.5rem">Next Follow up Details</legend>
             <div class="form-row form-gorup">
                 <div class="col-md-3">
                     <div class="form-group" style="margin-bottom:0.5rem">
@@ -396,6 +396,7 @@
                     document.getElementById('leadDetails').style.display = 'none';
                 } else {
                     document.getElementById('leadDetails').style.display = 'block';
+                    document.getElementById('loanAccountNumber').readOnly = false; 
                     $.ajax(
                     {
                         url: "/admin/crm/getApplicationDetailsById/"+lead_id,

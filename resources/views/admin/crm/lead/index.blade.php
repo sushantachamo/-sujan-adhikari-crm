@@ -78,6 +78,7 @@
                                 <th></th>
                                 <th class="bb-0 font-weight-bold fs--14 "> Customer Name</th>
                                 <th class="bb-0 font-weight-bold fs--14 "> Customer Name English</th>
+                                <th class="bb-0 font-weight-bold fs--14 "> Customer Account Number</th>
                                 <th class="bb-0 font-weight-bold fs--14 "> Phone Number</th>
                                 <th class="bb-0 font-weight-bold fs--14 "> Address(Tole)</th>
                                 <th class="bb-0 font-weight-bold fs--14 "> Follow Up Date</th>
@@ -98,6 +99,7 @@
                                     </td>
                                     <td>{{$row->application->borrower_name}}</td>
                                     <td>{{$row->application->borrower_name_en}}</td>
+                                    <td>{{$row->loan_account_number}}</td>
                                     <td>{{$row->application->contact_number}}</td>
                                     <td>{{$row->application->b_t_tole}}</td>
                                     <td>{{$row->follow_up_at_bs}}</td>

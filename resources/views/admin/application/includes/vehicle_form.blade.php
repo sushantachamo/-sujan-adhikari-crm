@@ -11,13 +11,13 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label for="{{ config('fields.collateral_details.vehicle_color.key') }}"> {{ config('fields.collateral_details.vehicle_color.name_np') }}	</label> {!! config('fields.collateral_details.vehicle_color.required') == true ? '<span class="text-danger">*</span>' : '' !!}
-                    {!! Form::text(config('fields.collateral_details.vehicle_color.key'), isset($data['row'][config('fields.collateral_details.vehicle_color.key')])?$data['row'][config('fields.collateral_details.vehicle_color.key')]:null, ['placeholder' => config('fields.collateral_details.vehicle_color.name_np'), 'class' => 'form-control form-control-sm ', 'id' => config('fields.collateral_details.vehicle_color.key'), 'required'=>config('fields.collateral_details.vehicle_color.required')]) !!}
+                    {!! Form::text(config('fields.collateral_details.vehicle_color.key'), isset($data['row'][config('fields.collateral_details.vehicle_color.key')])?$data['row'][config('fields.collateral_details.vehicle_color.key')]:null, ['placeholder' => config('fields.collateral_details.vehicle_color.name_np'), 'class' => 'form-control unicode form-control-sm ', 'id' => config('fields.collateral_details.vehicle_color.key'), 'required'=>config('fields.collateral_details.vehicle_color.required')]) !!}
                 </div>
             </div>
             <div class="col-md-2">
                 <div class="form-group">
                     <label for="{{ config('fields.collateral_details.vehicle_model.key') }}"> {{ config('fields.collateral_details.vehicle_model.name_np') }}	</label> {!! config('fields.collateral_details.vehicle_model.required') == true ? '<span class="text-danger">*</span>' : '' !!}
-                    {!! Form::text(config('fields.collateral_details.vehicle_model.key'), isset($data['row'][config('fields.collateral_details.vehicle_model.key')])?$data['row'][config('fields.collateral_details.vehicle_model.key')]:null, ['placeholder' => config('fields.collateral_details.vehicle_model.name_np'), 'class' => 'form-control form-control-sm ', 'id' => config('fields.collateral_details.vehicle_model.key'), 'required'=>config('fields.collateral_details.vehicle_model.required')]) !!}
+                    {!! Form::text(config('fields.collateral_details.vehicle_model.key'), isset($data['row'][config('fields.collateral_details.vehicle_model.key')])?$data['row'][config('fields.collateral_details.vehicle_model.key')]:null, ['placeholder' => config('fields.collateral_details.vehicle_model.name_np'), 'class' => 'form-control unicode form-control-sm ', 'id' => config('fields.collateral_details.vehicle_model.key'), 'required'=>config('fields.collateral_details.vehicle_model.required')]) !!}
                 </div>
             </div>
             <div class="col-md-1">
@@ -29,7 +29,7 @@
             <div class="col-md-2">
                 <div class="form-group">
                     <label for="{{ config('fields.collateral_details.vehicle_number.key') }}"> {{ config('fields.collateral_details.vehicle_number.name_np') }}	</label> {!! config('fields.collateral_details.vehicle_number.required') == true ? '<span class="text-danger">*</span>' : '' !!}
-                    {!! Form::text(config('fields.collateral_details.vehicle_number.key'), isset($data['row'][config('fields.collateral_details.vehicle_number.key')])?$data['row'][config('fields.collateral_details.vehicle_number.key')]:null, ['placeholder' => config('fields.collateral_details.vehicle_number.name_np'), 'class' => 'form-control form-control-sm ', 'id' => config('fields.collateral_details.vehicle_number.key'), 'required'=>config('fields.collateral_details.vehicle_number.required')]) !!}
+                    {!! Form::text(config('fields.collateral_details.vehicle_number.key'), isset($data['row'][config('fields.collateral_details.vehicle_number.key')])?$data['row'][config('fields.collateral_details.vehicle_number.key')]:null, ['placeholder' => config('fields.collateral_details.vehicle_number.name_np'), 'class' => 'form-control unicode form-control-sm ', 'id' => config('fields.collateral_details.vehicle_number.key'), 'required'=>config('fields.collateral_details.vehicle_number.required')]) !!}
                 </div>
             </div>
             <div class="col-md-3">

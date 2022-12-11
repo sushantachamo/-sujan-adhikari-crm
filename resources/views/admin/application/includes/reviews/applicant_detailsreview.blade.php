@@ -56,9 +56,9 @@
         <div class="col-md-6 t_border p-1">
             <strong>छोरी(हरु)को नाम: </strong>{!! ViewHelper::docsValueGenerator($data['row']['b_daughter_name'], 'string', false, 'np', false) !!}
         </div>
+        <div class="col-md-4 t_border p-1"><strong>साबिक ठेगाना :</strong>{!! ViewHelper::docsValueGenerator($data['row']['citizenship_former_address'], 'string', false, 'np', false) !!}</div>
         <div class="col-md-4 t_border p-1"><strong>स्थायी ठेगाना: </strong>{!! ViewHelper::getAddressString($data['row']['b_p_province'], $data['row']['b_p_district'], $data['row']['b_p_localgovt'], $data['row']['b_p_ward'], $data['row']['b_p_tole']) !!}</div>
         <div class="col-md-4 t_border p-1"><strong>अस्थायी ठेगाना: </strong>{!! ViewHelper::getAddressString($data['row']['b_t_province'], $data['row']['b_t_district'], $data['row']['b_t_localgovt'], $data['row']['b_t_ward'], $data['row']['b_t_tole']) !!}</div>
-        <div class="col-md-4 t_border p-1"><strong>साबिक ठेगाना :</strong>{!! ViewHelper::docsValueGenerator($data['row']['citizenship_former_address'], 'string', false, 'np', false) !!}</div>
         <div class="col-md-4 t_border p-1"><strong>नागरिकता नं: </strong>{!! ViewHelper::docsValueGenerator($data['row']['citizenship_number'], 'string', false, 'np', false) !!}</div>
         <div class="col-md-4 t_border p-1"><strong>नागरिकता जारी मिति: </strong>{!! ViewHelper::docsValueGenerator($data['row']['citizenship_issue_date_bs'], 'string', false, 'np', false) !!}</div>
         <div class="col-md-4 t_border p-1"><strong>नागरिकता जारी जिल्ला: </strong>{!! ViewHelper::docsValueGenerator($data['row']['citizenship_issue_district'], 'number', 'district', 'np', false) !!}</div>

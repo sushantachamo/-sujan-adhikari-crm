@@ -154,6 +154,18 @@
 
     <script type="text/javascript">
     $(document).ready(function () {
+
+
+
+        $("#total_loan_amount").keyup(function (event) {
+            amoutToWord('total_loan_amount', 'total_loan_amount_in_word');
+        });
+        $("#loan_amount").keyup(function (event) {
+            amoutToWord('loan_amount', 'loan_amount_in_word');
+        });
+
+
+        
         $('.select2').select2();
         $('.select_to').select2();
             

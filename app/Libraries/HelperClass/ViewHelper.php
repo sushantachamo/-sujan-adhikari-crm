@@ -1,7 +1,11 @@
 <?php
 namespace App\Libraries\HelperClass;
 
+
+use App\Models\Admin\News;
+use App\Models\Admin\Staffs;
 use App\Models\Admin\SiteConfig;
+use App\Models\Admin\NewsCategory;
 use App\Models\Address\District;
 use App\Models\Address\Province;
 use App\Models\Address\LocalGovt;
@@ -94,6 +98,11 @@ class ViewHelper
       }
     }
 
+    public static function getNewsCategory()
+    {
+        return NewsCategory::where('status', 1)->orderBy('rank')->get();
+    }
+
     public static function getSiteInfo()
     {
 
@@ -118,6 +127,31 @@ class ViewHelper
                     'spokesperson' => $spokesperson,
                     'information_officer' => $information_officer,
                 ];
+    }
+
+    public static function getLatestDatas()
+    {
+
+        $latesthighlights = News::where('status', 1)->where('news_category', '1')->orderBy('published_at', 'desc')->take(5)->get();
+
+
+        $highlight_string ='';
+        foreach ($latesthighlights as $highlight) {
+            if($highlight->news_category == '3')
+                $highlight_string .= "<a href=".route('news-show', ['category'=>$highlight->newsCategory()->first()->slug, 'slug'=>$highlight->slug]).">";
+            else
+            {
+
+            }
+            $highlight_string .= \App::isLocale('en') ? $highlight->title_en : $highlight->title_np ;
+            $highlight_string .= "</a> || ";
+
+        }
+
+
+        $latestnews = News::latestNews(5)->get();
+        $latestuploads = News::latestFiles(5)->get();
+        return['news' => $latestnews, 'files' => $latestuploads, 'highlight_string'=> $highlight_string];
     }
 
     public static function getAddress($array, $format = 'permanent')

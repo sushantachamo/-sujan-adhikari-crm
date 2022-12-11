@@ -83,6 +83,7 @@
                         @if($data['is_trash'] == false)
                             <th></th>
                         @endif
+                        <th>लोगो</th>
                         <th>सहकारीको नाम</th>
                         <th>सहकारीको ठेगाना</th>
                         <th>एजेन्टको नाम</th>
@@ -91,6 +92,7 @@
                     </tr>
                     @if($data['is_trash'] == false)
                     <tr>
+                        <td></td>
                         <td></td>
                         <td>{!! Form::text('filter_name', isset($data['request']['filter_name'])?$data['request']['filter_name']:null, ['placeholder' => 'Enter name', 'class' => 'form-control form-control-sm']) !!}</td>
                         <td></td>
@@ -123,6 +125,12 @@
                                     @endcan
                                 </td>
                                 @endif
+                                <td>
+                                    <?php $pathinfo = pathinfo($row['image']); ?>
+                                    @if($row['image'] && ($pathinfo['extension']=='jpg' || $pathinfo['extension']=='jpeg' || $pathinfo['extension']=='png' || $pathinfo['extension']=='gif' ||$pathinfo['extension']=='JPG' || $pathinfo['extension']=='JPEG' || $pathinfo['extension']=='PNG' || $pathinfo['extension']=='GIF'))
+                                    <img src="{{ ViewHelper::getImagePath($folder, $row->image) }}" class='img-responsive' style="max-height:100px">
+                                    @endif
+                                </td>
 
                                 <td>{{ $row->name_np }} ({{ $row->name_en }})</td>
                                 <td>{{ ViewHelper::getFullAddress($row) }}</td>

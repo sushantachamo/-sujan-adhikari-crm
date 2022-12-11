@@ -11,31 +11,41 @@
 
     <div class="row pb-10">
     @foreach($data as $key => $value)
-        <div class="col-xl-4 col-lg-4 col-md-4 mb-20">
-            <div class="card-box height-100-p widget-style3">
-                <div class="d-flex flex-wrap">
-                    <div class="widget-data">
-                        <a href="javascript:void(0)" class="weight-700 font-24 text-dark {{$key}}">
-                        {{count($value)}}
-                        </a>
-                        <div class="font-14 text-secondary weight-700 text-uppercase">
-                        @if($key == 'thisweek')
-                            this week
-                        @elseif($key == 'currentmonth')
-                            current month
-                        @else    
-                            {{$key}}
-                        @endif
+        @if($key == 'thisweek' || $key == 'currentmonth' || $key == 'today')
+            <div class="col-xl-4 col-lg-4 col-md-4 mb-20">
+                <div class="card-box height-100-p widget-style3">
+                    <div class="d-flex flex-wrap">
+                        <div class="widget-data">
+                            <a href="javascript:void(0)" class="weight-700 font-24 text-dark {{$key}}">
+                            @if($key == 'today' || $key == 'leadToday')
+                                {{ count($data['today']) +  count($data['leadToday']) }}
+                            @elseif($key == 'thisweek'  || $key == 'leadThisweek')
+                                {{ count($data['thisweek']) +  count($data['leadThisweek']) }}
+                            @else    
+                                {{ count($data['currentmonth']) +  count($data['leadCurrentmonth']) }}
+                            @endif
+                            
+                            </a>
+                            <div class="font-14 text-secondary weight-700 text-uppercase">
+                            @if($key == 'thisweek' || $key == 'leadToday')
+                                this week
+                            @elseif($key == 'currentmonth'  || $key == 'leadThisweek')
+                                current month
+                            @else    
+                                {{$key}}
+                            @endif
+                            </div>
                         </div>
-                    </div>
-                    <div class="widget-icon">
-                        <div class="icon" data-color="#00eccf" style="color: rgb(0, 236, 207);">
-                            <i class="icon-copy dw dw-calendar1"></i>
+                        <div class="widget-icon">
+                            <div class="icon" data-color="#00eccf" style="color: rgb(0, 236, 207);">
+                                <i class="icon-copy dw dw-calendar1"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        @endif
+        
     @endforeach
     </div>
     
@@ -56,6 +66,33 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- Lead List -->
+                            @foreach($data['leadToday'] as $value)
+                                <tr class="odd gradeX">
+                                    <td>{{ $value->application->borrower_name_en}}</td>
+                                    <td>
+                                        @php
+                                            $year= $value->created_at->format('Y');
+                                            $month= $value->created_at->format('m');
+                                            $day= $value->created_at->format('d');
+                                            $date=Bsdate::eng_to_nep($year,$month,$day);
+                                            echo $date['date'].' '.$date['nmonth'].' '.$date['year']
+                                        @endphp  
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{ $value->user->name }}</td>
+                                    <td>{{ $value->follow_up_at_bs }}</td>
+                                    <td>
+                                        <a type="button" href="{{ route('admin.lead.create') }}"
+                                            class="btn btn-icon-only btn-info btn-sm row-create-by-id fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                            Create Lead
+                                        </a>
+                                                 
+                                    </td>
+                                </tr>
+                            @endforeach
+                            <!-- Task list -->
                             @foreach($data['today'] as $value)
                                 <tr class="odd gradeX">
                                     <td>{{ $value->application->borrower_name_en}}</td>
@@ -110,6 +147,33 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- Lead List -->
+                            @foreach($data['leadThisweek'] as $value)
+                                <tr class="odd gradeX">
+                                    <td>{{ $value->application->borrower_name_en}}</td>
+                                    <td>
+                                        @php
+                                            $year= $value->created_at->format('Y');
+                                            $month= $value->created_at->format('m');
+                                            $day= $value->created_at->format('d');
+                                            $date=Bsdate::eng_to_nep($year,$month,$day);
+                                            echo $date['date'].' '.$date['nmonth'].' '.$date['year']
+                                        @endphp  
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{ $value->user->name }}</td>
+                                    <td>{{ $value->follow_up_at_bs }}</td>
+                                    <td>
+                                        <a type="button" href="{{ route('admin.lead.create') }}"
+                                            class="btn btn-icon-only btn-info btn-sm row-create-by-id fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                            Create Lead
+                                        </a>
+                                                 
+                                    </td>
+                                </tr>
+                            @endforeach
+                            <!-- Task list -->
                             @foreach($data['thisweek'] as $value)
                                 <tr class="odd gradeX">
                                     <td>{{ $value->application->borrower_name_en}}</td>
@@ -164,6 +228,33 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <!-- Lead List -->
+                            @foreach($data['leadCurrentmonth'] as $value)
+                                <tr class="odd gradeX">
+                                    <td>{{ $value->application->borrower_name_en}}</td>
+                                    <td>
+                                        @php
+                                            $year= $value->created_at->format('Y');
+                                            $month= $value->created_at->format('m');
+                                            $day= $value->created_at->format('d');
+                                            $date=Bsdate::eng_to_nep($year,$month,$day);
+                                            echo $date['date'].' '.$date['nmonth'].' '.$date['year']
+                                        @endphp  
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{{ $value->user->name }}</td>
+                                    <td>{{ $value->follow_up_at_bs }}</td>
+                                    <td>
+                                        <a type="button" href="{{ route('admin.lead.create') }}"
+                                            class="btn btn-icon-only btn-info btn-sm row-create-by-id fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
+                                            Create Lead
+                                        </a>
+                                                 
+                                    </td>
+                                </tr>
+                            @endforeach
+                            <!-- Task list -->
                             @foreach($data['currentmonth'] as $value)
                                 <tr class="odd gradeX">
                                     <td>{{ $value->application->borrower_name_en}}</td>

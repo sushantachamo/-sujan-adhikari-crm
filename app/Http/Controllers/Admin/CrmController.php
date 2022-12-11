@@ -33,20 +33,34 @@ class CrmController extends BaseController
     public function index(Request $request)
     {
         abort_unless(\Gate::allows('show-'.Str::lower($this->panel)), 403);
-        $data = [];
 
+        $data = [];
+        $tasks = Task::select('application_id')->where('status', true)->groupBy('application_id')->get();
+        $taskApplicationId = [];
+        foreach($tasks as $task) {
+            $taskApplicationId[] = $task->application_id;
+        }
+        $data['leadToday'] = Lead::whereNotIn('application_id', $taskApplicationId)->WhereDate('leads.follow_up_at_bs', NepaliDate::create(\Carbon\Carbon::now())->toBS());
         
+        $data['leadThisweek'] = Lead::whereNotIn('application_id', $taskApplicationId)->whereBetween('leads.follow_up_at_bs', [NepaliDate::create(\Carbon\Carbon::now()->startOfWeek())->toBS(), NepaliDate::create(\Carbon\Carbon::now()->endOfWeek())->toBS()]);
+
         $data['today'] = Task::WhereDate('tasks.follow_up_at_bs', NepaliDate::create(\Carbon\Carbon::now())->toBS());
         $data['thisweek'] = Task::whereBetween('tasks.follow_up_at_bs', [NepaliDate::create(\Carbon\Carbon::now()->startOfWeek())->toBS(), NepaliDate::create(\Carbon\Carbon::now()->endOfWeek())->toBS()]);
         
         $month = explode("-",NepaliDate::create(\Carbon\Carbon::now())->toBS());
         $data['currentmonth'] = Task::whereMonth('tasks.follow_up_at_bs', $month[1]);
+
+        $data['leadCurrentmonth'] = Lead::whereNotIn('application_id', $taskApplicationId)->whereMonth('leads.follow_up_at_bs', $month[1]);
         
         if(!Auth::user()->hasRole('super-admin'))
         {
             $data['today'] = $data['today']->where('tasks.user_id', Auth::user()->id);
             $data['thisweek'] = $data['thisweek']->where('tasks.user_id', Auth::user()->id);
             $data['currentmonth'] = $data['currentmonth']->where('tasks.user_id', Auth::user()->id);
+
+            $data['leadToday'] = $data['leadToday']->where('leads.user_id', Auth::user()->id);
+            $data['leadThisweek'] = $data['leadThisweek']->where('leads.user_id', Auth::user()->id);
+            $data['leadCurrentmonth'] = $data['leadCurrentmonth']->where('leads.user_id', Auth::user()->id);
         }
 
         $leadResult = Lead::select('application_id')->where('status', true)->get();
@@ -60,10 +74,13 @@ class CrmController extends BaseController
         $data['thisweek'] = $data['thisweek']->whereIn('application_id', $leadResultArray);
         $data['currentmonth'] = $data['currentmonth']->whereIn('application_id', $leadResultArray);
 
-
         $data['today'] = $data['today']->where('tasks.order', true)->get();
         $data['thisweek'] = $data['thisweek']->where('tasks.order', true)->get();
         $data['currentmonth'] = $data['currentmonth']->where('tasks.order', true)->get();
+
+        $data['leadToday'] = $data['leadToday']->get();
+        $data['leadThisweek'] = $data['leadThisweek']->get();
+        $data['leadCurrentmonth'] = $data['leadCurrentmonth']->get();
 
         return view(parent::loadDefaultDataToView($this->view_path.'.dashboard'), compact('data'));
     }
@@ -196,6 +213,5 @@ class CrmController extends BaseController
         }
         
         return view(parent::loadDefaultDataToView($this->view_path.'.report-generate'), compact('data'));
-
     }
 }

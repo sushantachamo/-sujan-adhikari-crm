@@ -116,7 +116,7 @@
                                         <td>
                                         @can('update-'.Illuminate\Support\Str::lower($panel))
                                             @if ($row->order && $row->status)
-                                                <a type="button" href="{{ route($base_route.'.create.by.id', $row->id) }}"
+                                                <a type="button" href="{{ route($base_route.'.create.by.id', $row->application_id) }}"
                                                     class="btn btn-icon-only btn-info btn-sm row-create-by-id fs--13" style="padding:0.2rem 0.75rem;margin: 5px 0px">
                                                     Create
                                                 </a>

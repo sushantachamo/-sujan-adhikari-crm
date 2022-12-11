@@ -134,13 +134,13 @@ class TaskController extends BaseController
         abort_unless(\Gate::allows('create-'.Str::lower($this->panel)), 403);
 
         $data = [];
-        $data['row'] = $this->model->select('id', 'application_id')->where('id', $id);
+        $data['row'] = $this->model->select('id', 'application_id')->where('application_id', $id);
 
         $data['row'] = $data['row']->first();
 
         if (!$data['row']) {
-            $request->session()->flash('error_message', 'Invalid request.');
-            return redirect()->route($this->base_route.'.index');
+            $data['row'] = Lead::select('id', 'application_id')->where('application_id', $id);
+            $data['row'] = $data['row']->first();
         }
 
         $data['guarantorDetails'] = GuarantorDetails::select('guarantor1_name', 'guarantor2_name', 'guarantor3_name', 'guarantor4_name')->where('application_id', $data['row']->application_id)->first();

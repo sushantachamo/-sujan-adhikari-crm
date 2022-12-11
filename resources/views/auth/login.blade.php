@@ -11,6 +11,32 @@
         <div class="row justify-content-center border py-5 bg-white">
             <div class="col-md-8 col-lg-8">
 
+                @php $sliders = App\Models\Admin\Slider::where('status', 1)->orderBy('rank')->get(); @endphp
+                <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+                    <ol class="carousel-indicators">
+                        @foreach($sliders as $slider)
+                        <li data-target="#carouselExampleIndicators" data-slide-to="{{ $slider->rank }}" class="{{ $slider->rank == 1 ? 'active' : ''}}" ></li>
+                        @endforeach
+                    </ol>
+                    <div class="carousel-inner">
+                        @foreach($sliders as $slider)
+                        <div class="carousel-item {{ $slider->rank == 1 ? ' active ' : ''}}">
+                            <img src="{{asset('images/sliders/'.$slider->image)}}" class="d-block w-100" alt="{{ $slider->alt }}">
+                            <div class="carousel-caption" style="background:#0000004d;">
+                                <h4 class="animated fadeInUp text-white">{{ isset($slider->caption_title)? $slider->caption_title :'' }}</h3>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </div>
             </div>
             <div class="col-md-4 col-lg-4">
                 <div class="login-wrap  px-3 py-5">

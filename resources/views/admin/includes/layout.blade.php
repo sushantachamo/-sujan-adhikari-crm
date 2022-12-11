@@ -50,21 +50,6 @@
         $("#printBtn").on('click', function() {
             $.print("#printable");
         });
-        $(".thisweek").on('click', function() {
-            document.getElementById('thisweek').style.display = "";
-            document.getElementById('currentmonth').style.display = "none";
-            document.getElementById('today').style.display = "none";
-        });
-        $(".currentmonth").on('click', function() {
-            document.getElementById('currentmonth').style.display = "";
-            document.getElementById('thisweek').style.display = "none";
-            document.getElementById('today').style.display = "none";
-        });
-        $(".today").on('click', function() {
-            document.getElementById('currentmonth').style.display = "none";
-            document.getElementById('thisweek').style.display = "none";
-            document.getElementById('today').style.display = "";
-        });
     });
 </script>
 </body>

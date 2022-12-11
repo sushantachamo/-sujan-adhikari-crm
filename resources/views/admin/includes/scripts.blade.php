@@ -267,6 +267,15 @@
             });
         }
     }
+
+    function amoutToWord($amout_id, $amount_in_word_id){
+        var mainInput = document.getElementById($amout_id);
+        if(mainInput)
+        {
+            dateObject = NepaliFunctions.NumberToWordsUnicode(mainInput.value, true);
+            $("#"+$amount_in_word_id).val(dateObject);
+        }
+    }
     function getDistricts(province_id, $d_field, $l_field, fill_data = false)
     {
         $.ajax({

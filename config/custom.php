@@ -190,6 +190,27 @@ return [
 
 	'allowedDocExtension' => ['JPG','JPEG','jpg','jpeg', 'pdf', 'PDF'],
 	'filesize' => '200k',
+
+	'template_folder' => [
+        '1_office_internal' => 'आन्तरिक कागजात',
+		'2_all' => 'अनिवार्य कागजात',
+		'3_general' => 'सामुहिक जमानी ऋण',
+		'3_home' => 'घर जग्गा धितो ऋण',
+        '3_vehicle' => 'सबारी साधन धितो ऋण',
+        '3_periodic' => 'आवधिक बचत धितो ऋण',
+        '3_microfinance' => 'महिला लघुबित्त ऋण',
+        '4_taketa_patras' => 'ताकेता पत्र',
+		'5_credit_analysis' => 'ऋण अनुसन्धान कागजात',
+        '6_extra' => 'अतिरिक्त कागजात',
+		'7_taketa_notices' => 'ताकेता सुचनाहरु',
+		'8_general_maag_aabedan' => 'सामुहिक जमानी माग / आवेदन फारम',
+		'8_home_maag_aabedan' => 'घर जग्गा धितो माग / आवेदन फारम',
+		'8_vehicle_maag_aabedan' => 'सबारी साधन धितो माग / आवेदन फारम',
+		'8_periodic_maag_aabedan' => 'आवधिक बचत धितो माग / आवेदन फारम',
+		'8_microfinance_maag_aabedan' => 'महिला लघुबित्त माग / आवेदन फारम',
+		'9_credit_renews' => 'ऋण नविकरण कागजात',
+		'10_mortgage_appraisals' => 'धितो मूल्याङ्कन कागजात',
+	], 
 	
 	'form_tabs' => [
 		'applicant_details' => 'आबेदक विवरण',
@@ -478,7 +499,7 @@ return [
 			'required_if'=> false, 
 		],
 		'email'=>[
-			'lang' => 'np',
+			'lang' => 'en',
 			'name_en' => 'Cooperative Email',
 			'name_np' => 'सहकारीको ईमेल',
 			'template_name' => 'SahakariEmail',
@@ -620,12 +641,12 @@ return [
 			'panel_name' => 'Application',
 			'actions' => ['create', 'update', 'show', 'delete', 'download', 'restore', 'forceDelete'],
 			],
+		'Templates' => [
+			'panel_name' => 'Templates',
+			'actions' => ['create', 'download', 'show', 'delete'],
+			],
 		'Offices' => [
 			'panel_name' => 'Offices',
-			'actions' => ['create', 'update', 'show', 'delete', 'restore', 'forceDelete'],
-			],
-		'Darta Chalani' => [
-			'panel_name' => 'Darta Chalani',
 			'actions' => ['create', 'update', 'show', 'delete', 'restore', 'forceDelete'],
 			],
 		'Users' => [

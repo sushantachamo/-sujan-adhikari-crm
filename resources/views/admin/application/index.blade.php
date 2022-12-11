@@ -183,6 +183,16 @@
                                     </td> --}}
                                     <td>
                                         <span class="badge badge-sm badge-{{config('custom.application_status_details.'.$row->latest_status_code.'.color' )}}">{{ config('custom.application_status_details.'.$row->latest_status_code.'.name_np') }}</span>
+                                        <br>                                    
+                                        @if($row->credit_analysis_id == NULL)
+                                            <a href="{{ route('admin.credit_analysis.create', ['applicant_id'=>$row->application_id]) }}"><span class="badge badge-sm badge-warning"> अनुसन्धान नगरिएको </span> </a>
+                                        @elseif($row->grand_total < 70)
+                                        <a href="{{ route('admin.credit_analysis.edit', ['credit_analysi'=>$row->credit_analysis_id]) }}"><span class="badge badge-sm badge-danger"> अनुसन्धान प्राप्ताङक: {{ $row->grand_total }}</span></a>
+                                        @elseif($row->grand_total >= 70)
+                                        <a href="{{ route('admin.credit_analysis.edit', ['credit_analysi'=>$row->credit_analysis_id]) }}"><span class="badge badge-sm badge-success"> अनुसन्धान प्राप्ताङक: {{ $row->grand_total }} </span></a>
+                                        @else
+                                        <a href="{{ route('admin.credit_analysis.create', ['applicant_id'=>$row->application_id]) }}"> <span class="badge badge-sm badge-warning"> अनुसन्धान नगरिएको </span></a>
+                                        @endif
                                     </td>
                                 
                                     @if($data['is_trash'] ==true)

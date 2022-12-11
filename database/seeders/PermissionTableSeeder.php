@@ -33,6 +33,7 @@ class PermissionTableSeeder extends Seeder
 
 	        		Permission::create(['name'=>$permission_name]);
 	        	}
+
 	        }
 	    }
         else

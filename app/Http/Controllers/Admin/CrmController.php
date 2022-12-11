@@ -70,9 +70,9 @@ class CrmController extends BaseController
             array_push($leadResultArray, $value->application_id);
         }
 
-        $data['today'] = $data['today']->whereIn('application_id', $leadResultArray);
-        $data['thisweek'] = $data['thisweek']->whereIn('application_id', $leadResultArray);
-        $data['currentmonth'] = $data['currentmonth']->whereIn('application_id', $leadResultArray);
+        $data['today'] = $data['today']->where('status', true)->whereIn('application_id', $leadResultArray);
+        $data['thisweek'] = $data['thisweek']->where('status', true)->whereIn('application_id', $leadResultArray);
+        $data['currentmonth'] = $data['currentmonth']->where('status', true)->whereIn('application_id', $leadResultArray);
 
         $data['today'] = $data['today']->where('tasks.order', true)->get();
         $data['thisweek'] = $data['thisweek']->where('tasks.order', true)->get();

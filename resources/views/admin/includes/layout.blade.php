@@ -45,10 +45,26 @@
 @include('admin.includes.scripts')
 @yield('scripts')
 <script type="text/javascript" src="{{ ViewHelper::getAssetPath('print_any_part/dist/jQuery.print.min.js','plugins') }}"></script>
+
 <script type="text/javascript">
     $(function() {
         $("#printBtn").on('click', function() {
             $.print("#printable");
+        });
+        $(".thisweek").on('click', function() {
+            document.getElementById('thisweek').style.display = "";
+            document.getElementById('currentmonth').style.display = "none";
+            document.getElementById('today').style.display = "none";
+        });
+        $(".currentmonth").on('click', function() {
+            document.getElementById('currentmonth').style.display = "";
+            document.getElementById('thisweek').style.display = "none";
+            document.getElementById('today').style.display = "none";
+        });
+        $(".today").on('click', function() {
+            document.getElementById('currentmonth').style.display = "none";
+            document.getElementById('thisweek').style.display = "none";
+            document.getElementById('today').style.display = "";
         });
     });
 </script>

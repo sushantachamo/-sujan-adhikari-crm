@@ -109,7 +109,76 @@
                         <div class="accordion" id="accordionBordered">
                             <div class="row">
                             
+                            @if($data['row']['latest_status_code'] != null && $data['row']['latest_status_code']=='approved')
+                                @foreach($data['templates'] as $key=>$templates)
+                                <div class="col-md-6">
+                                    <div class="card b-0 mb-1">
+                                        <div class="card-header bw--3 shadow-xs mb-0 p-3 border border-info bg-custom" id="{{$key}}">
+                                            <h2 class="mb-0">
+                                                <button class="btn btn-custom btn-block btn-sm text-align-center text-decoration-none text-dark collapsed" style="color:#fff !important; font-size:1.2rem;" type="button" data-toggle="collapse" data-target="#collapse{{$key}}" aria-expanded="false" aria-controls="collapse{{$key}}">
+                                                    <div class="badge badge-danger badge-ico-sm rounded-circle float-start text-white"><i class="fi fi-arrow-download"></i></div> {{ config('custom.template_folder.'.$key) }}
+                                                    <span class="group-icon float-end">
+                                                        <i class="fi fi-arrow-start-slim"></i>
+                                                        <i class="fi fi-arrow-down-slim"></i>
+                                                    </span>
+                                                </button>
+                                            </h2>
+                                        </div>
+                                        
+                                        <div id="collapse{{$key}}" class="collapse" aria-labelledby="{{$key}}" data-parent="#accordionBordered">
+                                            <div class="card-body p-0 ">
+                                                @foreach ($templates as $template)
+                                                <div class="list-group shadow quick-link bg-ebox">
+                                                    <a application_id ={{$data['row']->application_id}} template="{{$template['file_name']}}" class="list-group-item list-group-item-action list-group-item-light exportFile">
+                                                        <div class="badge badge-danger badge-ico-sm rounded-circle float-start text-white"><i class="fi fi-arrow-download"></i></div> {{ $template['nick_name'] }}
+                                                    </a>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            @else
+                            <div class="col-md-12">
+                                <div class="card b-0 mb-1">
+                                    <div class="card-header bw--3 shadow-xs mb-0 p-3 border border-info bg-custom" id="maag_aabedan">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-custom btn-block btn-sm text-align-center text-decoration-none text-dark collapsed" style="color:#fff !important; font-size:1.2rem;" type="button" data-toggle="collapse" data-target="#collapse_maag_aabedan" aria-expanded="false" aria-controls="collapse_maag_aabedan">
+                                                <div class="badge badge-danger badge-ico-sm rounded-circle float-start text-white"><i class="fi fi-arrow-download"></i></div> {{ config('custom.template_folder.8_'.$data['row']->loan_type.'_maag_aabedan') }}
+                                                <span class="group-icon float-end">
+                                                    <i class="fi fi-arrow-start-slim"></i>
+                                                    <i class="fi fi-arrow-down-slim"></i>
+                                                </span>
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    
+                                    <div id="collapse_maag_aabedan" class="collapse" aria-labelledby="maag_aabedan" data-parent="#accordionBordered">
+                                        <div class="card-body p-0 ">
+                                            @if(isset($data['templates']['8_'.$data['row']->loan_type.'_maag_aabedan']))
+                                            @foreach ($data['templates']['8_'.$data['row']->loan_type.'_maag_aabedan'] as $template)
+                                            <div class="list-group shadow quick-link bg-ebox">
+                                                <a application_id ={{$data['row']->application_id}} template="{{$template['file_name']}}" class="list-group-item list-group-item-action list-group-item-light exportFile">
+                                                    <div class="badge badge-danger badge-ico-sm rounded-circle float-start text-white"><i class="fi fi-arrow-download"></i></div> {{ $template['nick_name'] }}
+                                                </a>
+                                            </div>
+                                            @endforeach
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="col-md-12">
+                                <div class="card">
+                                    <div class="card-header p-3 text-center bg-custom h6 ">
+                                        यस आबेदन प्रमाणित गरिएको छैन । अन्य कागजात पिन्ट गर्नु पुर्व यहा <a href="{{ route($base_route.'.edit', ['application' =>  $data['row']->application_id, 'form-name'=>'review']) }}" class="h5 btn btn-sm  btn-info">click</a> गरि प्रमाणित गर्नुहोस ।
+                                    </div>
+                                </div>
+                            </div>
+
+                            @endif
+                        </div>
                         </div>
                     </div>
                 </div>

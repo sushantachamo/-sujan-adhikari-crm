@@ -26,7 +26,9 @@ class AddAppIdOnApplicationsTable extends Migration
         Schema::table('applications', function (Blueprint $table) {
             $table->string('application_id', 50)->after('id');
         });
-        
+        Schema::table('credit_analysis', function ($table) {
+            $table->string('application_id', 50)->change();
+        });
         Schema::table('guarantor_details', function ($table) {
             $table->string('application_id', 50)->change();
         });
@@ -37,6 +39,9 @@ class AddAppIdOnApplicationsTable extends Migration
             $table->string('application_id', 50)->change();
         });
         Schema::table('other_details', function ($table) {
+            $table->string('application_id', 50)->change();
+        });
+        Schema::table('taketa_patras', function ($table) {
             $table->string('application_id', 50)->change();
         });
 
@@ -58,7 +63,10 @@ class AddAppIdOnApplicationsTable extends Migration
             LoanDetails::where('application_id', (string)$records->id)->update(['application_id'=> $application_id]);
             GuarantorDetails::where('application_id', (string)$records->id)->update(['application_id'=>$application_id]);
             SanchiDetails::where('application_id', (string)$records->id)->update(['application_id'=>$application_id]);
-            OtherDetails::where('application_id', (string)$records->id)->update(['application_id'=>$application_id]);  
+            OtherDetails::where('application_id', (string)$records->id)->update(['application_id'=>$application_id]);
+            
+            CreditAnalysis::withTrashed()->where('application_id', (string)$records->id)->update(['application_id'=>$application_id]);
+            TaketaPatra::withTrashed()->where('application_id', (string)$records->id)->update(['application_id'=>$application_id]);
         }
 
         DB::commit();
@@ -84,6 +92,9 @@ class AddAppIdOnApplicationsTable extends Migration
             SanchiDetails::where('application_id', $records->application_id)->update(['application_id'=>$records->id]);
             OtherDetails::where('application_id', $records->application_id)->update(['application_id'=>$records->id]);
             
+            CreditAnalysis::where('application_id', $records->application_id)->update(['application_id'=>$records->id]);
+            TaketaPatra::where('application_id', $records->application_id)->update(['application_id'=>$records->id]);
+
         }
         DB::commit();
 

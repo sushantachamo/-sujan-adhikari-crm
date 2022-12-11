@@ -17,7 +17,7 @@ class DashboardController extends BaseController
     {
         
     	$data = ['name' => Auth::user()->name];
-        $data['sliders'] = [];
+        $data['sliders'] = Slider::where('status', 1)->orderBy('rank')->get();
 
         return view(parent::loadDefaultDataToView($this->view_path . '.index'), compact('data'));
     }

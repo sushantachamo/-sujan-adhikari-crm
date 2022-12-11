@@ -17,12 +17,8 @@ class AddNewPanelsPermissionSeeder extends Seeder
     public function run()
     {
         $permissions =  [
-            'Darta Chalani' => [
-                'panel_name' => 'Darta Chalani',
-                'actions' => ['create', 'update', 'show', 'delete', 'restore', 'forceDelete'],
-                ],
-            'Credit Renew' => [
-                'panel_name' => 'Credit Renew',
+            'Mortgage Appraisal' => [
+                'panel_name' => 'Mortgage Appraisal',
                 'actions' => ['create', 'update', 'show', 'download', 'delete', 'restore', 'forceDelete'],
                 ],
             ];

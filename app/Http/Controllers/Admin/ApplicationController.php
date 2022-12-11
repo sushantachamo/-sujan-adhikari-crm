@@ -12,6 +12,8 @@ use App\Models\Admin\LoanDetails;
 use App\Models\Admin\GuarantorDetails;
 use App\Models\Admin\SanchiDetails;
 use App\Models\Admin\OtherDetails;
+use App\Models\Admin\CreditAnalysis;
+use App\Models\Admin\TaketaPatra;
 
 use App\Http\Requests\Admin\Application\AddFormValidation;
 use App\Http\Requests\Admin\Application\EditFormValidation;
@@ -39,9 +41,17 @@ use App\Services\DateConverter;
 
 use App\Helpers\Helper as Helper;
 
+use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\Settings as PhpWordSetting;
+use PhpOffice\PhpWord\PhpWord as PhpWord;
+use PhpOffice\PhpWord\IOFactory as IOFactory;
+use PhpOffice\PhpWord\Writer\HTML as WordHtml;
 
 
 use Illuminate\Support\Facades\File;
+use Mail;
+
+use Mpdf\Mpdf as PDF;
 
 use Carbon\Carbon;
 
@@ -72,13 +82,15 @@ class ApplicationController extends BaseController
 
     public function index(Request $request)
     {
+        
         abort_unless(\Gate::allows('show-'.Str::lower($this->panel)), 403);
         $data = [];
         $data['per_page'] = $request->per_page ? $request->per_page : 10;
-        $data['rows'] = $this->model->select('offices.name_np as office_name','offices.head_office as head_office','offices.tole as office_tole','applications.application_id','applications.id', 'applications.borrower_name', 'applications.contact_number', 'applications.loan_type','loan_details.total_loan_amount', 'applications.latest_status_code', 'applications.created_at as created_at','applications.deleted_at as deleted_at', 'other_details.reviewed_by as reviewed_by', 'other_details.approved_by as approved_by' )
+        $data['rows'] = $this->model->select('offices.name_np as office_name','offices.head_office as head_office','offices.tole as office_tole','applications.application_id','applications.id', 'applications.borrower_name', 'applications.contact_number', 'applications.loan_type','loan_details.total_loan_amount', 'applications.latest_status_code', 'applications.created_at as created_at','applications.deleted_at as deleted_at', 'other_details.reviewed_by as reviewed_by', 'other_details.approved_by as approved_by', 'credit_analysis.grand_total', 'credit_analysis.id as credit_analysis_id' )
             ->LeftJoin('collateral_details', 'collateral_details.application_id','=','applications.application_id')
             ->LeftJoin('loan_details', 'loan_details.application_id','=','applications.application_id')
             ->LeftJoin('other_details', 'other_details.application_id','=','applications.application_id')
+            ->LeftJoin('credit_analysis', 'credit_analysis.application_id','=','applications.application_id')
             ->LeftJoin('offices', 'applications.office_id','=','offices.id');
 
         if(!Auth::user()->hasRole('super-admin'))
@@ -127,6 +139,7 @@ class ApplicationController extends BaseController
             'applications.borrower_name' => 'ऋण लिने को पुरा नाम',
             'applications.contact_number' => 'सम्पर्क',
             'loan_details.loan_title' => 'ऋण शिर्षक',
+            'applications.citizenship_number'=>'नागरिकता नं',
         ];
                             
         $data['loan_types'] = ['all' => 'सबै']+ config('custom.loan_types');
@@ -756,6 +769,8 @@ class ApplicationController extends BaseController
         SanchiDetails::where('application_id', $data['row']->application_id)->delete();
         OtherDetails::where('application_id', $data['row']->application_id)->delete();
         
+        CreditAnalysis::where('application_id', $data['row']->application_id)->delete();
+        TaketaPatra::where('application_id', $data['row']->application_id)->delete();
 
         ApplicationFiles::where('application_id', $data['row']->application_id)->delete();
         
@@ -834,6 +849,215 @@ class ApplicationController extends BaseController
         }
 
         return response('Invalid request', 401);
+    }
+
+    public function wordExport(Request $request)
+    {
+        abort_unless(\Gate::allows('show-'.Str::lower($this->panel)), 403);
+        $template = $request->get('template');
+        $id = $request->get('id');
+        $data = [];
+        if($request->get('today'))
+            $exportDate = Carbon::parse($request->get('today'));
+        else
+            $exportDate = Carbon::today();
+
+        $dateConverter = new DateConverter;
+        $nepali_today = $dateConverter->get_nepali_date($exportDate->year, $exportDate->month, $exportDate->day);
+        $today_string = ViewHelper::convertNumberEnToNp($nepali_today['y'].'-'.$nepali_today['m'].'-'.$nepali_today['d']);
+        $select_fields[]='applications.*';
+        
+        foreach(config('fields') as $type=>$fields)
+        {
+            if($type != 'applicant_details')
+            {
+                foreach($fields as $key=>$field)
+                {
+                    $select_fields[]= $type.'.'.$key .' as '.$key;
+                }
+            }
+        } 
+        $select_fields[]='application_files.photo as photo';
+        $select_fields[]='application_files.signature as signature';
+        
+        $data['row'] = $this->model->select($select_fields)
+        ->LeftJoin('application_files', 'application_files.application_id','=','applications.application_id');
+        
+        foreach(config('fields') as $type=>$fields)
+        {
+            if($type != 'applicant_details')
+            {
+                $data['row'] = $data['row']->LeftJoin($type, $type.'.application_id','=','applications.application_id');      
+            }
+        } 
+
+        $data['row'] = $data['row']->withTrashed()->where('applications.application_id', $id);
+
+        if(!Auth::user()->hasRole('super-admin'))
+        {
+            $data['row'] = $data['row']->whereOffice(Auth::user()->office_id);
+        }
+        $data['row'] = $data['row']->first();
+        if (!$data['row']) {
+            $request->session()->flash('error_message', 'Invalid request.');
+            return redirect()->route($this->base_route.'.index');
+        }
+        $data['office'] = Office::where('id',  $data['row']->office_id)->first();
+        $name_only='';
+        $full_name_array = explode('/', $template);
+        $full_name = last($full_name_array);
+        $name_only_array = explode('.', $full_name);
+        $name_only = $name_only_array['0'];
+
+        $templateProcessor = new TemplateProcessor($template);
+        $templateProcessor->setValue('TodayYear', ViewHelper::convertNumberEnToNp($nepali_today['y']));
+        $templateProcessor->setValue('TodayMonth', ViewHelper::convertNumberEnToNp($nepali_today['M']));
+        $templateProcessor->setValue('TodayDate', ViewHelper::convertNumberEnToNp($nepali_today['d']));
+        $templateProcessor->setValue('TodayDayName', ViewHelper::convertNumberEnToNp($nepali_today['l']));
+        $templateProcessor->setValue('TodayDayNum', ViewHelper::convertNumberEnToNp($nepali_today['n']));
+        $templateProcessor->setValue('TodayFullDate', $today_string);
+        if(isset($data['office']->image) && $data['office']->image)
+            $templateProcessor->setImageValue('OfficeLogo', array('path' => ViewHelper::getImagePath(config('myPath.assets.panel_image_folders.office'), $data['office']->image), 'width' => '2.3cm', 'height' => '2.3cm', 'ratio' => true));
+        if(isset($data['row']->photo) && $data['row']->photo)
+            $templateProcessor->setImageValue('Photo', array('path' => storage_path('app/public/documents/'.$data['row']->application_id.'/'.$data['row']->photo), 'width' => '2.3cm', 'height' => '2.3cm', 'ratio' => true));
+        if(isset($data['row']->signature) && $data['row']->signature)
+            $templateProcessor->setImageValue('Signature', array('path' => storage_path('app/public/documents/'.$data['row']->application_id.'/'.$data['row']->signature), 'width' => '2.3cm', 'height' => '1cm', 'ratio' => true));
+        foreach(config('fields') as $fields){
+            foreach($fields as $key =>$field)
+            {
+                if($field['required_if'] == false || $field['required_if'] == 'loan_type,'.$data['row']['loan_type'])
+                $templateProcessor->setValue($field['template_name'], ViewHelper::docsValueGenerator($data['row'][$key], $field['type'], $field['foreign_key'], $field['lang'], $field['config'] ));
+            }
+        }
+        if($data['office'])
+        {
+            foreach(config('custom.office_fields') as $key =>$field)
+            {
+                $templateProcessor->setValue($field['template_name'], ViewHelper::docsValueGenerator($data['office'][$key], $field['type'], $field['foreign_key'], $field['lang'], $field['config'] ));
+            }
+        }
+
+        $filename = $name_only.'_'.$data['row']->borrower_name;
+        $templateProcessor->saveAs($filename.'.docx');
+        return response()->download($filename.'.docx')->deleteFileAfterSend(true);
+
+    }
+    public function pdfExport(Request $request)
+    {
+        abort_unless(\Gate::allows('show-'.Str::lower($this->panel)), 403);
+        $template = $request->get('template');
+        $id = $request->get('id');
+        $data = [];
+
+        if($request->get('today'))
+            $exportDate = Carbon::parse($request->get('today'));
+        else
+            $exportDate = Carbon::today();
+        $dateConverter = new DateConverter;
+        $nepali_today = $dateConverter->get_nepali_date($exportDate->year, $exportDate->month, $exportDate->day);
+        $today_string = ViewHelper::convertNumberEnToNp($nepali_today['y'].'-'.$nepali_today['m'].'-'.$nepali_today['d']);
+        
+        $select_fields[]='applications.*';
+        
+        foreach(config('fields') as $type=>$fields)
+        {
+            if($type != 'applicant_details')
+            {
+                foreach($fields as $key=>$field)
+                {
+                    $select_fields[]= $type.'.'.$key .' as '.$key;
+                }
+            }
+        } 
+        $select_fields[]='application_files.photo as photo';
+        $select_fields[]='application_files.signature as signature';
+        
+        $data['row'] = $this->model->select($select_fields)
+        ->LeftJoin('application_files', 'application_files.application_id','=','applications.application_id');
+        
+        foreach(config('fields') as $type=>$fields)
+        {
+            if($type != 'applicant_details')
+            {
+                $data['row'] = $data['row']->LeftJoin($type, $type.'.application_id','=','applications.application_id');      
+            }
+        } 
+
+        $data['row'] = $data['row']->withTrashed()->where('applications.application_id', $id);
+
+        if(!Auth::user()->hasRole('super-admin'))
+        {
+            $data['row'] = $data['row']->whereOffice(Auth::user()->office_id);
+        }
+        $data['row'] = $data['row']->first();
+
+        if (!$data['row']) {
+            $request->session()->flash('error_message', 'Invalid request.');
+            return redirect()->route($this->base_route.'.index');
+        }
+        $data['office'] = Office::where('id',  $data['row']->office_id)->first();
+        $name_only='';
+        $full_name_array = explode('/', $template);
+        $full_name = last($full_name_array);
+        $name_only_array = explode('.', $full_name);
+        $name_only = $name_only_array['0'];
+
+        $templateProcessor = new TemplateProcessor($template);
+        $templateProcessor->setValue('TodayYear', ViewHelper::convertNumberEnToNp($nepali_today['y']));
+        $templateProcessor->setValue('TodayMonth', ViewHelper::convertNumberEnToNp($nepali_today['M']));
+        $templateProcessor->setValue('TodayDate', ViewHelper::convertNumberEnToNp($nepali_today['d']));
+        $templateProcessor->setValue('TodayDayName', ViewHelper::convertNumberEnToNp($nepali_today['l']));
+        $templateProcessor->setValue('TodayDayNum', ViewHelper::convertNumberEnToNp($nepali_today['n']));
+        $templateProcessor->setValue('TodayFullDate', $today_string);
+        if(isset($data['office']->image) && $data['office']->image)
+            $templateProcessor->setImageValue('OfficeLogo', array('path' => ViewHelper::getImagePath(config('myPath.assets.panel_image_folders.office'), $data['office']->image), 'width' => '2.3cm', 'height' => '2.3cm', 'ratio' => true));
+        if(isset($data['row']->photo) && $data['row']->photo)
+            $templateProcessor->setImageValue('Photo', array('path' => storage_path('app/public/documents/'.$data['row']->application_id.'/'.$data['row']->photo), 'width' => '2.3cm', 'height' => '2.3cm', 'ratio' => true));
+        if(isset($data['row']->signature) && $data['row']->signature)
+            $templateProcessor->setImageValue('Signature', array('path' => storage_path('app/public/documents/'.$data['row']->application_id.'/'.$data['row']->signature), 'width' => '2.3cm', 'height' => '1cm', 'ratio' => true));
+        foreach(config('fields') as $fields){
+            foreach($fields as $key =>$field)
+            {
+                if($field['required_if'] == false || $field['required_if'] == 'loan_type,'.$data['row']['loan_type'])
+                $templateProcessor->setValue($field['template_name'], ViewHelper::docsValueGenerator($data['row'][$key], $field['type'], $field['foreign_key'], $field['lang'], $field['config'] ));
+            }
+        }
+        if($data['office'])
+        {
+            foreach(config('custom.office_fields') as $key =>$field)
+            {
+                $templateProcessor->setValue($field['template_name'], ViewHelper::docsValueGenerator($data['office'][$key], $field['type'], $field['foreign_key'], $field['lang'], $field['config'] ));
+            }
+        }
+
+        $filename = $name_only.'_'.$data['row']->borrower_name;
+        $templateProcessor->saveAs($filename.'.docx');
+
+        // $domPdfPath = realpath(config('custom.realpath'). '/../vendor/dompdf/dompdf');
+        // PhpWordSetting::setPdfRendererPath($domPdfPath);
+        // PhpWordSetting::setPdfRendererName('DomPDF');
+       
+        // $reader = IOFactory::createReader('Word2007');
+        // $wordfile = $reader->load($filename.'.docx');
+
+        // $pdfWriter = IOFactory::createWriter($wordfile , 'PDF');
+
+        // $pdfWriter->save($filename.'.pdf'); 
+
+        $reader = IOFactory::createReader('Word2007');
+        $wordfile = $reader->load($filename.'.docx');
+        $htmlWriter = new WordHTML($wordfile);
+        $content = $htmlWriter->getContent();
+
+        if(File::exists(public_path($filename.'.docx'))){
+            File::delete(public_path($filename.'.docx'));
+        }
+        $document = new PDF(['mode'=> 'UTF-8', 'tempDir' => storage_path('app/tmp')]);
+        $document->autoScriptToLang = true;
+        $document->autoLangToFont = true;
+        $document->WriteHTML($content);
+        $document->Output();
+
     }
 
     public function submitApplicantDetails (ApplicantDetailsRequest $request)

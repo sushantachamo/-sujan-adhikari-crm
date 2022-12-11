@@ -118,7 +118,14 @@ class CrmController extends BaseController
         {
             $data['row'] = $data['row']->where('user_id', Auth::user()->id);
         }
-        $data['rows'] = $data['rows']->orderBy('created_at', 'DESC')->paginate($data['per_page']);
+
+        if($data['per_page'] == -1) {
+            $data['per_page']  = "All";
+            $data['rows'] = $data['rows']->orderBy('created_at', 'DESC')->get();
+        } else {
+            $data['rows'] = $data['rows']->orderBy('created_at', 'DESC')->paginate($data['per_page']);
+        }
+        
 
         if(!empty($branchId['branch_id']) && !empty($userId['user_id']) && !empty($applicationId['application_id'])) {
             $data['rows'] = $data['rows']->groupBy(['user_id', 'application_id', 'office_id']);

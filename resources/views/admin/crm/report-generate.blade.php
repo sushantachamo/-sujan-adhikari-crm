@@ -181,10 +181,11 @@
                         </a>
 
                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            @for ($i=25; $i<=200; $i+=25)
+                            @for ($i=50; $i<=200; $i+=50)
+                                
                                 <a class="dropdown-item" href="{{ route($base_route.'.report-generate',['per_page'=>$i]) }}">{{ $i }}</a>
-                                @php $i+=25 @endphp
                             @endfor
+                            <a class="dropdown-item" href="{{ route($base_route.'.report-generate',['per_page'=>-1]) }}">All</a>
                         </div>
                     </div>
                 @endif
